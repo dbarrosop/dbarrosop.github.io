@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h3>{{include.page.title}} <small>{{include.page.subtitle}}</small></h3>
+</div>
+
+{{ include.content }}
+
+<small>{{include.page.date | date_to_long_string}}</small>
+{% for tag in include.page.tags %}<a href="/tag/{{tag}}.html"><span class="label label-default">{{tag}}</span></a>&nbsp{% endfor %}
+<br><br>
+
+{% if include.list_posts != true %}
+<div class="row">
+  <div class="col-xs-1 col-sm-1 col-md-1">
+  {% if include.page.previous %}
+  <a href="{{include.page.previous.url}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  {% endif %}
+  </div>
+  <div class="col-xs-10 col-sm-10 col-md-10"></div>
+  <div class="col-xs-1 col-sm-1 col-md-1">
+  {% if include.page.next %}
+  <a href="{{include.page.next.url}}"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  {% endif %}
+  </div>
+</div>
+<br><br>
+{% else %}
+<a href="{{include.page.url}}">Continue Reading</a>
+{% endif %}

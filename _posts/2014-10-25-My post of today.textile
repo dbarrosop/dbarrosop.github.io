@@ -1,0 +1,8 @@
+---
+title: pyFG is coming!!!
+subtitle: Soon...
+categories: pyfg
+tags: [ news ]
+---
+
+I am writing a python API to control in a programmatic way devices running FortiOS. Stay tuned, soon it will be published in github.

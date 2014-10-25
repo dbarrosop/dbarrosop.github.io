@@ -1,0 +1,23 @@
+name: David Barroso´s Blog
+description: Yet another blog
+url: http://0.0.0.0:4000
+
+highlighter: pygments
+paginate: 5
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+      type: "posts"
+    values:
+      layout: "blogpost"
+  -
+    scope:
+      path: "tag"
+    values:
+      layout: "tag"
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "default"

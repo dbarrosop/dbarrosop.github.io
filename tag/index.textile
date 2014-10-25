@@ -1,0 +1,11 @@
+---
+layout: default
+title: Tags
+category: tag
+---
+
+Important tags used on this site.
+
+{% for tag in site.data.tags %}
+* "{{ tag.name }}":{{tag.name}}.html
+{% endfor %}
