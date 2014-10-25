@@ -5,7 +5,7 @@
 {{ include.content }}
 
 <small>{{include.page.date | date_to_long_string}}</small>
-{% for tag in include.page.tags %}<a href="/tag/{{tag}}.html"><span class="label label-default">{{tag}}</span></a>&nbsp{% endfor %}
+{% for tag in include.page.tags %}<a href="/tag/{{tag}}.html"><span class="label label-default">{{tag}}</span></a>&nbsp;{% endfor %}
 <br><br>
 
 {% if include.list_posts != true %}
