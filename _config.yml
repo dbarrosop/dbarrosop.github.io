@@ -1,6 +1,6 @@
 name: David Barroso´s Blog
 description: Yet another blog
-url: http://0.0.0.0:4000
+url: https://dbarrosop.github.io
 
 highlighter: pygments
 paginate: 5
