@@ -6,6 +6,8 @@ category: tag
 
 Important tags used on this site.
 
+<ul class="list-group">
 {% for tag in site.data.tags %}
-* "{{ tag.name }}":{{tag.name}}.html
+  <li class="list-group-item"><a href="{{ tag.name }}.html">{{ tag.name }}</a> <span class="badge">{{site.tags[tag.name] | size}}</span></li>
 {% endfor %}
+</ul>
