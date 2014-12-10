@@ -2,7 +2,7 @@
 title: pyFG is here!!!
 subtitle: Finally...
 categories: blog
-tags: [ news, software, networking, sdn, pyfg ]
+tags: [ news, software, networking, pyfg ]
 ---
 
 Finally, it's been a long time since I promised it would be here but it's finally here. You can find the GitHub repo "here":gh_link and the documentation "here":doc_link.
