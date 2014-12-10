@@ -1,7 +1,7 @@
 ---
 title: Hello World!!!
 subtitle: Yet another blog I start
-categories: general
+categories: blog
 tags: [ news ]
 ---
 

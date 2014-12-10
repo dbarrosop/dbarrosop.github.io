@@ -1,10 +1,7 @@
 ---
 -
-    name: General
-    id: general
--
-    name: pyFG
-    id: pyfg
+    name: Blog
+    id: blog
 -
     name: Tags
     id: tag
