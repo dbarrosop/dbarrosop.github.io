@@ -1,0 +1,16 @@
+---
+title: pyFG is here!!!
+subtitle: Finally...
+categories: blog
+tags: [ news, software, networking, sdn, pyfg ]
+---
+
+Finally, it's been a long time since I promised it would be here but it's finally here. You can fine the GitHub repo "here":gh_link and the documentation "here":doc_link.
+
+What this API tries to do for you is bring all the nice JunOS functionality like commit, diff, rollback, etc... into FortiOS. If you don't exactly know what this mean check the following "link":fs_link where I try to walk you through this features.
+
+Note that this API is in early stages, the API might change a bit to make it more simple and straightforward. If you have some feedback it will be much appreciated too. I will also be providing an ansible module that uses this API soon.
+
+[gh_link]https://github.com/dbarrosop/pyFG
+[doc_link]http://sdn-internet-router-sir.readthedocs.org/en/latest/
+[fs_link]http://pyfg.readthedocs.org/en/latest/first_steps.html
