@@ -38,8 +38,8 @@ for i in lines:
 {% endhighlight %}
 
 
-div(alert alert-success). Oh yeah, awesome!!!
+div(bs-callout bs-callout-success). Oh yeah, awesome!!!
 
 Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
 
-div(alert alert-warning). WARNING!!!
+div(bs-callout bs-callout-warning). WARNING!!!
