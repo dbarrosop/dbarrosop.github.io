@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
 #share-buttons img {
 width: 35px;
 padding: 5px;
@@ -5,6 +7,8 @@ border: 0;
 box-shadow: 0;
 display: inline;
 }
+
+/* This is to make sure that code is not soft-wrapped */
 .highlight pre {
     word-wrap: normal;
 }
@@ -12,7 +16,23 @@ display: inline;
 .highlight pre code {
     white-space: pre;
 }
+/* END */
 
+/* This is the color for the http://fortawesome.github.io/ fonts */
 .fa {
-  color: #444;
+  color: #404040;
+}
+/* END */
+
+h1, h2, h3, h4, h5 {
+  font-weight: bold;
+}
+
+body {
+  font-family: "Roboto", Verdana, Geneva, Arial, sans-serif;
+  font-size: 16px;
+}
+
+blockquote {
+  font-size: 16px;
 }
