@@ -1,0 +1,45 @@
+---
+title: Hello World!!!
+subtitle: Yet another blog I start
+categories: blog
+tags: [ news ]
+---
+
+This is just a post to test these thing called Github pages and Jekyll. Let´s see how it works, it looks promising.
+
+Find below some random text to test some functionality:
+
+Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
+
+Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
+
+Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
+
+Look, a poem!
+
+bq. Yadda, yadda, yadda,
+nonsense, nonsense,
+this was so beautiful,
+indeed.
+
+And this is a table:
+
+table(table table-striped).
+|_. name|_. age|
+|Walter |5|
+|Florence |6|
+
+And now, some cool code:
+
+{% highlight python %}
+for i in lines:
+  var = i.what
+  print var
+{% endhighlight %}
+
+
+div(alert alert-success). Oh yeah, awesome!!!
+
+Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
+
+div(alert alert-warning). WARNING!!!
