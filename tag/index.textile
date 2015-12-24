@@ -8,6 +8,6 @@ Important tags used on this site.
 
 <ul class="list-group">
 {% for tag in site.data.tags %}
-  <li class="list-group-item"><a href="{{ tag.name }}.html">{{ tag.name }}</a> <span class="badge">{{site.tags[tag.name] | size}}</span></li>
+  <li class="list-group-item"><a href="{{ tag.name }}.html">{{ tag.name }}</a> <span class="badge">{{site.tags[tag.name] | size}}</span></br><em>{{ tag.description }}</em></li>
 {% endfor %}
 </ul>

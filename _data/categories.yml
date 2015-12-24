@@ -1,10 +1,10 @@
 ---
 -
-    name: Blog
-    id: blog
+  name: Blog
+  id: blog
 -
-    name: Tags
-    id: tag
+  name: Tags
+  id: tag
 -
-    name: About Me
-    id: about
+  name: About Me
+  id: about

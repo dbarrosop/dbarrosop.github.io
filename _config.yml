@@ -13,6 +13,12 @@ defaults:
       layout: "blogpost"
   -
     scope:
+      path: "" # an empty string here means all files in the project
+      type: "drafts"
+    values:
+      layout: "blogpost"
+  -
+    scope:
       path: "tag"
     values:
       layout: "tag"

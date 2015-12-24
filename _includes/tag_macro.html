@@ -4,6 +4,12 @@
 
 {{ content }}
 
+{% for tag in site.data.tags %}
+  {% if tag.name == include.page._tag %}
+  {{tag.description}}
+  {% endif %}
+{% endfor %}
+
 <h4>Posts</h4>
 
 <ul class="list-group">
