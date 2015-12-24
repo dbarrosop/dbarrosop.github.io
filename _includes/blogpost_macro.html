@@ -9,35 +9,30 @@
 <div class="row">
   <div class="col-xs-1 col-sm-1 col-md-1">
   {% if include.page.previous %}
-  <a href="{{include.page.previous.url}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  <a href="{{include.page.previous.url}}"><i class="fa fa-chevron-left"></i></a>
   {% endif %}
   </div>
   <div class="col-xs-10 col-sm-10 col-md-10">
-    <!-- I got these buttons from simplesharebuttons.com -->
     <div id="share-buttons" align="center">
       <!-- Facebook -->
-      <a href="http://www.facebook.com/sharer.php?u={{site.url}}{{include.page.url}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/sharer.php?u={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-facebook"></i></a>
       <!-- Twitter -->
-      <a href="http://twitter.com/share?url={{site.url}}{{include.page.url}}&text={{include.page.title}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="http://twitter.com/share?url={{site.url}}{{include.page.url}}&text={{include.page.title}}" target="_blank"><i class="fa fa-twitter"></i></a>
       <!-- Google+ -->
-      <a href="https://plus.google.com/share?url={{site.url}}{{include.page.url}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="https://plus.google.com/share?url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-google-plus"></i></a>
       <!-- Digg -->
-      <a href="http://www.digg.com/submit?url={{site.url}}{{include.page.url}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/diggit.png" alt="Digg" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="http://www.digg.com/submit?url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-digg"></i></a>
       <!-- Reddit -->
-      <a href="http://reddit.com/submit?url={{site.url}}{{include.page.url}}&title={{include.page.title}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="http://reddit.com/submit?url={{site.url}}{{include.page.url}}&title={{include.page.title}}" target="_blank"><i class="fa fa-reddit-alien"></i></a>
       <!-- LinkedIn -->
-      <a href="http://www.linkedin.com/shareArticle?mini=true&url={{site.url}}{{include.page.url}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" /></a>
-      <!-- Pinterest -->
-      <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());"><img src="http://www.simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" /></a>
-      <!-- StumbleUpon-->
-      <a href="http://www.stumbleupon.com/submit?url={{site.url}}{{include.page.url}}&title={{include.page.title}}" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="http://www.linkedin.com/shareArticle?mini=true&url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-linkedin"></i></a>
       <!-- Email -->
-      <a href="mailto:?Subject={{include.page.title}}&Body=I%20saw%20this%20and%20thought%20of%20you!%20 {{site.url}}{{include.page.url}}"><img src="http://www.simplesharebuttons.com/images/somacro/email.png" alt="Email" /></a>
+      &nbsp;&nbsp;&nbsp;<a href="mailto:?Subject={{include.page.title}}&Body=I%20saw%20this%20and%20thought%20of%20you!%20 {{site.url}}{{include.page.url}}"><i class="fa fa-envelope"></i></a>
     </div>
   </div>
   <div class="col-xs-1 col-sm-1 col-md-1">
   {% if include.page.next %}
-  <a href="{{include.page.next.url}}"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  <a href="{{include.page.next.url}}"><i class="fa fa-chevron-right"></i></a>
   {% endif %}
   </div>
 </div>

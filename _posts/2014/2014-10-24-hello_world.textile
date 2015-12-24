@@ -31,7 +31,7 @@ table(table table-striped).
 
 And now, some cool code:
 
-{% highlight python %}
+{% highlight python linenos %}
 for i in lines:
   var = i.what
   print var
