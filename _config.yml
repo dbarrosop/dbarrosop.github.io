@@ -9,13 +9,18 @@ paginate: 5
 defaults:
   -
     scope:
-      path: "" # an empty string here means all files in the project
+      path: "blog"
+    values:
+      layout: "blog"  
+  -
+    scope:
+      path: ""
       type: "posts"
     values:
       layout: "blogpost"
   -
     scope:
-      path: "" # an empty string here means all files in the project
+      path: ""
       type: "drafts"
     values:
       layout: "blogpost"

@@ -3,7 +3,7 @@ title: News
 ---
 
 {% for post in paginator.posts %}
-    {% include blogpost_macro.html page=post content=post.excerpt list_posts=true %}
+    {% include macro/blogpost.html page=post content=post.excerpt list_posts=true %}
     <nav>
       <ul class="pager">
         <li class="previous"><a href="{{ post.url }}">Continue Reading</a></li>

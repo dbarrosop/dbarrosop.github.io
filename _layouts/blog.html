@@ -5,11 +5,10 @@
     <div class="col-sm-12">
 
       <div class="page-header">
-        <h1>{{include.page.title}} <small>{{include.page.subtitle}}</small></h1>
+        <h1>{{page.title}} <small>{{page.subtitle}}</small></h1>
       </div>
 
-{% include macro/blogpost.html page=page content=content %}
-{% include comments.html %}
+      {% include macro/sort_posts_by_date.html filter_by='category' category=page.category  %}
 
     </div>
   </div>

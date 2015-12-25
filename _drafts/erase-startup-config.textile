@@ -1,0 +1,12 @@
+---
+title: erase startup config
+subtitle: reload
+categories: blog
+tags: [ news ]
+---
+
+I really suck at blogging. I have no idea how many times I have tried starting a blog. This one, actually, I started it more than a year ago and I have written nothing since last December. However:
+
+*I want to try again!™*
+
+Why? A lot has happened and I think some is worth sharing. I have been involved in a lot of super interesting open source projects and I feel that I should be sharing more of what I am doing and learning. I would also like to talk about some ideas I have in case someone is interested in jumping on the bandwagon :)
