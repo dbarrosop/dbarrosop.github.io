@@ -1,51 +1,45 @@
-<div class="page-header">
-  <h3><a href="{{include.page.url}}">{{include.page.title}}</a><small> {{include.page.subtitle}}</small></h3>
-</div>
+<div class="blogpost">
 
-{{ include.content }}
+  <h2><a href="{{include.page.url}}">{{include.page.title}}</a><small> {{include.page.subtitle}}</small></h2>
 
-{% if include.list_posts != true %}
-</br>
-<div class="row">
-  <div class="col-xs-1 col-sm-1 col-md-1">
-  {% if include.page.previous %}
-  <a href="{{include.page.previous.url}}"><i class="fa fa-chevron-left"></i></a>
-  {% endif %}
+  <div class="after-title">
+    {{include.page.date | date_to_long_string }}&nbsp;&nbsp;&nbsp;
+    {% for tag in include.page.tags %}<a href="/tag/{{tag}}.html"><span class="label label-default">{{tag}}</span></a>&nbsp;{% endfor %}
   </div>
-  <div class="col-xs-10 col-sm-10 col-md-10">
-    <div id="share-buttons" align="center">
-      <!-- Facebook -->
-      &nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/sharer.php?u={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-facebook"></i></a>
-      <!-- Twitter -->
-      &nbsp;&nbsp;&nbsp;<a href="http://twitter.com/share?url={{site.url}}{{include.page.url}}&text={{include.page.title}}" target="_blank"><i class="fa fa-twitter"></i></a>
-      <!-- Google+ -->
-      &nbsp;&nbsp;&nbsp;<a href="https://plus.google.com/share?url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-google-plus"></i></a>
-      <!-- Digg -->
-      &nbsp;&nbsp;&nbsp;<a href="http://www.digg.com/submit?url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-digg"></i></a>
-      <!-- Reddit -->
-      &nbsp;&nbsp;&nbsp;<a href="http://reddit.com/submit?url={{site.url}}{{include.page.url}}&title={{include.page.title}}" target="_blank"><i class="fa fa-reddit-alien"></i></a>
-      <!-- LinkedIn -->
-      &nbsp;&nbsp;&nbsp;<a href="http://www.linkedin.com/shareArticle?mini=true&url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-linkedin"></i></a>
-      <!-- Email -->
-      &nbsp;&nbsp;&nbsp;<a href="mailto:?Subject={{include.page.title}}&Body=I%20saw%20this%20and%20thought%20of%20you!%20 {{site.url}}{{include.page.url}}"><i class="fa fa-envelope"></i></a>
+
+  {{ include.content }}
+
+  {% if include.list_posts != true %}
+    </br>
+    <div class="row">
+      <div class="col-xs-1 col-sm-1 col-md-1">
+      {% if include.page.previous %}
+        <a href="{{include.page.previous.url}}"><i class="fa fa-chevron-left"></i></a>
+      {% endif %}
+      </div>
+      <div class="col-xs-10 col-sm-10 col-md-10">
+        <div id="share-buttons" align="center">
+          <!-- Facebook -->
+          &nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/sharer.php?u={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-facebook"></i></a>
+          <!-- Twitter -->
+          &nbsp;&nbsp;&nbsp;<a href="http://twitter.com/share?url={{site.url}}{{include.page.url}}&text={{include.page.title}}" target="_blank"><i class="fa fa-twitter"></i></a>
+          <!-- Google+ -->
+          &nbsp;&nbsp;&nbsp;<a href="https://plus.google.com/share?url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-google-plus"></i></a>
+          <!-- Digg -->
+          &nbsp;&nbsp;&nbsp;<a href="http://www.digg.com/submit?url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-digg"></i></a>
+          <!-- Reddit -->
+          &nbsp;&nbsp;&nbsp;<a href="http://reddit.com/submit?url={{site.url}}{{include.page.url}}&title={{include.page.title}}" target="_blank"><i class="fa fa-reddit-alien"></i></a>
+          <!-- LinkedIn -->
+          &nbsp;&nbsp;&nbsp;<a href="http://www.linkedin.com/shareArticle?mini=true&url={{site.url}}{{include.page.url}}" target="_blank"><i class="fa fa-linkedin"></i></a>
+          <!-- Email -->
+          &nbsp;&nbsp;&nbsp;<a href="mailto:?Subject={{include.page.title}}&Body=I%20saw%20this%20and%20thought%20of%20you!%20 {{site.url}}{{include.page.url}}"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="col-xs-1 col-sm-1 col-md-1" align="right">
+      {% if include.page.next %}
+        <a href="{{include.page.next.url}}"><i class="fa fa-chevron-right"></i></a>
+      {% endif %}
+      </div>
     </div>
-  </div>
-  <div class="col-xs-1 col-sm-1 col-md-1">
-  {% if include.page.next %}
-  <a href="{{include.page.next.url}}"><i class="fa fa-chevron-right"></i></a>
   {% endif %}
-  </div>
 </div>
-{% endif %}
-
-</br></br>
-<div class="row">
-  <div class="col-xs-1 col-sm-1 col-md-1">
-        {% for tag in include.page.tags %}<a href="/tag/{{tag}}.html"><span class="label label-default">{{tag}}</span></a>&nbsp;{% endfor %}
-  </div>
-  <div class="col-xs-8 col-sm-8 col-md-8"></div>
-  <div class="col-xs-3 col-sm-3 col-md-3">
-    <small>{{include.page.date | date_to_long_string}}</small>
-  </div>
-</div>
-</br>

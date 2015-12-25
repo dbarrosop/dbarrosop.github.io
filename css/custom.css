@@ -24,16 +24,47 @@ display: inline;
 }
 /* END */
 
-#classh1, h2, h3, h4, h5 {
+.blogpost h3, .blogpost h4, .blogpost h5 {
   font-weight: bold;
+  padding-top: 0.20em;
+  padding-bottom: 0.50em;
 }
 
 body {
   font-family: "Roboto", Verdana, Geneva, Arial, sans-serif;
-  line-height: 1.6em;
   font-size: 16px;
+  line-height: 1.6em;
+}
+
+.navbar {
+  font-size: 14px;
+  line-height: 1em;
+}
+
+.jumbotron {
+  padding-top: 5em;
+  padding-bottom: 4em;
 }
 
 blockquote {
   font-size: 16px;
+}
+
+.footer {
+  background-color: #eee;
+  text-align: center;
+  padding: 3em;
+  margin-top: 1em;
+  font-size: small;
+}
+
+.after-title {
+  padding-bottom: 1em;
+  color: gray;
+  font-size: small;
+}
+
+#disqus_thread {
+  padding-top: 1em;
+  padding-bottom: 1em;
 }

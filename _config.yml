@@ -2,6 +2,8 @@ name: David Barroso´s Blog
 description: Yet another blog
 url: https://dbarrosop.github.io
 
+excerpt_separator: <!--more-->
+
 highlighter: pygments
 paginate: 5
 defaults:

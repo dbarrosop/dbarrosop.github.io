@@ -10,10 +10,14 @@
   {% endif %}
 {% endfor %}
 
-<h4>Posts</h4>
+{% if include.page._tag %}
+
+<h2>Posts</h2>
 
 <ul class="list-group">
 {% for post in site.tags[include.page._tag] %}
   <li class="list-group-item"><a href="{{post.url}}">{{ post.title }}</a> {{post.subtitle}} - <small>{{post.date | date_to_long_string}}</small></li>
 {% endfor %}
 </ul>
+
+{% endif %}

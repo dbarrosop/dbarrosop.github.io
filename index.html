@@ -3,17 +3,21 @@ title: News
 ---
 
 {% for post in paginator.posts %}
-    {% include blogpost_macro.html page=post content=post.content list_posts=true %}
+    {% include blogpost_macro.html page=post content=post.excerpt list_posts=true %}
+    <nav>
+      <ul class="pager">
+        <li class="previous"><a href="{{ post.url }}">Continue Reading</a></li>
+      </ul>
+    </nav>
+    <hr>
 {% endfor %}
-
-<br><br>
 
 {% if paginator.total_pages > 1 %}
 <div class="pagination">
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}"><i class="fa fa-chevron-left"></i></a>
   {% else %}
-    <span><span class="glyphicon glyphicon-chevron-left"></span></span>
+    <i class="fa fa-chevron-left"></i>
   {% endif %}
 
   {% for page in (1..paginator.total_pages) %}
@@ -29,7 +33,7 @@ title: News
   {% if paginator.next_page %}
     <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}"><span class="glyphicon glyphicon-chevron-right"></span></a>
   {% else %}
-    <span><span class="glyphicon glyphicon-chevron-right"></span>
+    <i class="fa fa-chevron-right"></i>
   {% endif %}
 </div>
 {% endif %}

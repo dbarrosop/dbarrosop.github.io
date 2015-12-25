@@ -11,6 +11,8 @@ Find below some random text to test some functionality:
 
 Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
 
+<!--more-->
+
 Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
 
 Lorem ipsum dolor sit amet, vix ad quem postea. Cu pro velit sonet interpretaris, ferri errem atomorum ex per, est referrentur accommodare in. Vim no modus intellegebat. Pro paulo bonorum ut, an sea audire sensibus, ut est alterum fabellas.
