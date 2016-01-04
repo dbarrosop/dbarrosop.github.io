@@ -1,6 +1,6 @@
-name: David Barroso´s Blog
-description: Yet another blog
-url: https://dbarrosop.github.io
+name: dravetech
+description: Network + Software + Imagination = Awesomness
+url: http://0.0.0.0:4000
 
 excerpt_separator: <!--more-->
 
@@ -11,7 +11,7 @@ defaults:
     scope:
       path: "blog"
     values:
-      layout: "blog"  
+      layout: "blog"
   -
     scope:
       path: ""
