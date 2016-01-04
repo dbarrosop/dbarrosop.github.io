@@ -2,7 +2,7 @@
 title: Vagrant Introduction
 subtitle: for Network Engineers
 categories: blog
-tags: [ automation, networking, sdn ]
+tags: [ automation, networking ]
 ---
 
 I don't want to spend too much time explaining what vagrant is so here is their own introduction:
@@ -100,7 +100,7 @@ These are the requirements for using vagrant:
 
   * "Vagrant":vagrant
   * "VirtualBox":virtualbox or another supported "provider":providers
-  * "Boxes", either "publicly available":public_boxes or created by you.
+  * "Boxes":boxes, either "publicly available":public_boxes or created by you.
 
 h4. Boxes
 
@@ -447,3 +447,4 @@ $ vagrant destroy
 [virtualbox]https://www.virtualbox.org
 [public_boxes]https://www.virtualbox.org
 [veos]https://eos.arista.com/using-veos-with-vagrant-and-virtualbox/
+[boxes]https://docs.vagrantup.com/v2/boxes.html
