@@ -29,11 +29,14 @@
   </head>
 
   <body>
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-
     {% include navbar.html %}
 
+    <script>
+    // Don't force https when serving the website locally
+    if (!(window.location.host.startsWith("0.0.0.0")) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+    </script>
+
     <div class="jumbotron" align="center">
-      <h1>@dbarrosop <small>My personal blog</small></h1>
+      <h1>{{ site.name }}<small></br>{{ site.description }}</small></h1>
     </div>
