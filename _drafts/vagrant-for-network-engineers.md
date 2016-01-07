@@ -7,18 +7,18 @@ tags: [ automation, networking ]
 
 I don't want to spend too much time explaining what vagrant is so here is their own introduction:
 
-bq.. Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.
+> Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.
 
 To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
 
 <!--more-->
 
-h3. Why Vagrant?
+### Why Vagrant?
 
 Vagrant allows you to define in a simple configuration file a virtual environment that you can create, start, stop, destroy with a single command on your CLI. As the environment is specified entirely in a file, or set of files, you can easily share it with colleagues.
 
 
-For example, below is a development environment I created for "napalm":napalm. This allows me to share my environment with other developers so we all can run consistent tests while coding:
+For example, below is a development environment I created for [napalm][napalm]. This allows me to share my environment with other developers so we all can run consistent tests while coding:
 
 {% highlight ruby linenos %}
 # -*- mode: ruby -*-
@@ -94,25 +94,25 @@ Vagrant.configure(2) do |config|
 end
 {% endhighlight %}
 
-h3. Requirements
+### Requirements
 
 These are the requirements for using vagrant:
 
-  * "Vagrant":vagrant
-  * "VirtualBox":virtualbox or another supported "provider":providers
-  * "Boxes":boxes, either "publicly available":public_boxes or created by you.
+  * [Vagrant][vagrant].
+  * [VirtualBox][virtualbox] or another supported [provider][providers].
+  * [Boxes][boxes], either [publicly available][public_boxes] or created by you.
 
-h4. Boxes
+#### Boxes
 
 Boxes are base images that can be used to instantiate the VMs that will comprise your environment. These are the boxes I think are more interesting for network engineers:
 
-  * *hashicorp/precise64* - Standard Ubuntu (publicly available via hashicorp's repository)
-  * *CumulusCommunity/cumulus-vx* - Cumulus Linux (publicly available via hashicorp's repository)
-  * *juniper/ffp-12.1X47-D20.7-packetmode* - JunOS (publicly available via hashicorp's repository)
-  * *vEOS-4.15.2F* - vEOS 4.15.2F (for instructions on how to install this box check "this":veos post from Arista)
-  * *IOSXRv-5.3.0* - I will blog on how to create this one.
+  * **hashicorp/precise64** - Standard Ubuntu (publicly available via hashicorp's repository)
+  * **CumulusCommunity/cumulus-vx** - Cumulus Linux (publicly available via hashicorp's repository)
+  * **juniper/ffp-12.1X47-D20.7-packetmode** - JunOS (publicly available via hashicorp's repository)
+  * **vEOS-4.15.2F** - vEOS 4.15.2F (for instructions on how to install this box check [this][veos] post from Arista)
+  * **IOSXRv-5.3.0** - I will blog on how to create this one.
 
-Boxes that are publicly available can be installed with the command @vagrant box add $name@, where name is the name of the box, i.e.:
+Boxes that are publicly available can be installed with the command `vagrant box add $name`, where name is the name of the box, i.e.:
 
 {% highlight text linenos %}
 
@@ -134,7 +134,7 @@ Enter your choice: 2
 
 {% endhighlight %}
 
-You can check the ones you have available with @vagrant box list@:
+You can check the ones you have available with `vagrant box list`:
 
 {% highlight text linenos %}
 
@@ -147,18 +147,18 @@ vEOS-4.15.2F                         (virtualbox, 0)
 
 {% endhighlight %}
 
-h3. How does it work?
+### How does it work?
 
-Assuming the previous configuration file, if I type @vagrant up@ I will get a lab up and running with the following characteristics:
+Assuming the previous configuration file, if I type `vagrant up` I will get a lab up and running with the following characteristics:
 
- * 4 VMs running 4 different operating systems: *Linux*, *vEOS*, *JunOS* and *IOS-XR*.
- * Each VM is going to have 3 NICs: a management interface, one connected to _link_1_ and another one to _link_2_.
- * VMs will be provisioned automatically with some initial configuration as defined in the configuration file. I am using a script for this task that is triggered by the @host_shell@ provisioner.
+ * 4 VMs running 4 different operating systems: **Linux**, **vEOS**, **JunOS** and **IOS-XR**.
+ * Each VM is going to have 3 NICs: a management interface, one connected to `link_1` and another one to `link_2`.
+ * VMs will be provisioned automatically with some initial configuration as defined in the configuration file. I am using a script for this task that is triggered by the `host_shell` provisioner.
  * All the machines will be accessible via SSH and, in addition, vEOS will be accessible via the eAPI.
 
-Once all the VMs have been started I can easily connect to them via SSH with the following command @vagrant ssh $name@, where name is the name of the VM, i.e., @vagrant ssh eos@.
+Once all the VMs have been started I can easily connect to them via SSH with the following command `vagrant ssh $name`, where name is the name of the VM, i.e., `vagrant ssh eos`.
 
-You can also start or stop a subset of VMs easily by specifying them as a list. In the following example I am going to start the VMs running Linux (base) and vEOS (eos) only and then I am going to connect to them and check LLDP:
+You can also start or stop a subset of VMs easily by specifying them as a list. In the following example I am going to start the VMs running Linux (`base`) and vEOS (`eos`) only and then I am going to connect to them and check LLDP:
 
 
 {% highlight text linenos %}
@@ -397,7 +397,7 @@ Bringing machine 'eos' up with 'virtualbox' provider...
 
 {% endhighlight %}
 
-The machines are both up and have been provisioned with some initial configuration. Now let's connect to the vEOS VM and run @show lldp neighbors@:
+The machines are both up and have been provisioned with some initial configuration. Now let's connect to the vEOS VM and run `show lldp neighbors`:
 
 {% highlight text linenos %}
 
@@ -424,7 +424,7 @@ Et2        precise64                        0800.27ca.0f72             120
 
 As you can see, my vEOS machine can see the Linux machine connected to its Et1 and Et2 interfaces.
 
-When you are done and you want to get rid of your environment you can easily destroy it, liberating resources, with the command @vagrant destroy@:
+When you are done and you want to get rid of your environment you can easily destroy it, liberating resources, with the command `vagrant destroy`:
 
 {% highlight text linenos %}
 
@@ -441,10 +441,10 @@ $ vagrant destroy
 
 {% endhighlight %}
 
-[napalm]https://github.com/dbarrosop/napalm
-[vagrant]https://www.vagrantup.com/
-[providers]https://docs.vagrantup.com/v2/providers/
-[virtualbox]https://www.virtualbox.org
-[public_boxes]https://www.virtualbox.org
-[veos]https://eos.arista.com/using-veos-with-vagrant-and-virtualbox/
-[boxes]https://docs.vagrantup.com/v2/boxes.html
+[napalm]: https://github.com/dbarrosop/napalm
+[vagrant]: https://www.vagrantup.com/
+[providers]: https://docs.vagrantup.com/v2/providers/
+[virtualbox]: https://www.virtualbox.org
+[public_boxes]: https://www.virtualbox.org
+[veos]: https://eos.arista.com/using-veos-with-vagrant-and-virtualbox/
+[boxes]: https://docs.vagrantup.com/v2/boxes.html

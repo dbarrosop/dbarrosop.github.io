@@ -7,9 +7,9 @@ tags: [ automation, networking ]
 
 Creating vagrant boxes is fairly easy. To show you how to do it we will create a vagrant box for IOS-XR. Before we start you will need the following:
 
- * Vagrant, of course. For more information check the following post:
+ * Vagrant, of course. For more information check the following post: **FIXME**
  * Virtualbox.
- * An OVA for IOS-XR. I am using @iosxrv-k9-demo-5.3.0.ova@.
+ * An OVA for IOS-XR. I am using `iosxrv-k9-demo-5.3.0.ova`.
 
  <!--more-->
 
@@ -21,15 +21,15 @@ Creating vagrant boxes is fairly easy. To show you how to do it we will create a
   IOS-XR started supporting DHCP client in the management interface in the image 5.3.0 so older images will not work.
 </div>
 
-h3. Creating the base image
+### Creating the base image
 
-Creating a base image is as simple as creating a new VM and configuring it in any way you want. I am not going to explain how to get started with IOS-XR on Virtualbox because there are plenty of posts already doing that. For example "this":example link.
+Creating a base image is as simple as creating a new VM and configuring it in any way you want. I am not going to explain how to get started with IOS-XR on Virtualbox because there are plenty of posts already doing that. For example [this][example] link.
 
 <div class="bs-callout bs-callout-info">
 You just have the follow the steps until you get access to the VM via the serial port.
 </div>
 
-Once your VM is ready and you have access to it via the serial port, create the admin user *vagrant* with password *vagrant* and apply the following configuration:
+Once your VM is ready and you have access to it via the serial port, create the admin user `vagrant` with password `vagrant` and apply the following configuration:
 
 {% highlight text linenos %}
 interface MgmtEth0/0/CPU0/0
@@ -41,9 +41,9 @@ xml agent tty
 {% endhighlight %}
 
 
-h2. Creating the box
+### Creating the box
 
-Now that we have the VM ready we just have to export it in @.box@ format. Go to the CLI and:
+Now that we have the VM ready we just have to export it in `.box` format. Go to the CLI and:
 
 {% highlight text linenos %}
 interface MgmtEth0/0/CPU0/0
@@ -55,7 +55,7 @@ xml agent tty
 lldp
 {% endhighlight %}
 
-Now create a file named @Vagrantfile@ with the following content:
+Now create a file named `Vagrantfile` with the following content:
 
 {% highlight ruby linenos %}
 # -*- mode: ruby -*-
@@ -95,12 +95,12 @@ iosxrv-k9-demo-5.3.0.box
 {% endhighlight %}
 
 <div class="bs-callout bs-callout-info">
-In this example, the name of the base VM we created is @base_vm_for_iosxr@. If you have a different name replace the previous command accordingly.
+In this example, the name of the base VM we created is `base_vm_for_iosxr`. If you have a different name replace the previous command accordingly.
 </div>
 
 Now you can stop and delete the base VM you created if you want.
 
-h2. Importing the box
+### Importing the box
 
 The last step is to import the box we created before into vagrant:
 
@@ -124,7 +124,7 @@ vEOS-4.15.2F                         (virtualbox, 0)
 
 And that's it. You IOS-XR box is ready to use.
 
-h2. Using your Vagrant box
+### Using your Vagrant box
 
 Now that you have your box ready you can create a Vagrantfile with the configuration you want and get your VM ready in a second. For example, if you create a file name Vagrantfile with the following content:
 
@@ -201,7 +201,7 @@ $ vagrant destroy
 ==> eos: Destroying VM and associated drives...
 {% endhighlight %}
 
-h3. Provisioning VMs automatically
+#### Provisioning VMs automatically
 
 VMs can be configured with custom configuration at booting time. How to do it is up to you but given the nature of network operating systems, I suggest using the "host-shell":host-shell plugin. That will allow you to run a script locally that will connect to the device and configure it. Below you can find a very quick and dirty script I often use for this task:
 
@@ -307,11 +307,11 @@ if __name__ == "__main__":
 
 You can also use
 
-h3. Conclusion
+### Conclusion
 
-As you can see it is very easy to create a box. For more information I suggest you to look into the official "documentation":documentation and if you plan to streamline the creation of boxes I suggest you to look into "packer":packer.
+As you can see it is very easy to create a box. For more information I suggest you to look into the official [documentation][documentation] and if you plan to streamline the creation of boxes I suggest you to look into [packer][packer].
 
-[example]http://blog.alainmoretti.com/ios-xrv-working-on-virtualbox/
-[documentation]https://docs.vagrantup.com/v2/boxes/base.html
-[packer]https://www.packer.io/intro/getting-started/vagrant.html
-[host-shell]https://github.com/phinze/vagrant-host-shell
+[example]: http://blog.alainmoretti.com/ios-xrv-working-on-virtualbox/
+[documentation]: https://docs.vagrantup.com/v2/boxes/base.html
+[packer]: https://www.packer.io/intro/getting-started/vagrant.html
+[host-shell]: https://github.com/phinze/vagrant-host-shell
