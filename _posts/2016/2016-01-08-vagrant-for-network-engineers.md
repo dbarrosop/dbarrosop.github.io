@@ -8,17 +8,17 @@ tags: [ automation, networking ]
 I don't want to spend too much time explaining what vagrant is so here is their own introduction:
 
 > Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.
-
-To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
+>
+> To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.
 
 <!--more-->
 
 ### Why Vagrant?
 
-Vagrant allows you to define in a simple configuration file a virtual environment that you can create, start, stop, destroy with a single command on your CLI. As the environment is specified entirely in a file, or set of files, you can easily share it with colleagues.
+Vagrant allows you to define in a simple configuration file a virtual environment that you can `create`, `start`, `stop`, `destroy` with a single command on your CLI. As the environment is specified entirely in a file, or set of files, you can easily share it with colleagues.
 
 
-For example, below is a development environment I created for [napalm][napalm]. This allows me to share my environment with other developers so we all can run consistent tests while coding:
+For example, below is a development environment I created for [napalm][napalm]. This allows us to share the environment between all the developers so we all can run consistent tests while coding:
 
 {% highlight ruby linenos %}
 # -*- mode: ruby -*-
@@ -104,7 +104,7 @@ These are the requirements for using vagrant:
 
 #### Boxes
 
-Boxes are base images that can be used to instantiate the VMs that will comprise your environment. These are the boxes I think are more interesting for network engineers:
+Boxes are base images that can be used to instantiate the VMs that will comprise your environment. These are some of the boxes I think are more interesting for network engineers:
 
   * **hashicorp/precise64** - Standard Ubuntu (publicly available via hashicorp's repository)
   * **CumulusCommunity/cumulus-vx** - Cumulus Linux (publicly available via hashicorp's repository)
@@ -149,11 +149,11 @@ vEOS-4.15.2F                         (virtualbox, 0)
 
 ### How does it work?
 
-Assuming the previous configuration file, if I type `vagrant up` I will get a lab up and running with the following characteristics:
+Assuming the previous `Vagranfile`, if I type `vagrant up` I will get a lab up and running with the following characteristics:
 
  * 4 VMs running 4 different operating systems: **Linux**, **vEOS**, **JunOS** and **IOS-XR**.
  * Each VM is going to have 3 NICs: a management interface, one connected to `link_1` and another one to `link_2`.
- * VMs will be provisioned automatically with some initial configuration as defined in the configuration file. I am using a script for this task that is triggered by the `host_shell` provisioner.
+ * VMs will be provisioned automatically with some initial configuration as defined in the configuration file. I am using a script for this task that is triggered by the [`host_shell` provisioner][host_shell].
  * All the machines will be accessible via SSH and, in addition, vEOS will be accessible via the eAPI.
 
 Once all the VMs have been started I can easily connect to them via SSH with the following command `vagrant ssh $name`, where name is the name of the VM, i.e., `vagrant ssh eos`.
@@ -441,10 +441,13 @@ $ vagrant destroy
 
 {% endhighlight %}
 
-[napalm]: https://github.com/dbarrosop/napalm
+Soon I will blog how to create your own vagrant boxes and how to provision them easily.
+
+[napalm]: https://github.com/napalm-automation/napalm
 [vagrant]: https://www.vagrantup.com/
 [providers]: https://docs.vagrantup.com/v2/providers/
 [virtualbox]: https://www.virtualbox.org
 [public_boxes]: https://www.virtualbox.org
 [veos]: https://eos.arista.com/using-veos-with-vagrant-and-virtualbox/
 [boxes]: https://docs.vagrantup.com/v2/boxes.html
+[host_shell]: https://github.com/phinze/vagrant-host-shell
