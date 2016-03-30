@@ -12,6 +12,9 @@
   name: news
   description: Interesting stuff that might be happening, announcements...
 -
+  name: ops
+  description: Operations, devops, chatops... Just operations but cooler.
+-
   name: projects
   description: Information related to several projects I might be working on.
 -

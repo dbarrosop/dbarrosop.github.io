@@ -4,6 +4,9 @@ url: https://www.dravetech.com
 
 excerpt_separator: <!--more-->
 
+gems:
+    - jekyll-paginate
+
 highlighter: pygments
 paginate: 5
 defaults:
