@@ -33,21 +33,21 @@ You just have the follow the steps until you get access to the VM via the serial
 
 Once your VM is ready and can access it using the serial port use the initial configuration wizard to create the admin user `vagrant` with password `vagrant` and apply the following configuration:
 
-{% highlight text linenos %}
+```shell
 interface MgmtEth0/0/CPU0/0
  ipv4 address dhcp
 
 ssh server v2
 ssh server rate-limit 600
 xml agent tty
-{% endhighlight %}
+```
 
 
 ### Creating the box
 
 Now that we have the VM ready we just have to export it in `.box` format. First, go to a temporal folder and create a file named `Vagrantfile` with the following content:
 
-{% highlight ruby linenos %}
+```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -60,11 +60,11 @@ Vagrant.configure(2) do |config|
   config.ssh.username = "vagrant"
   config.ssh.password = "vagrant"
 end
-{% endhighlight %}
+```
 
 Go to your terminal and execute the following command in the same temporal folder you created the `Vagrantfile`:
 
-{% highlight text linenos %}
+```shell
 /tmp/vagrant_tmp$ vagrant package --base base_vm_for_iosxr --output iosxrv-k9-demo-5.3.0.box --vagrantfile Vagrantfile
 ==> base_vm_for_iosxr: Attempting graceful shutdown of VM...
     base_vm_for_iosxr: Guest communication could not be established! This is usually because
@@ -79,7 +79,7 @@ Go to your terminal and execute the following command in the same temporal folde
 
 /tmp/vagrant_tmp$ ls *.box
 iosxrv-k9-demo-5.3.0.box
-{% endhighlight %}
+```
 
 <div class="bs-callout bs-callout-info">
 In this example, the name of the base VM we created is <code>base_vm_for_iosxr</code>. If you named your VM differently replace the previous command accordingly.
@@ -91,8 +91,7 @@ Now you can stop and delete the base VM you created if you want.
 
 The last step is to import the box we created before into vagrant:
 
-{% highlight text linenos %}
-
+```shell
 /tmp/vagrant_tmp$ vagrant box add --name IOSXRv-5.3.0 iosxrv-k9-demo-5.3.0.box
 ==> box: Box file was not detected as metadata. Adding it directly...
 ==> box: Adding box 'IOSXRv-5.3.0' (v0) for provider:
@@ -107,7 +106,7 @@ hashicorp/precise64                  (virtualbox, 1.1.0)
 juniper/ffp-12.1X47-D20.7-packetmode (virtualbox, 0.5.0)
 ubuntu/trusty64                      (virtualbox, 20151105.0.0)
 vEOS-4.15.2F                         (virtualbox, 0)
-{% endhighlight %}
+```
 
 And that's it. You IOS-XR box is ready to use.
 
@@ -115,7 +114,7 @@ And that's it. You IOS-XR box is ready to use.
 
 Now that you have your box ready you can create a `Vagrantfile` with your lab configuration and have it ready in a matter of seconds. For example, if you create a `Vagrantfile` with the following content:
 
-{% highlight ruby linenos %}
+```ruby
 Vagrant.configure(2) do |config|
 
   config.vm.define "eos" do |eos|
@@ -137,11 +136,11 @@ Vagrant.configure(2) do |config|
   end
 
 end
-{% endhighlight %}
+```
 
 You will get with one command a lab with an EOS switch and an IOS-XR router, each with two interfaces:
 
-{% highlight text linenos %}
+```shell
 /tmp/vagrant_tmp$ vagrant up eos iosxr
 Bringing machine 'eos' up with 'virtualbox' provider...
 Bringing machine 'iosxr' up with 'virtualbox' provider...
@@ -149,11 +148,11 @@ Bringing machine 'iosxr' up with 'virtualbox' provider...
 ... Omitting output for brevity...
 ==> iosxr: Importing base box 'IOSXRv-5.3.0'...
 ... Omitting output for brevity...
-{% endhighlight %}
+```
 
 Now you can connect to your IOS-XR machine, enable the interfaces and check with LLDP that the lab is connected as you wanted:
 
-{% highlight text linenos %}
+```shell
 /tmp/vagrant_tmp$ vagrant ssh iosxr
 vagrant@127.0.0.1's password:
 RP/0/0/CPU0:ios#conf
@@ -177,12 +176,11 @@ localhost       Gi0/0/0/0           120        B               Ethernet1
 localhost       Gi0/0/0/1           120        B               Ethernet2
 
 Total entries displayed: 2
-
-{% endhighlight %}
+```
 
 Finally, when you are done you can liberate resources by stopping the VMs or just destroying the lab:
 
-{% highlight text linenos %}
+```shell
 /tmp/vagrant_tmp$ vagrant destroy
     iosxr: Are you sure you want to destroy the 'iosxr' VM? [y/N] y
 ==> iosxr: Forcing shutdown of VM...
@@ -190,7 +188,7 @@ Finally, when you are done you can liberate resources by stopping the VMs or jus
     eos: Are you sure you want to destroy the 'eos' VM? [y/N] y
 ==> eos: Forcing shutdown of VM...
 ==> eos: Destroying VM and associated drives...
-{% endhighlight %}
+```
 
 #### Provisioning VMs automatically
 

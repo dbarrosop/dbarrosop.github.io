@@ -20,7 +20,7 @@ Vagrant allows you to define in a simple configuration file a virtual environmen
 
 For example, below is a development environment I created for [napalm][napalm]. This allows us to share the environment between all the developers so we all can run consistent tests while coding:
 
-{% highlight ruby linenos %}
+```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -92,7 +92,7 @@ Vagrant.configure(2) do |config|
   end
 
 end
-{% endhighlight %}
+```
 
 ### Requirements
 
@@ -114,8 +114,7 @@ Boxes are base images that can be used to instantiate the VMs that will comprise
 
 Boxes that are publicly available can be installed with the command `vagrant box add $name`, where name is the name of the box, i.e.:
 
-{% highlight text linenos %}
-
+```shell
 $ vagrant box add hashicorp/precise64
 ==> box: Loading metadata for box 'hashicorp/precise64'
     box: URL: https://atlas.hashicorp.com/hashicorp/precise64
@@ -131,21 +130,18 @@ Enter your choice: 2
 ==> box: Adding box 'hashicorp/precise64' (v1.1.0) for provider: virtualbox
     box: Downloading: https://vagrantcloud.com/hashicorp/boxes/precise64/versions/1.1.0/providers/virtualbox.box
 ==> box: Successfully added box 'hashicorp/precise64' (v1.1.0) for 'virtualbox'!
-
-{% endhighlight %}
+```
 
 You can check the ones you have available with `vagrant box list`:
 
-{% highlight text linenos %}
-
+```shell
 $ vagrant box list
 CumulusCommunity/cumulus-vx          (virtualbox, 2.5.3)
 IOSXRv-5.3.0                         (virtualbox, 0)
 hashicorp/precise64                  (virtualbox, 1.1.0)
 juniper/ffp-12.1X47-D20.7-packetmode (virtualbox, 0.5.0)
 vEOS-4.15.2F                         (virtualbox, 0)
-
-{% endhighlight %}
+```
 
 ### How does it work?
 
@@ -161,8 +157,7 @@ Once all the VMs have been started I can easily connect to them via SSH with the
 You can also start or stop a subset of VMs easily by specifying them as a list. In the following example I am going to start the VMs running Linux (`base`) and vEOS (`eos`) only and then I am going to connect to them and check LLDP:
 
 
-{% highlight text linenos %}
-
+```shell
 $ vagrant up base eos
 Bringing machine 'base' up with 'virtualbox' provider...
 Bringing machine 'eos' up with 'virtualbox' provider...
@@ -394,13 +389,11 @@ Bringing machine 'eos' up with 'virtualbox' provider...
     eos: in which case you may ignore this message.
 ==> eos: Running provisioner: shell...
     eos: Running: inline script
-
-{% endhighlight %}
+```
 
 The machines are both up and have been provisioned with some initial configuration. Now let's connect to the vEOS VM and run `show lldp neighbors`:
 
-{% highlight text linenos %}
-
+```shell
 $ vagrant ssh eos
 Last login: Thu Dec 24 12:07:04 2015 from 10.0.2.2
 
@@ -418,16 +411,13 @@ Number of table age-outs : 0
 Port       Neighbor Device ID               Neighbor Port ID           TTL
 Et1        precise64                        0800.271c.bb86             120
 Et2        precise64                        0800.27ca.0f72             120
-
-
-{% endhighlight %}
+```
 
 As you can see, my vEOS machine can see the Linux machine connected to its Et1 and Et2 interfaces.
 
 When you are done and you want to get rid of your environment you can easily destroy it, liberating resources, with the command `vagrant destroy`:
 
-{% highlight text linenos %}
-
+```shell
 $ vagrant destroy
 ==> junos: VM not created. Moving on...
 ==> iosxr: VM not created. Moving on...
@@ -438,8 +428,7 @@ $ vagrant destroy
 ==> base: Forcing shutdown of VM...
 ==> base: Destroying VM and associated drives...
 ==> base: Running cleanup tasks for 'shell' provisioner...
-
-{% endhighlight %}
+```
 
 Soon I will blog how to create your own vagrant boxes and how to provision them easily.
 
