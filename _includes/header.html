@@ -33,11 +33,13 @@
 
     {% include navbar.html %}
 
+    <!-- Disable the script below
     <script>
     // Don't force https when serving the website locally
     if (!(window.location.host.startsWith("0.0.0.0")) && (window.location.protocol != "https:"))
         window.location.protocol = "https";
     </script>
+    -->
 
     <div class="jumbotron" align="center">
       <h1>{{ site.name }}<small>{{ site.description }}</small></h1>
