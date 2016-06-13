@@ -9,7 +9,7 @@ projects:
     url: https://github.com/napalm-automation/napalm
     links:
       - description: First Steps with NAPALM
-        url: http://napalm.readthedocs.org/en/latest/tutorials/first_steps_config.html
+        url: https://napalm.readthedocs.io/en/latest/tutorials/first_steps_config.html
     videos:
       - description: NANOG64 presentation
         url: https://youtu.be/93q-dHC0u0I
@@ -19,7 +19,7 @@ projects:
     url: https://github.com/dbarrosop/sir
     links:
       - description: Documentation, features, architecture, use cases...
-        url: http://sdn-internet-router-sir.readthedocs.org/en/latest/index.html
+        url: https://sdn-internet-router-sir.readthedocs.io/en/latest/index.html
     videos:
       - description: Video proof of concept
         url: https://youtu.be/o1njanXhQqM
@@ -33,7 +33,7 @@ projects:
     url: https://github.com/spotify/pyfg
     links:
       - description: First Steps with pyfg
-        url: http://pyfg.readthedocs.org/en/latest/first_steps.html
+        url: https://pyfg.readthedocs.io/en/latest/first_steps.html
     videos: []
     audios: []
 ---
