@@ -40,17 +40,7 @@ projects:
 
 ## Me
 
-I am a network engineer solving large-scale networking problems fast and smart. How? By combining the best practices in the fields of network, systems and software engineering. Although most of my experience is around networking (Service Provider, Datacenter and CDN) I also worked in my early days as an IT consultant dealing with all sort of crap (network and systems administratio) and even as a software engineer for a brief period of time.
-
-I don't claim to be an expert on Linux administration or a senior software engineer but I am a seasoned network engineer that has had his share of suffering on different IT fields. This certainly gives me some perspective as most of the problems that we are facing in the networking field are not unique and have already been solved by others:
-
- * Zero touch provisioning ✔
- * Configuration management ✔
- * Version control ✔
- * Continuous Integration ✔
- * Application Integration ✔
-
-Feel free to check my [linkedin][linkedin] profile for more information.
+Feel free to check my [linkedin][linkedin] profile for information about my professional trajectory.
 
 ### Projects
 
