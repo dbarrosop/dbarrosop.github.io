@@ -9,7 +9,7 @@ Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that 
 
 As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is. To show you how to do it we will create a vagrant box for IOS-XR. Before we start you will need the following:
 
- * Vagrant, of course. For more information check this [post]({% post_url 2016/2016-01-08-vagrant-for-network-engineers %}).
+ * Vagrant, of course. For more information check this [post]({% post_url 2016-01-08-vagrant-for-network-engineers %}).
  * Virtualbox.
  * An OVA or a VMDK for IOS-XR. I am using `iosxrv-k9-demo-5.3.0.ova`.
 
