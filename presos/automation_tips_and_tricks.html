@@ -35,23 +35,36 @@
 				<section>
 					<img src="content/common/unicorn.png" alt="Unicorn Avatar" align="left">
 					<ul>
-						<li>Network Systems Engineer at <strong>Fastly</strong></li>
+						<li><strong>Network Systems Engineer</strong> at <span style="color: #E52F34;">Fastly</span></li>
 						<li>Previously:
 							<ul>
-								<li><strong>Network Engineer</strong> at Spotify</li>
-								<li><strong>Network Engineer</strong> at NTT</li>
-								<li><strong>Network &amp; Systems Engineer</strong> at Atlas IT</li>
+								<li><strong>Network Engineer</strong> at <span style="color: #2FD666;">Spotify</span></li>
+								<li><strong>Network Engineer</strong> at <span style="color: #26367B;">NTT</span></li>
+								<li><strong>Network &amp; Systems Engineer</strong> at <span style="color: #0E62A7;">Atlas IT</span></li>
 							</ul>
 						</li>
-						<li>Maintainer of <strong>N.A.P.A.L.M.</strong> and</br><strong>SDN Internet Router</strong></li>
+						<li>Creator of:
+							<ul>
+								<li><a href='https://github.com/napalm-automation/napalm'>N.A.P.A.L.M.</a></li>
+								<li><a href='strong'>SDN Internet Router</a></li>
+							</ul>
+						</li>
 					</ul>
+					<small style="position: relative; right: 670px; bottom: 50px; ">Twitter | Linkedin | Github</br><strong>@dbarrosop</strong></small>
 				</section>
 
 				<section data-background="white">
 					<img height="1080" src="content/common/fastly_map.png" alt="fastly map">
-				    <aside class="notes">
-				    	We are a CDN company and as you would expect from a CDN company we manage a globally distributed network. This comes with several challenges. We have to be able to operate at a global scale, at a regional scale or even at a single device scale... We we decide to do an architectural change we have to be able to support different sites with different configurations until we manage to converge all the sites to the new architecure and all that stuff that comes with managing large networks.
-				    </aside>
+				</section>
+
+				<section>
+					<h2><strong>Agenda</strong></h2>
+					<ul>
+						<li>What is <strong>automation</strong>?</li>
+						<li>Why <strong>automation</strong>?</li>
+						<li><strong>Tips</strong> &amp; <strong>Tricks</strong></li>
+						<li>Pro <strong>Tips</strong> &amp; <strong>Tricks</strong></li>
+					</ul>
 				</section>
 
 				<section>
@@ -110,8 +123,7 @@
 
 					<section>
 						<h3>#2 <strong>Do not</strong> reinvent the wheel</h3>
-						<code>Automation ~ DevOps</code>
-						</br></br><strong>Re-use</strong> tools, knowledge, experience, best practices...
+						<strong>Re-use <code>DevOps</code></strong> tools, knowledge, experience, best practices...
 					</section>
 
 					<section>
@@ -208,6 +220,13 @@ vlans:
 						Balance embedded business logic vs flexibility
 						(i.e. building a fabric with very little data or with a lot)
 					</section>
+				    </section>
+
+				    <section>
+					<section>
+						<h2>Pro <strong>Tips</strong> &amp; <strong>Tricks</strong></h2>
+					</section>
+
 
 					<section>
 				    <h3>#8 - Data is the <strong>key</strong></h3>
@@ -282,7 +301,7 @@ vlans:
 
 					<section>
 				          <h3>#10 - <strong>Abstract</strong></h3>
-					  Hide meaningless details behind meaningful operations
+					  Hide meaningless details behind <strong>meaningful operations</strong>
 					</section>
 					<section>
 						<pre><code data-noescape>$ ansible-playbook roles.yml --tags role_base --limit staging_pop -C</code></pre>
@@ -307,7 +326,7 @@ vlans:
 
 					<section>
 						<h3>#12 - Don't whine about <strong>being a programmer</strong></h3>
-						Because you already mastered CLIs and network protocols that are more complex than most programming languages and techniques
+						Because <strong>you already mastered CLIs and network protocols</strong> that are more complex than most programming languages and techniques
 					</section>
 
 					<section>
@@ -329,6 +348,10 @@ vlans:
 					  </section>
 					  <section>
 						  <h2>Questions?</h2>
+						  <strong>@dbarrosop</strong></br>
+						  
+						  </br></br></br>
+						  <a href="https://www.dravetech.com/presos/automation_tips_and_tricks.html">https://www.dravetech.com/presos/automation_tips_and_tricks.html</a>
 					  </section>
 				  </section>
 			</div>
