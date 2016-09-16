@@ -55,6 +55,9 @@
   word-wrap: normal;
 }
 
+span.code {
+	font-family:'Lucida Console', monospace;
+}
 
 ul li { 
     list-style: none; /* Remove list bullets */
