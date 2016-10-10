@@ -10,8 +10,9 @@
        		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/theme/blood.css">
 
        		<!-- Theme used for syntax highlighting of code -->
-       		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/lib/css/zenburn.css">
-       		<link rel="stylesheet" href="css/custom.css">
+					<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+       		<link rel="stylesheet" href="css/custom_2.css">
+       		<link rel="stylesheet" href="css/custom_highlight.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -27,7 +28,7 @@
 			<div class="slides">
 
 				<section> <!-- Title -->
-					<h1>Network <strong>Automation</strong>Tutorial</br></h1>
+					<h1>Network <strong>Automation</strong> Tutorial</br></h1>
 					<small>David Barroso &ltdbarrosop@<strong>dravetech</strong>.com&gt;</small>
 				</section>
 
@@ -36,21 +37,56 @@
 					Press <code>left</code> and <code>right</code> to change sections. Press <code>up</code> and <code>down</code> to move within sections. Press <code>?</code> anytime for help.
 				</section>
 
+				<section>
+					<img style="width: 550px" src="content/common/unicorn.png" alt="Unicorn Avatar" align="left">
+					<ul>
+						<li><strong>Network Systems Engineer</strong> at <span style="color: #E52F34;">Fastly</span></li>
+						<li>Previously:
+							<ul>
+								<li><strong>Network Engineer</strong> at <span style="color: #2FD666;">Spotify</span></li>
+								<li><strong>Network Engineer</strong> at <span style="color: #26367B;">NTT</span></li>
+								<li><strong>Network &amp; Systems Engineer</strong> at <span style="color: #0E62A7;">Atlas IT</span></li>
+							</ul>
+						</li>
+						<li>Creator of:
+							<ul>
+								<li><a href='https://github.com/napalm-automation/napalm'>N.A.P.A.L.M.</a></li>
+								<li><a href='strong'>SDN Internet Router</a></li>
+							</ul>
+						</li>
+					</ul>
+					<small style="position: relative; right: 690px; bottom: 50px; ">Twitter | Linkedin | Github</br><strong>@dbarrosop</strong></small>
+				</section>
+
+
+				<section>
+					<h2><strong>Agenda</strong></h2>
+					<ul>
+  					<li>Lab preparation</li>
+  					<li>Hello world</li>
+  					<li>Abstract Vendor Interfaces</li>
+  					<li>Abstract Vendor Configurations</li>
+  					<li>Data-Driven Configuration</li>
+  					<li>Data-Driven Configuration with a Backend</li>
+            <li>Abstractions</li>
+					</ul>
+				</section>
+
 				<section> <!-- preparation -->
 					<section>
 						<h2>Lab <strong>preparation</strong></h2>
             					<ul>
             					  <li>Install all of the python requirements</li>
-            					  <li>Started the devices on your lab</li>
+            					  <li>Start the devices on your lab</li>
             					</ul>
 					</section>
                                         <section>
                                                 <h3>Installing <strong>python</strong> requirements</h3>
-						<img src="content/network-tutorial/requirements-clone-pip.png" alt="requirements-clone-pip">
+						<img src="network_automation_tutorial/0-requirements-clone-pip.png" alt="requirements-clone-pip">
                                         </section>
                                         <section>
                                                 <h3>Starting <strong>the lab</strong></h3>
-						<img src="content/network-tutorial/requirements-vagrant.png" alt="requirements-vagrant">
+						<img src="network_automation_tutorial/0-requirements-vagrant.png" alt="requirements-vagrant">
                                         </section>
 				</section>
 
@@ -64,64 +100,69 @@
 						Learn how to connect to different devices, <strong>gather data</strong> such as the serial number or the device model and how to <strong>manipulate the device configuration</strong> using their respective <strong>APIs</strong>.
 					</section>
 					<section data-background="#fff">
-						<img src="content/network-tutorial/scenario-vendor_apis.png" alt="scenario-vendor_apis">
+						<img src="network_automation_tutorial/1-vendor_apis-scenario.png" alt="scenario-vendor_apis">
 					</section>
 
 					<section>
 						<h3>JunOS - <strong>Retrieving facts</strong></h3>
-						<img src="content/network-tutorial/api-junos-facts.png" alt="api-junos-facts">
-					</section>
+						<pre><code data-trim class="python">
+>>> from jnpr.junos import Device
+>>> import pprint
+>>> pp = pprint.PrettyPrinter(indent=4)
 >>>
 >>> junos = Device(host='127.0.0.1', user='vagrant', port=12203)
 >>> junos.open()
+Device(127.0.0.1)
 >>> junos_facts = junos.facts
 >>> pp.pprint(junos_facts)
 {   '2RE': False,
+    'HOME': '/cf/var/home/vagrant',
     'RE0': {   'last_reboot_reason': 'Router rebooted after a normal shutdown.',
                'model': 'FIREFLY-PERIMETER RE',
                'status': 'Testing',
-               'up_time': '54 minutes, 35 seconds'},
+               'up_time': '3 minutes, 36 seconds'},
     'domain': None,
     'fqdn': 'vsrx',
     'hostname': 'vsrx',
     'model': 'FIREFLY-PERIMETER',
-    'serialnumber': 'b9440f5cd069',
-    ...
+    'personality': 'SRX_BRANCH',
+    'serialnumber': '5b2b599a283b',
+    'srx_cluster': False,
     'version': '12.1X47-D20.7',
+    'version_info': junos.version_info(major=(12, 1), type=X, minor=(47, 'D', 20), build=7),
     'virtual': True}
 >>> junos.close()
 						</code></pre>
 					</section>
+
 					<section>
 						<h3>EOS - <strong>Retrieving facts</strong></h3>
-						<pre><code data-trim>
+						<pre><code data-trim class="python">
 >>> import pyeapi
 >>> import pprint
 >>> pp = pprint.PrettyPrinter(indent=4)
->>>
->>> connection = pyeapi.client.connect(transport='https', host='127.0.0.1',
-...				       username='vagrant', password='vagrant',
-...				       port=12443,)
+>>> connection = pyeapi.client.connect(transport='https', host='127.0.0.1', username='vagrant',
+...                                    password='vagrant', port=12443,)
 >>> eos = pyeapi.client.Node(connection)
 >>> eos_facts = eos.run_commands(['show version'])
 >>> pp.pprint(eos_facts)
 [   {   u'architecture': u'i386',
-        u'bootupTimestamp': 1475330139.05,
+        u'bootupTimestamp': 1475859369.15,
         u'hardwareRevision': u'',
         u'internalBuildId': u'e796e94c-ba3b-4355-afcf-ef0abfbfaee3',
         u'internalVersion': u'4.16.6M-3205780.4166M',
         u'isIntlVersion': False,
-        u'memFree': 53816,
+        u'memFree': 56204,
         u'memTotal': 1897596,
         u'modelName': u'vEOS',
         u'serialNumber': u'',
-        u'systemMacAddress': u'08:00:27:fc:27:59',
+        u'systemMacAddress': u'08:00:27:52:27:ce',
         u'version': u'4.16.6M'}]
 						</code></pre>
 					</section>
 					<section>
 						<h3>JunOS - <strong>Changing the hostname</strong></h3>
-						<pre><code data-trim>
+						<pre style="width:1400px;"><code data-trim class="python">
 >>> from jnpr.junos import Device
 >>> from jnpr.junos.utils.config import Config
 >>>
@@ -147,11 +188,15 @@ new-hostname
 					</section>
 					<section>
 						<h3>EOS - <strong>Changing the hostname</strong></h3>
-						<pre><code data-trim>
+						<pre style="width:1100px;"><code data-trim class="python">
 >>> import pyeapi
->>> connection = pyeapi.client.connect(transport='https', host='127.0.0.1',
-...				       username='vagrant', password='vagrant',
-...				       port=12443,)
+>>> connection = pyeapi.client.connect(
+...     transport='https',
+...     host='127.0.0.1',
+...     username='vagrant',
+...     password='vagrant',
+...     port=12443,
+... )
 >>> eos = pyeapi.client.Node(connection)
 >>> print(eos.run_commands(['show hostname'])[0]['hostname'])
 localhost
@@ -182,12 +227,12 @@ a-new-hostname
 					</section>
 
 					<section data-background="#fff">
-						<img src="content/network-tutorial/napalm.png" alt="tutorial 2 scenario">
+						<img src="network_automation_tutorial/2-napalm-scenario.png" alt="tutorial 2 scenario">
 					</section>
 
                                         <section>
                                                 <h3>NAPALM - <strong>Retrieving facts</strong></h3>
-                                                <pre><code data-trim>
+						<pre style="width:815px; position: relative; left:-550px;"><code data-trim class="python">
 >>> from napalm_base import get_network_driver
 >>> import pprint
 >>> pp = pprint.PrettyPrinter(indent=4)
@@ -196,76 +241,113 @@ a-new-hostname
 >>> eos_driver =  get_network_driver('eos')
 >>>
 >>> junos_configuration = {
-...     'hostname': '127.0.0.1', 'username': 'vagrant',
-...     'password': '', 'optional_args': {'port': 12203}}
+...     'hostname': '127.0.0.1',
+...     'username': 'vagrant',
+...     'password': '',
+...     'optional_args': {'port': 12203}
+... }
 >>>
 >>> eos_configuration = {
-...     'hostname': '127.0.0.1', 'username': 'vagrant',
-...     'password': 'vagrant', 'optional_args': {'port': 12443}}
-                                                </code></pre>
-                                        </section>
-                                        <section>
-                                                <h3>NAPALM - <strong>Retrieving facts</strong> (cont'd)</h3>
-                                                <pre><code data-trim>
+...     'hostname': '127.0.0.1',
+...     'username': 'vagrant',
+...     'password': 'vagrant',
+...     'optional_args': {'port': 12443}
+... }
+>>>
+						</code></pre>
+						<pre style="width:1000px; position: relative; left:450px; bottom: 745px"><code data-trim class="python">
 >>> with junos_driver(**junos_configuration) as junos:
 ...     pp.pprint(junos.get_facts())
 ...
 {   'fqdn': u'new-hostname',
     'hostname': u'new-hostname',
-    'interface_list': ['ge-0/0/0', ... 'vlan'],
+    'interface_list': [   'ge-0/0/0', 'gr-0/0/0', 
+                          'lt-0/0/0', 'mt-0/0/0', 'vlan'],
     'model': u'FIREFLY-PERIMETER',
     'os_version': u'12.1X47-D20.7',
-    'serial_number': u'b9440f5cd069',
-    'uptime': 4920,
+    'serial_number': u'5b2b599a283b',
+    'uptime': 1080,
     'vendor': u'Juniper'}
+>>>
 >>> with eos_driver(**eos_configuration) as eos:
 ...     pp.pprint(eos.get_facts())
 ...
 {   'fqdn': u'a-new-hostname',
     'hostname': u'a-new-hostname',
-    'interface_list': [u'Ethernet1', u'Ethernet2', u'Management1'],
+    'interface_list': [u'Ethernet1', u'Ethernet2',
+                       u'Management1'],
     'model': u'vEOS',
     'os_version': u'4.16.6M-3205780.4166M',
     'serial_number': u'',
-    'uptime': 5153,
+    'uptime': 1217,
     'vendor': u'Arista'}
-                                                </code></pre>
+						</code></pre>
                                         </section>
                                         <section>
                                                 <h3>NAPALM - <strong>Changing the hostname</strong></h3>
-                                                <pre><code data-trim>
+
+						<pre style="width:1000px;"><code data-trim class="python">
 >>> from napalm_base import get_network_driver
 >>> junos_driver =  get_network_driver('junos')
 >>> eos_driver =  get_network_driver('eos')
 >>>
 >>> junos_configuration = {
-...     'hostname': '127.0.0.1', 'username': 'vagrant',
-...     'password': '', 'optional_args': {'port': 12203}}
+...     'hostname': '127.0.0.1',
+...     'username': 'vagrant',
+...     'password': '',
+...     'optional_args': {'port': 12203}
+... }
 >>>
 >>> eos_configuration = {
-...     'hostname': '127.0.0.1', 'username': 'vagrant',
-...     'password': 'vagrant', 'optional_args': {'port': 12443}}
-
+...     'hostname': '127.0.0.1',
+...     'username': 'vagrant',
+...     'password': 'vagrant',
+...     'optional_args': {'port': 12443}
+... }
+>>>
 >>> def change_configuration(device, configuration):
 ...     device.load_merge_candidate(config=configuration)
 ...     print(device.compare_config())
 ...     device.commit_config()
 ...
 >>>
-                                                </code></pre>
+						</code></pre>
                                         </section>
                                         <section>
 						<h3>NAPALM - <strong>Changing the hostname (cont'd)</strong></h3>
-                                                <pre><code data-trim>
+						<pre style="width:970px; position: relative; left:-450px;"><code data-trim class="python">
 >>> with junos_driver(**junos_configuration) as junos:
-...     change_configuration(junos, "system {host-name yet-another-hostname;}")
+...     change_configuration(
+...            junos,
+...            "system {host-name yet-another-hostname;}"
+...     )
 ...
 [edit system]
 -  host-name new-hostname;
 +  host-name yet-another-hostname;
 >>>
+
+
+
+
+
+
+
+>>> with junos_driver(**junos_configuration) as junos:
+...     change_configuration(
+...            junos,
+...            "system {host-name yet-another-hostname;}"
+...     )
+...
+
+>>>
+						</code></pre>
+						<pre style="width:850px; position: relative; left:500px; bottom: 880px"><code data-trim class="python">
 >>> with eos_driver(**eos_configuration) as eos:
-...     change_configuration(eos, 'hostname yet-another-hostname')
+...     change_configuration(
+...            eos,
+...            'hostname yet-another-hostname'
+...     )
 ...
 @@ -8,7 +8,7 @@
  !
@@ -277,28 +359,22 @@ a-new-hostname
  spanning-tree mode mstp
  !
 >>>
-                                                </code></pre>
-                                        </section>
-                                        <section>
-						<h3>NAPALM - <strong>Changing the hostname (cont'd)</strong></h3>
-                                                <pre><code data-trim>
->>> with junos_driver(**junos_configuration) as junos:
-...     change_configuration(junos, "system {host-name yet-another-hostname;}")
-...
 
->>>
 >>> with eos_driver(**eos_configuration) as eos:
-...     change_configuration(eos, 'hostname yet-another-hostname')
+...     change_configuration(
+...            eos,
+...            'hostname yet-another-hostname'
+...     )
 ...
 
 >>>
-                                                </code></pre>
-						Changes are idempotent
+						</code></pre>
+						<small style="width:850px; position: relative; bottom: 880px">Changes are idempotent</small>
                                         </section>
 					<section>
 						<h3><strong>Summary</strong></h3>
 						<ul>
-							<li>NAPALM allows you to write code that works across vendors, workflows and data retrieval are unified</li>
+							<li>NAPALM allows you to write code that works across vendors; workflows and data retrieval are unified across platforms</li>
 							<li>Configuration syntax is still vendor dependent (YANG support is under progress)</li>
 							<li>Configuration changes are idempotent</li>
 						</ul>
@@ -316,21 +392,21 @@ a-new-hostname
 					</section>
 
 					<section data-background="#fff">
-						<img src="content/network-tutorial/ansible.png" alt="tutorial 3 scenario">
+						<img src="network_automation_tutorial/3_ansible_scenario.png" alt="tutorial 3 scenario">
 					</section>
 
                                         <section>
 						<h3>Ansible - <strong>Getting information</strong> - Playbook</h3>
-                                                <pre><code data-trim>
+						<pre style="width:1200px"><code data-trim>
 ---
-- name: Get facts
+- name: "Get facts"
   hosts: all
   connection: local
   gather_facts: no
   vars:
 
   tasks:
-    - name: get facts from device
+    - name: "get facts from device"
       napalm_get_facts:
         hostname: "{{ host }}"
         username: "{{ user }}"
@@ -344,86 +420,48 @@ a-new-hostname
       debug:
         msg: "{{ napalm_facts.ansible_facts.facts|to_nice_json }}"
       tags: [print_action]
-						</code></pre>
+      					</code></pre>
 					</section>
                                         <section>
-						<h3>Ansible - <strong>Getting information</strong> - Run</h3>
-                                                <pre><code data-trim>
-➜ ansible-playbook playbook_facts.yml
-..
-# Facts *******************************************************************************************************************
-  * rtr00                      - changed=False ----------------------------------------------------
-    {
-        "fqdn": "yet-another-hostname",
-        "hostname": "yet-another-hostname",
-        "interface_list": [
-            "Ethernet1",
-            "Ethernet2",
-            "Management1"
-        ],
-        "model": "vEOS",
-        "os_version": "4.16.6M-3205780.4166M",
-        "serial_number": "",
-        "uptime": 14746,
-        "vendor": "Arista"
-    }
-  * rtr01                      - changed=False ----------------------------------------------------
-    {
-        "fqdn": "yet-another-hostname",
-        "hostname": "yet-another-hostname",
-        "interface_list": [
-            "ge-0/0/0",
-	    ...
-            "vlan"
-        ],
-        "model": "FIREFLY-PERIMETER",
-        "os_version": "12.1X47-D20.7",
-        "serial_number": "b9440f5cd069",
-        "uptime": 14520,
-        "vendor": "Juniper"
-    }
-
-# STATS *******************************************************************************************************************
-rtr00    : ok=2	changed=0	failed=0	unreachable=0
-rtr01    : ok=2	changed=0	failed=0	unreachable=0
-                                                </code></pre>
+						<h3>Ansible - <strong>Getting information</strong> - Run (1)</h3>
+						<img src="network_automation_tutorial/3_ansible_facts_run_1.png" alt="ansible_facts_run_1">
                                         </section>
                                         <section>
-                                                <h3>Ansible - <strong>Changing configuration</strong> - data</h3>
-                                                <pre><code data-trim>
-➜ cat hosts
+						<h3>Ansible - <strong>Getting information</strong> - Run (2)</h3>
+						<img src="network_automation_tutorial/3_ansible_facts_run_2.png" alt="ansible_facts_run_2">
+                                        </section>
+                                        <section>
+                                                <h3>Ansible - <strong>Changing config</strong> - data</h3>
+                                                <pre style="width: 1220px;">➜ cat hosts<code data-trim class="yaml">
 [all]
 rtr00 os=eos   host=127.0.0.1 user=vagrant password=vagrant port=12443
 rtr01 os=junos host=127.0.0.1 user=vagrant password="" port=12203
                                                 </code></pre>
-                                                <pre><code data-trim>
+						<hr>
+                                                <pre style="width: 1220px;">➜ cat group_vars/all.yml<code data-trim>
 
-➜ cat group_vars/all.yml
 ---
 ansible_python_interpreter: "/usr/bin/env python"
 
 domain: acme.com
                                                 </code></pre>
-                                                <pre style="width: 860px; position: relative; right: 435px;"><code data-trim>
-➜ cat host_vars/rtr00.yml
+						<hr>
+                                                <pre style="width: 400px; position: relative; right: 410px;">➜ cat host_vars/rtr00.yml<code data-trim>
 ---
 hostname: thehostnama
                                                 </code></pre>
-                                                <pre style="width: 860px; position: relative; left: 435px; bottom: 156px;"><code data-trim>
-➜ cat host_vars/rtr01.yml
+                                                <pre style="width: 400px; position: relative; left: 260px; bottom: 144px;">➜ cat host_vars/rtr01.yml<code data-trim>
 ---
 hostname: another-host
                                                 </code></pre>
                                         </section>
                                         <section>
-                                                <h3>Ansible - <strong>Changing configuration</strong> - Templates</h3>
-                                                <pre style="width: 860px; position: relative; right: 435px;"><code data-trim>
-➜ cat templates/eos/simple.j2
+                                                <h3>Ansible - <strong>Changing config</strong> - Templates</h3>
+                                                <pre style="width: 500px; position: relative; left: -550px;">➜ cat templates/eos/simple.j2<code data-trim>
 hostname {{ hostname }}
 ip domain-name {{ domain }}
                                                 </code></pre>
-                                                <pre style="width: 860px; position: relative; left: 435px; bottom: 156px;"><code data-trim>
-➜ cat templates/junos/simple.j2
+                                                <pre style="width: 500px; position: relative; left: 250px; bottom: 140px;">➜ cat templates/junos/simple.j2<code data-trim>
 system {
   host-name {{ hostname}};
   domain-name {{ domain }};
@@ -431,8 +469,8 @@ system {
                                                 </code></pre>
                                         </section>
                                         <section>
-                                                <h3>Ansible - <strong>Changing configuration</strong> - Playbook</h3>
-                                                <pre><code data-trim>
+                                                <h3>Ansible - <strong>Changing config</strong> - Playbook</h3>
+                                                <pre style="width:900px;"><code data-trim>
 ---
   tasks:
     - name: A simple template with some configuration
@@ -458,73 +496,17 @@ system {
                                                 </code></pre>
                                         </section>
                                         <section>
-                                                <h3>Ansible - <strong>Changing configuration</strong> - Dry-run</h3>
-                                                <pre><code data-trim>
-➜ ansible-playbook playbook_configure.yml
-......
-# Load configuration into the device **************************************************************************************
-  * rtr00                      - changed=True -----------------------------------------------------
-    @@ -8,7 +8,8 @@
-     !
-     transceiver qsfp default-mode 4x10G
-     !
-    -hostname yet-another-hostname
-    +hostname thehostnama
-    +ip domain-name acme.com
-     !
-     spanning-tree mode mstp
-     !
-  * rtr01                      - changed=True -----------------------------------------------------
-    [edit system]
-    -  host-name yet-another-hostname;
-    +  host-name another-host;
-    +  domain-name acme.com;
-
-# STATS *******************************************************************************************************************
-rtr00    : ok=4	changed=1	failed=0	   unreachable=0
-rtr01    : ok=4	changed=1	failed=0	   unreachable=0
-                                                </code></pre>
+                                                <h3>Ansible - <strong>Changing config</strong> - Dry-run</h3>
+																								<img src="network_automation_tutorial/3_ansible_hostname_dry_run.png" alt="3_ansible_hostname_dry_run">
                                         </section>
                                         <section>
-                                                <h3>Ansible - <strong>Changing configuration</strong> - Commit</h3>
-                                                <pre><code data-trim>
-➜ ansible-playbook playbook_configure.yml -e commit_changes=1
-# Load configuration into the device **************************************************************************************
-  * rtr00                      - changed=True -----------------------------------------------------
-    @@ -8,7 +8,8 @@
-     !
-     transceiver qsfp default-mode 4x10G
-     !
-    -hostname yet-another-hostname
-    +hostname thehostnama
-    +ip domain-name acme.com
-     !
-     spanning-tree mode mstp
-     !
-  * rtr01                      - changed=True -----------------------------------------------------
-    [edit system]
-    -  host-name yet-another-hostname;
-    +  host-name another-host;
-    +  domain-name acme.com;
-
-# STATS *******************************************************************************************************************
-rtr00    : ok=1	changed=1	failed=0		unreachable=0
-rtr01    : ok=1	changed=1	failed=0		unreachable=0
-                                                </code></pre>
+                                                <h3>Ansible - <strong>Changing config</strong> - Commit</h3>
+																								<img src="network_automation_tutorial/3_ansible_hostname_commit.png" alt="3_ansible_hostname_commit">
                                         </section>
                                         <section>
-                                                <h3>Ansible - <strong>Changing configuration</strong> - Idempotence</h3>
-                                                <pre><code data-trim>
-➜ ansible-playbook playbook_configure.yml -e commit_changes=1
-# Load configuration into the device **************************************************************************************
-  * rtr00                      - changed=False --  ------------------------------------------------
-  * rtr01                      - changed=False --  ------------------------------------------------
-
-# STATS *******************************************************************************************************************
-rtr00    : ok=1	changed=0	failed=0	unreachable=0
-rtr01    : ok=1	changed=0	failed=0	unreachable=0
-
-                                                </code></pre>
+                                                <h3>Ansible - <strong>Changing config</strong> - Commit (2)</h3>
+																								<img src="network_automation_tutorial/3_ansible_hostname_idempotence.png" alt="3_ansible_hostname_idempotence">
+																								<small>Changes are idempotent</small>
                                         </section>
 					<section>
 						<h3><strong>Summary</strong></h3>
@@ -548,12 +530,12 @@ rtr01    : ok=1	changed=0	failed=0	unreachable=0
 					</section>
 
 					<section data-background="#fff">
-						<img src="content/network-tutorial/data-driven.png" alt="tutorial 4 scenario">
+						<img src="network_automation_tutorial/4_dd_scenario.png" alt="tutorial 4 scenario">
 					</section>
 
                                         <section>
-                                                <h3>D-D - <strong>Changing configuration</strong> - data</h3>
-                                                <pre style="width: 860px; position: relative; right: 435px;"><code data-trim>
+                                                <h3>D-D - <strong>Changing config</strong> - data</h3>
+                                                <pre style="width: 860px; position: relative; right: 350px;">➜ cat host_vars/rtr00.yml<code data-trim>
 ---
 hostname: rtr00
 
@@ -573,7 +555,7 @@ peers:
   - ip: "2001:db8:caf3:2::1"
     asn: 65001
                                                 </code></pre>
-                                                <pre style="width: 860px; position: relative; left: 435px; bottom: 785px;"><code data-trim>
+                                                <pre style="width: 860px; position: relative; left: 550px; bottom: 675px;">➜ cat host_vars/rtr01.yml<code data-trim>
 ---
 hostname: rtr01
 
@@ -593,7 +575,7 @@ peers:
   - ip: "2001:db8:caf3:2::"
     asn: 65000
                                                 </code></pre>
-                                                <pre style="position: relative; bottom: 785px;"><code data-trim>
+                                                <pre style="width: 1300px; position: relative; bottom: 650px;">➜ cat hosts<code data-trim>
 [all]
 rtr00 os=eos   host=127.0.0.1 user=vagrant password=vagrant port=12443
 rtr01 os=junos host=127.0.0.1 user=vagrant password="" port=12203
@@ -601,10 +583,8 @@ rtr01 os=junos host=127.0.0.1 user=vagrant password="" port=12203
  
                                         </section>
                                         <section>
-                                                <h3>D-D <strong>Changing configuration</strong> - Templates</h3>
-                                                <pre style="width: 860px; height: 500px; position: relative; right: 435px;"><code data-trim>
-
-➜ cat (...)/templates/eos/ipfabric.j2
+                                                <h3>D-D <strong>Changing config</strong> - Templates</h3>
+                                                <pre style="width: 860px; height: 500px; position: relative; right: 500px;">➜ cat (...)/templates/eos/ipfabric.j2<code data-trim class="jinja">
 ipv6 unicast-routing
 
 {% for interface in interfaces %}
@@ -631,8 +611,7 @@ router bgp {{ asn }}
 
 {% endfor %}
                                                 </code></pre>
-                                                <pre style="width: 860px; position: relative; left: 435px; bottom: 520px;"><code data-trim>
-➜ cat (...)/templates/junos/ipfabric.j2
+                                                <pre style="width: 860px; height: 500px; position: relative; left: 500px; bottom: 520px;">➜ cat (...)/templates/junos/ipfabric.j2<code data-trim class="jinja">
 {% for interface in interfaces %}
 
 interfaces {
@@ -686,8 +665,8 @@ protocols {
                                                 </code></pre>
                                         </section>
                                         <section>
-                                                <h3>D-D <strong>Changing configuration</strong> - Playbook</h3>
-                                                <pre style="width: 860px; height: 500px; position: relative; right: 435px;"><code data-trim>
+                                                <h3>D-D <strong>Changing config</strong> - Playbook</h3>
+                                                <pre style="width: 500px; height: 500px; position: relative; right: 400px;"><code data-trim class="yaml">
 ...
 - name: Basic Configuration
   hosts: all
@@ -703,7 +682,7 @@ protocols {
 ...
 						</code></pre>
 
-                                                <pre style="width: 860px; position: relative; left: 435px; bottom: 520px;"><code data-trim>
+                                                <pre style="width: 550px; position: relative; left: 400px; bottom: 500px;"><code data-trim>
 ➜ tree roles
 ├── base
 │   ├── tasks
@@ -724,25 +703,25 @@ protocols {
                                                 </code></pre>
                                         </section>
                                         <section>
-                                                <h3>D-D <strong>Changing configuration</strong> - Run (1)</h3>
-						<img src="content/network-tutorial/dd-config_1.png" alt="configuring 1">
+                                                <h3>D-D <strong>Changing config</strong> - Run (1)</h3>
+						<img src="network_automation_tutorial/4_dd_config_1.png" alt="configuring 1">
                                         </section>
                                         <section>
-                                                <h3>D-D <strong>Changing configuration</strong> - Run (2)</h3>
-						<img src="content/network-tutorial/dd-config_2.png" alt="configuring 2">
+                                                <h3>D-D <strong>Changing config</strong> - Run (2)</h3>
+						<img src="network_automation_tutorial/4_dd_config_2.png" alt="configuring 2">
                                         </section>
                                         <section>
-                                                <h3>D-D <strong>Changing configuration</strong> - Run (3)</h3>
-						<img src="content/network-tutorial/dd-config_3.png" alt="configuring 3">
+                                                <h3>D-D <strong>Changing config</strong> - Run (3)</h3>
+						<img src="network_automation_tutorial/4_dd_config_3.png" alt="configuring 3">
                                         </section>
                                         <section>
-                                                <h3>D-D <strong>Changing configuration</strong> - Run (4)</h3>
-						<img src="content/network-tutorial/dd-config_4.png" alt="configuring 4">
+                                                <h3>D-D <strong>Changing config</strong> - Run (4)</h3>
+						<img src="network_automation_tutorial/4_dd_config_4.png" alt="configuring 4">
                                         </section>
 
 					<section>
                                                 <h3>D-D <strong>Verifying BGP state</strong> - Playbook</h3>
-						<pre><code data-trim>
+						<pre style="width:1290px;"><code data-trim>
 - name: "get facts from device"
   napalm_get_facts:
     hostname: "{{ host }}"
@@ -770,28 +749,28 @@ protocols {
 					</section>
                                         <section>
                                                 <h3>D-D <strong>Verifying BGP state</strong> - Run (1)</h3>
-						<img src="content/network-tutorial/dd-verify_1.png" alt="verifying 1">
+						<img src="network_automation_tutorial/4_dd-verify_1.png" alt="verifying 1">
                                         </section>
                                         <section>
                                                 <h3>D-D <strong>Verifying BGP state</strong> - Run (2)</h3>
-						<img src="content/network-tutorial/dd-verify_2.png" alt="verifying 2">
+						<img src="network_automation_tutorial/4_dd-verify_2.png" alt="verifying 2">
 						<small>Maybe a faulty policy or missing communities?</small>
                                         </section>
                                         <section>
                                                 <h3>D-D <strong>Verifying BGP state</strong> - Run (3)</h3>
-						<img src="content/network-tutorial/dd-verify_3.png" alt="verifying 3">
+						<img src="network_automation_tutorial/4_dd-verify_3.png" alt="verifying 3">
 						<small>Most probably a faulty link</small>
                                         </section>
                                         <section>
                                                 <h3>D-D <strong>Verifying BGP state</strong> - Run (4)</h3>
-						<img src="content/network-tutorial/dd-verify_4.png" alt="verifying 4">
+						<img src="network_automation_tutorial/4_dd-verify_4.png" alt="verifying 4">
 						<small>Looks fine but it is not, there is a link with no BGP session configured</small>
                                         </section>
 					<section>
 						<h3><strong>Summary</strong></h3>
 						<ul>
-							<li>We leveraged on that we learnt so far to build something more complex</li>
-							<li>Storing data in static files makes them hard to manipulate</li>
+							<li>We leveraged on what we learnt so far to build something more complex</li>
+							<li>Storing data in static files makes them hard to manipulate but it's great for mocking new services or for data that doesn't change often or doesn't need to be queried</li>
 							<li>We verified state of the network using the network as source of truth rather than using our knowledge about the network</li>
 						</ul>
 					</section>
@@ -808,25 +787,24 @@ protocols {
 					</section>
 
 					<section data-background="#fff">
-						<img src="content/network-tutorial/scenario-nsot.png" alt="tutorial 5 scenario">
+						<img src="network_automation_tutorial/5-nsot-scenario.png" alt="tutorial 5 scenario">
 					</section>
 
                                         <section>
-						<h3>DDB - <strong>Before we begin</strong> - Start VM with nsot</h3>
-						<img src="content/network-tutorial/nsot-vagrant-up.png" alt="nsot-vagrant-up">
+						<h3>DDB - <strong>Before we begin</strong> - Start nsot VM</h3>
+						<img src="network_automation_tutorial/5-nsot-vagrant-up.png" alt="nsot-vagrant-up">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Before we begin</strong> - Start nsot</h3>
-						<img src="content/network-tutorial/nsot-start-nsot.png" alt="nsot-start-nsot">
+						<img src="network_automation_tutorial/5-nsot-start-nsot.png" alt="nsot-start-nsot">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Before we begin</strong> - Gather nsot token</h3>
-						<img src="content/network-tutorial/nsot-gather-token.png" alt="nsot-gather-token">
+						<img src="network_automation_tutorial/5-nsot-gather-token.png" alt="nsot-gather-token">
                                         </section>
                                         <section>
-						<h3>DDB - <strong>Before we begin</strong> - Configure nsot client</h3>
-						<small>Edit <code>~/.pynsotrc</code> and add the following content:</small>
-						<pre><code data-trim>
+						<h3>DDB - <strong>Before we begin</strong> - nsot client conf</h3>
+						<pre>~/.pynsotrc<code data-trim class="ini">
 [pynsot]
 url = http://localhost:8990/api
 secret_key = 3AvRKqff0uuFT0d44ecqHIman31HPAcQ_nTLcF0m_uA=  # Token 
@@ -837,43 +815,53 @@ email = admin@acme.com
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Before we begin</strong> - Create the data</h3>
-						<img src="content/network-tutorial/nsot-create-data.png" alt="nsot-create-data">
+						<img src="network_automation_tutorial/5-nsot-create-data.png" alt="nsot-create-data">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Before we begin</strong> - Verify the data (1)</h3>
-						<img src="content/network-tutorial/nsot-verify-data_1.png" alt="nsot-verify-data_1">
+						<img src="network_automation_tutorial/5-nsot-verify-data_1.png" alt="nsot-verify-data_1">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Before we begin</strong> - Verify the data (2)</h3>
-						<img src="content/network-tutorial/nsot-verify-data_2.png" alt="nsot-verify-data_2">
+						<img src="network_automation_tutorial/5-nsot-verify-data_2.png" alt="nsot-verify-data_2">
                                         </section>
                                         <section>
-						<h3>DDB - <strong>backend integration</strong> - Dyn. inventory</h3>
-						<img src="content/network-tutorial/nsot-dyn-inventory.png" alt="nsot-dyn-inventory">
+						<h3>DDB - <strong>backend integration</strong> - inventory</h3>
+						<img src="network_automation_tutorial/5-nsot-dyn-inventory.png" alt="nsot-dyn-inventory">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>backend integration</strong> - Smarter data</h3>
-						<img src="content/network-tutorial/nsot-smarter-data.png" alt="nsot-smarter-data">
-						<img src="content/network-tutorial/nsot-smarter-template.png" alt="nsot-smarter-template">
+						<img src="network_automation_tutorial/5-nsot-smarter-data.png" alt="nsot-smarter-data">
+						<pre><code data-trim class="jinja">
+{% for iface, iface_data in ifaces.items() if iface_data.attributes.link_type == "fabric" %}
+    {% set peer =iface_data.attributes.connects_to_device %}
+    {% set peer_iface =iface_data.attributes.connects_to_iface %}
+    {% set peer_ip = hostvars[peer]['interfaces'][peer_iface]['ipv6'][0].split('/')[0] %}
+    {% set peer_asn = hostvars[peer]['asn'] %}
+     neighbor {{ peer_ip }} remote-as {{ peer_asn }}
+     neighbor {{ peer_ip }} description {{ peer }}:{{ peer_iface }}
+     address-family ipv6
+       neighbor {{ peer_ip }} activate
+{% endfor %}
+						</code></pre>
                                         </section>
 
                                         <section>
 						<h3>DDB - <strong>Configuration</strong> - Run (1)</h3>
-						<img src="content/network-tutorial/nsot-configuration-run_1.png" alt="nsot-configuration-run_1">
+						<img src="network_automation_tutorial/5-nsot-configuration-run_1.png" alt="nsot-configuration-run_1">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Configuration</strong> - Run (2)</h3>
-						<img src="content/network-tutorial/nsot-configuration-run_2.png" alt="nsot-configuration-run_2">
+						<img src="network_automation_tutorial/5-nsot-configuration-run_2.png" alt="nsot-configuration-run_2">
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Configuration</strong> - Run (3)</h3>
-						<img src="content/network-tutorial/nsot-configuration-run_3.png" alt="nsot-configuration-run_3">
+						<img src="network_automation_tutorial/5-nsot-configuration-run_3.png" alt="nsot-configuration-run_3">
                                         </section>
 
                                         <section>
 						<h3>DDB - <strong>Verifying</strong> - Playbook (1)</h3>
-						<pre><code data-trim>
-
+						<pre style="width:550px;"><code data-trim class="yaml">
 - name: "Get facts from device"
   napalm_get_facts:
     hostname: "{{ host }}"
@@ -888,7 +876,7 @@ email = admin@acme.com
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Verifying</strong> - Playbook (2)</h3>
-						<pre><code data-trim>
+						<pre><code data-trim class="yaml">
 - name: "Check all BGP sessions are configured"
   assert:
     that:
@@ -899,8 +887,10 @@ email = admin@acme.com
   tags: [print_action]
 						</code></pre>
 						<small>Let's take a look:</small>
-						<pre><code data-trim>
-hostvars[item.value.attributes.connects_to_device]['interfaces'][item.value.attributes.connects_to_iface]['ipv6'][0].split('/')[0] in napalm_facts.ansible_facts.bgp_neighbors.global.peers
+						<pre><code data-trim class="python">
+hostvars[item.value.attributes.connects_to_device]['interfaces']\
+        [item.value.attributes.connects_to_iface]['ipv6'][0].split('/')[0]\
+        in napalm_facts.ansible_facts.bgp_neighbors.global.peers
 item.value 						# interface
 interface.attributes.connects_to_device 		# peer
 interface.attributes.connects_to_iface 			# peer_iface
@@ -911,7 +901,7 @@ hostvars[peer]['interfaces'][peer_iface]['ipv6'] in my_configured_peers
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Verifying</strong> - Playbook (3)</h3>
-						<pre><code data-trim>
+						<pre><code data-trim class="yaml">
 - name: "Check BGP sessions are healthy"
   assert:
     that:
@@ -928,17 +918,16 @@ hostvars[peer]['interfaces'][peer_iface]['ipv6'] in my_configured_peers
   with_dict: "{{ interfaces }}"
   when: "{{ item.value.attributes.link_type == 'fabric' }}"
   tags: [print_action]
-
 						</code></pre>
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Verifying</strong> - Run (1)</h3>
-						<img src="content/network-tutorial/nsot-verify-run_1.png" alt="nsot-verify-run_1">
+						<img src="network_automation_tutorial/5-nsot-verify-run_1.png" alt="nsot-verify-run_1">
 						<small>We verify links, not BGP sessions</small>
                                         </section>
                                         <section>
 						<h3>DDB - <strong>Verifying</strong> - Run (2)</h3>
-						<img src="content/network-tutorial/nsot-verify-run_2.png" alt="nsot-verify-run_2">
+						<img src="network_automation_tutorial/5-nsot-verify-run_2.png" alt="nsot-verify-run_2">
 						<small>We can correlate BGP sessions with interfaces easily. That might allows us to infer the reason behind the errors. For example, in the picture above it's easy to identify that the reason why <code>2001:db8:caf3::</code> is down in <code>rtr01</code> it's because <code>2001:db8:caf3::1</code> is not configured in <code>rtr00</code>.</small>
                                         </section>
 					<section>
@@ -954,26 +943,267 @@ hostvars[peer]['interfaces'][peer_iface]['ipv6'] in my_configured_peers
 
 				<section>
 					<section>
-						<h2>X - <strong>hello</strong> world</h2>
-						<a href="https://github.com/dravetech/network-tutorials/tree/master/tutorial-1-hello-world">Link to the code on github</a>
+						<h2>6 - <strong>Abstractions</strong></h2>
+						<a href="https://github.com/dravetech/network-tutorials/tree/master/tutorial-6-abstractions">Link to the code on github</a>
 					</section>
 					<section>
 						<h3><strong>Objectives</strong></h3>
-						Learn how to connect to different devices, <strong>gather data</strong> such as the serial number or the device model and how to <strong>manipulate the device configuration</strong> using their respective <strong>APIs</strong>.
+						We are going to simplify operations. Sites and services will be abstracted and defined in simple definition files and added to the backend using an easy to use tool. Finally, ansible will be hidden behind the same tool.
+					</section>
+
+					<section data-background="#fff">
+						<img src="network_automation_tutorial/6-abstractions-scenario.png" alt="tutorial 6 scenario">
 					</section>
 
 					<section>
-						<img src="content/network-tutorial/vendor_apis.png" alt="tutorial 1 scenario">
+						<h3>ABSTRATIONS - <strong>Site definition</strong> - Acme</h3>
+						<pre style="width: 400px; position: relative; left: -600px">data/acme/devices.yml<code data-trim class="yaml">
+---
+devices:
+  rtr00:
+    os: eos
+    host: 127.0.0.1
+    domain: acme.com
+    user: vagrant
+    password: vagrant
+    port: '12443'
+    asn: '65001'
+    router_id: 10.1.1.1
+  rtr01:
+    os: junos
+    host: 127.0.0.1
+    domain: acme.com
+    user: vagrant
+    password: ''
+    port: '12203'
+    asn: '65002'
+    router_id: 10.1.1.2
+						</code></pre>
+						<pre style="width: 440px; position: relative; left: -100px; bottom: 745px">data/acme/attributes.yml<code data-trim class="yaml">
+---
+attributes:
+  Device:
+    os: {}
+    host: {}
+    user: {}
+    password:
+      constraints:
+        allow_empty: true
+    port: {}
+    asn: {}
+    router_id: {}
+    domain: {}
+  Network:
+    type: {}
+    service: {}
+  Interface:
+    link_type: {}
+    connects_to_device: {}
+    connects_to_iface: {}
+						</code></pre>
+						<pre style="width: 625px; position: relative; left: 500px; bottom: 1487px">data/acme/services.yml<code data-trim class="yaml">
+---
+loopbacks:
+  network_ranges:
+    loopbacks: 2001:db8:feed::/48
+  definition: {}
+
+ipfabric:
+  network_ranges:
+    fabric_links: 2001:db8:cafe::/48
+  definition:
+    links:
+      - left_device: rtr00
+        left_iface: et1
+        right_device: rtr01
+        right_iface: ge-0/0/1
+      - left_device: rtr00
+        left_iface: et2
+        right_device: rtr01
+        right_iface: ge-0/0/2
+						</code></pre>
 					</section>
 
-                                        <section>
-                                                <h3>EOS - <strong>Changing the hostname</strong></h3>
-                                                <pre><code data-trim>
-                                                </code></pre>
-                                        </section>
+					<section>
+						<h3>ABSTRATIONS - <strong>Site definition</strong> - Evil</h3>
+						<pre style="width: 420px; position: relative; left: -600px">data/acme/devices.yml<code data-trim class="yaml">
+---
+devices:
+  evil00:
+    os: eos
+    host: 127.0.0.1
+    domain: evilcorp.com
+    user: vagrant
+    password: vagrant
+    port: '12443'
+    asn: '65666'
+    router_id: 10.6.66.1
+  evil01:
+    os: junos
+    host: 127.0.0.1
+    domain: evil.com
+    user: vagrant
+    password: ''
+    port: '12203'
+    asn: '65666'
+    router_id: 10.6.66.2
+						</code></pre>
+						<pre style="width: 440px; position: relative; left: -100px; bottom: 745px">data/acme/attributes.yml<code data-trim class="yaml">
+---
+attributes:
+  Device:
+    os: {}
+    host: {}
+    user: {}
+    password:
+      constraints:
+        allow_empty: true
+    port: {}
+    asn: {}
+    router_id: {}
+    domain: {}
+  Network:
+    type: {}
+    service: {}
+  Interface:
+    link_type: {}
+    connects_to_device: {}
+    connects_to_iface: {}
+						</code></pre>
+						<pre style="width: 625px; position: relative; left: 500px; bottom: 1487px">data/acme/services.yml<code data-trim class="yaml">
+---
+loopbacks:
+  network_ranges:
+    loopbacks: 2001:db8:dead::/48
+  definition: {}
+
+ipfabric:
+  network_ranges:
+    fabric_links: 2001:db8:c0ff::/48
+  definition:
+    links:
+      - left_device: rtr00
+        left_iface: et1
+        right_device: rtr01
+        right_iface: ge-0/0/1
+      - left_device: rtr00
+        left_iface: et2
+        right_device: rtr01
+        right_iface: ge-0/0/2
+						</code></pre>
+					</section>
+
+
+					<section>
+						<h3>Abstractions - <strong>Command-line</strong></h3>
+						<img src="network_automation_tutorial/6-options.png" alt="Abstracted options">
+					</section>
+
+					<section>
+						<h3>Abstractions - <strong>Creating the sites</strong> - Acme(1)</h3>
+						<img src="network_automation_tutorial/6-creating_site_1.png" alt="Creating the site 1">
+					</section>
+
+					<section>
+					 	<h3>Abstractions - <strong>Creating the sites</strong> - Acme(2)</h3>
+						<img src="network_automation_tutorial/6-creating_site_2.png" alt="Creating the site 2">
+					</section>
+
+					<section>
+					 	<h3>Abstractions - <strong>Creating the sites</strong> - Evil</h3>
+						<pre style="width:1024px"><code>
+inv site.create --name evil
+inv site.add_atribbutes -s evil -f data/evil/attributes.yml
+inv site.add_devices -s evil -f data/evil/devices.yml
+inv serivce.loopbacks -s evil -f data/evil/services.yml
+inv serivce.ipfabric -s evil -f data/evil/services.yml
+						</code></pre>
+					</section>
+
+					<section>
+					 	<h3>Abstractions - <strong>Verify data</strong> - Acme</h3>
+						<img src="network_automation_tutorial/6-verify_data_1.png" style="width:1200px; position:relative" alt="Verify data 1"></br>
+						<img src="network_automation_tutorial/6-verify_data_2.png" style="width:900px; position:relative" alt="Verify data 2">
+						<img src="network_automation_tutorial/6-verify_data_3.png" style="width:950px; position:relative" alt="Verify data 3">
+						<small>For demonstrational purposes ;)</small></br>
+					</section>
+
+					<section>
+					 	<h3>Abstractions - <strong>Verify data</strong> - Evil</h3>
+						<img src="network_automation_tutorial/6-verify_data_4.png" style="width:1200px; position:relative" alt="Verify data 4"></br>
+						<img src="network_automation_tutorial/6-verify_data_5.png" style="width:900px; position:relative" alt="Verify data 5">
+						<img src="network_automation_tutorial/6-verify_data_6.png" style="width:950px; position:relative" alt="Verify data 6">
+						<small>For demonstrational purposes ;)</small></br>
+					</section>
+
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Acme (1)</h3>
+						<img src="network_automation_tutorial/6-deploy_acme_1.png" alt="Deploy acme 1">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Acme (2)</h3>
+						<img src="network_automation_tutorial/6-deploy_acme_2.png" alt="Deploy acme 2">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Acme (3)</h3>
+						<img src="network_automation_tutorial/6-deploy_acme_3.png" alt="Deploy acme 3">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Acme (4)</h3>
+						<img src="network_automation_tutorial/6-deploy_acme_4.png" alt="Deploy acme 4">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Acme (5)</h3>
+						<img src="network_automation_tutorial/6-deploy_acme_5.png" alt="Deploy acme 5">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Verify site</strong> - Acme</h3>
+						<img src="network_automation_tutorial/6-verify_acme.png" alt="Verify acme">
+					</section>
+
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Evil (1)</h3>
+						<img src="network_automation_tutorial/6-deploy_evil_1.png" alt="Deploy evil 1">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Evil (2)</h3>
+						<img src="network_automation_tutorial/6-deploy_evil_2.png" alt="Deploy evil 2">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Evil (3)</h3>
+						<img src="network_automation_tutorial/6-deploy_evil_3.png" alt="Deploy evil 3">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Evil (4)</h3>
+						<img src="network_automation_tutorial/6-deploy_evil_4.png" alt="Deploy evil 4">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Deploy site</strong> - Evil (5)</h3>
+						<img src="network_automation_tutorial/6-deploy_evil_5.png" alt="Deploy evil 5">
+					</section>
+					<section>
+					 	<h3>Abstractions - <strong>Verify site</strong> - Evil</h3>
+						<img src="network_automation_tutorial/6-verify_evil.png" alt="Verify evil">
+					</section>
+
 					<section>
 						<h3><strong>Summary</strong></h3>
+						<ul>
+							<li>We built a tool that focused on services</li>
+							<li>The tool would read simple defintion files that users can easily create/manipulate and do the necessary changes in the backend.</li>
+							<li>As the tool is very simple and easy to use, it can be used by any type of user, not only by network engineers</li>
+							<li>Tool could be a web form rather than a cli tool</li>
+						</ul>
 					</section>
+				</section>
+
+				<section>
+					<h2><strong>Questions</strong>?</h2>
+					<small>
+					dbarrosop@dravetech.com</br>
+					Slides - <a href="https://www.dravetech.com/presos/network_automation_tutorial.html">https://www.dravetech.com/presos/network_automation_tutorial.html</a></br>
+					Code - <a href="https://github.com/dravetech/network-tutorials">https://github.com/dravetech/network-tutorials</a>
+					</small>
 				</section>
 
 
