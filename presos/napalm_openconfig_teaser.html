@@ -1,0 +1,652 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+					<title>I love the smell of OpenConfig in the morning</title>
+
+       		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/reveal.css">
+       		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/theme/blood.css">
+
+       		<!-- Theme used for syntax highlighting of code -->
+					<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+       		<link rel="stylesheet" href="css/custom_2.css">
+       		<link rel="stylesheet" href="css/custom_highlight.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/print/pdf.css' : 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/print/paper.css';link.type = 'text/css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style>
+
+.reveal {
+  font-size: 48px;
+}
+
+
+
+.reveal pre code {
+  font-size: 1.3em;
+}
+		</style>
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section> <!-- Title -->
+					<h1>I love the smell of <strong>OpenConfig</strong> in the morning</h1>
+					<small>David Barroso &ltdbarrosop@<strong>dravetech</strong>.com&gt;</small>
+				</section>
+
+				<section> <!-- Help -->
+					<h3>How to <strong>navigate</strong> this tutorial?</h3>
+					Press <code>left</code> and <code>right</code> to change sections. Press <code>up</code> and <code>down</code> to move within sections. Press <code>?</code> anytime for help.
+				</section>
+
+				<section>
+					<img style="width: 550px; position:relative; bottom:10px; left: 150px;" src="content/common/unicorn.png" alt="Unicorn Avatar" align="left">
+					<ul>
+						<li><strong>Network Systems Engineer</strong> at <span style="color: #E52F34;">Fastly</span></li>
+						<li>Previously:
+							<ul>
+								<li><strong>Network Engineer</strong> at <span style="color: #2FD666;">Spotify</span></li>
+								<li><strong>Network Engineer</strong> at <span style="color: #26367B;">NTT</span></li>
+								<li><strong>Network &amp; Systems Engineer</strong> at <span style="color: #0E62A7;">Atlas IT</span></li>
+							</ul>
+						</li>
+						<li>Creator of:
+							<ul>
+								<li><a href='https://github.com/napalm-automation/napalm'>N.A.P.A.L.M.</a></li>
+								<li><a href='https://github.com/dbarrosop/sir'>SDN Internet Router</a></li>
+							</ul>
+						</li>
+					</ul>
+					<small style="position: relative; right: 815px; top: 100px; ">Twitter | Linkedin | Github</br><strong>@dbarrosop</strong></small>
+				</section>
+
+
+				<section>
+					<section>
+						<h2>What is <strong>YANG</strong>?</h2>
+						<code>RFC6020</code> - A Data Modeling Language for the Network Configuration Protocol (NETCONF)
+					</section>
+
+					<section>
+						<h4>Very <strong>boring</strong></h4>
+					</section>
+
+					<section>
+						<h2>Why should you care about <strong>YANG</strong>?</h2>
+					</section>
+
+					<section>
+						<h4>You <strong>don't</strong></h4>
+					</section>
+
+					<section>
+						<h2>What is <strong>OpenConfig</strong>?</h2>
+						Vendor-neutral, model-driven network management designed by users</br>
+						<a href="http://www.openconfig.net/">http://www.openconfig.net/</a></br>
+            (written in <code>YANG</code>)
+					</section>
+
+					<section>
+						<h2>Why should you care about <strong>OpenConfig</strong>?</h2>
+					</section>
+
+					<section>
+						<ul>
+							<li>Forces vendors to normalize syntax configuration</li>
+							<li>Forces vendors to implement an RPC mechanism to interact with devices</li>
+							<li>Provides a streaming mechanism to send data out</li>
+						</ul>
+            <h4 class="fragment" style="position:relative; top:100px;">In theory</h4>
+					</section>
+
+					<section>
+
+						<pre style="width:710px; position: relative; left:-450px;">Model definition (YANG)<code data-trim class="yang">
+grouping interfaces-top {
+  container interfaces {
+    list interface {
+      key "name";
+
+      leaf name {
+        type leafref {
+          path "../config/name";
+        }
+      }
+
+      container config {
+        uses interface-phys-config;
+      }
+
+      container state {
+        config false;
+
+        uses interface-phys-config;
+        uses interface-common-state;
+        uses interface-counters-state;
+      }
+
+      uses interface-phys-holdtime-top;
+      uses subinterfaces-top;
+    }
+  }
+}
+						</code></pre>
+
+						<pre style="width:850px; position: relative; left:350px; bottom:980px;">Model Representation<code data-trim class="php">
++-- rw interfaces
+   +-- rw interface* [name]
+      +-- rw config
+      |  +-- rw description?        String
+      |  +-- rw enabled?            Boolean
+      |  +-- rw mtu?                Uint16
+      |  +-- rw type_               Identityref
+      |  +-- rw name?               String
+      +-- ro state
+         +-- ro description?        String
+         +-- ro name?               String
+         +-- ro enabled?            Boolean
+         +-- ro oper_status         Enumeration
+         +-- ro mtu?                Uint16
+         +-- ro type_               Identityref
+         +-- ro admin_status        Enumeration
+         +-- ro ifindex?            Uint32
+         +-- rw counters
+            +-- rw in_octets?       Counter64
+            +-- rw in_discards?     Counter64
+            +-- rw last_clear?      DateAndTime
+						</code></pre>
+
+
+					</section>
+
+					<section>
+            <h2><strong>When</strong> can I have it?</h2>
+					</section>
+
+					<section>
+						<img src="napalm_openconfig_teaser/half_life_3.jpg" alt="I want to believe">
+					</section>
+				</section>
+
+				<section>
+					<section>
+            <h2><strong>NAPALM</strong></h2>
+						Network Automation and Programmability Abstraction Layer with Multi-vendor support
+					</section>
+
+					<section>
+						<ul>
+							<li>Support for multiple NOS like IOS-XE, IOS-XR, NXOS, EOS, JunOS and many others</li>
+							<li>Provides same API
+							<li>Abstracts operations to merge/replace/commit/rollback configuration</li>
+							<li>Abstracts/Normalizes data (own models, poorly defined)</li>
+							<li>Uses already avaialble mechanisms (NETCONF, REST APIs, ssh screen scraping...)</li>
+						</ul>
+					</section>
+
+					<section>
+            I love the smell of <strong><code>YANG</code></strong> in the morning
+					</section>
+
+					<section>
+            IOS/EOS Native Configuration to OpenConfig parser
+						<pre><code data-trim class="yaml">
+interfaces:
+    interface:
+        _block_capture: "(?P&lt;block&gt;interface (?P&lt;key&gt;(Ethernet|Management|Loopback|Port-Channel)\\d+)\n(?:.|\n)*?^!$)"
+        name:
+            _search: "interface (?P&lt;value&gt;(Ethernet|Management|Loopback|Port-Channel).*)"
+            _type: py23_compat.text_type
+        config:
+            name:
+                _search: "interface (?P&lt;value&gt;(Ethernet|Management|Loopback|Port-Channel).*)"
+                _type: py23_compat.text_type
+            type_:
+                _search: "interface (?P&lt;value&gt;(Ethernet|Management|Loopback|Port-Channel)).*"
+                _type: mapping
+                _map:
+                    Ethernet: napalm_yang.ianaift.Ethernetcsmacd
+                    Management: napalm_yang.ianaift.Ethernetcsmacd
+                    Loopback: napalm_yang.ianaift.Softwareloopback
+                    Port-Channel: napalm_yang.ianaift.Ieee8023Adlag
+            enabled:
+                _present: "no shutdown"
+                _type: boolean
+            description:
+                _search: "description (?P&lt;value&gt;.*)"
+                _type: py23_compat.text_type
+                _default;: ""
+            mtu:
+                _search: "mtu (?P&lt;value&gt;[0-9]+)"
+                _type: int
+                _default;: 1500
+						</code></pre>
+					</section>
+
+					<section>
+            JunOS Native Configuration to OpenConfig parser
+						<pre><code data-trim class="yaml">
+interfaces:
+    interface:
+        _subblock_capture: "(?P&lt;block&gt;^(?P&lt;key&gt;\\S+) {{\\n(?:.|\\n)*?^}}$)"
+        name:
+            _search: "^(?P&lt;value&gt;\\S+) {\\n"
+            _type: py23_compat.text_type
+        config:
+            name:
+                _search: "(?P&lt;value&gt;\\S+) {\\n"
+                _type: py23_compat.text_type
+            type_:
+                _search: "^(?P&lt;value&gt;[a-z]+).* {\\n"
+                _type: mapping
+                _map:
+                    ge: napalm_yang.ianaift.Ethernetcsmacd
+                    lo: napalm_yang.ianaift.Softwareloopback
+                    ae: napalm_yang.ianaift.Ieee8023Adlag
+            enabled:
+                _absent: "disable"
+                _type: boolean
+            description:
+                _search: "description (?P&lt;value&gt;.*)"
+                _type: py23_compat.text_type
+                _default: ""
+            mtu:
+                _search: "mtu (?P&lt;value&gt;[0-9]+)"
+                _type: int
+                _default: 1500
+						</code></pre>
+					</section>
+
+					<section>
+            OpenConfig to IOS/EOS native configuration translator
+						<pre><code data-trim class="yaml">
+interfaces:
+    interface:
+        _string: "interface {key}\n"
+        _remove: "no interface {key}\n"
+        name:
+            _string: null
+        config:
+            name:
+                _string: null
+            type_:
+                _string: null
+            enabled:
+                _map:
+                    "true":
+                        _string: "no shutdown\n"
+                    "false":
+                        _string: "shutdown\n"
+            description:
+                _string: "description {value}\n"
+            mtu:
+                _string: "mtu {value}\n"
+						</code></pre>
+					</section>
+
+					<section>
+            OpenConfig to JunOS native configuration translator
+						<pre><code data-trim class="yaml">
+interfaces:
+    interface:
+        _string: "set interface {key}\n"
+        _remove: "delete interface {key}\n"
+        name:
+            _string: null
+        config:
+            name:
+                _string: null
+            type_:
+                _string: null
+            enabled:
+                _map:
+                    "true":
+                        _string: "delete interface {key} disable\n"
+                    "false":
+                        _string: "set interface {key} disable\n"
+            description:
+                _string: "set interface {key} description {value}\n"
+            mtu:
+                _string: "set interface {key} mtu {value}\n"
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Demo time</h2>
+					</section>
+
+					<section>
+						<pre><code data-trim class="python">
+>>> from napalm_base import get_network_driver
+>>> import napalm_yang
+>>>
+>>> eos_configuration = {
+...     'hostname': '127.0.0.1',
+...     'username': 'vagrant',
+...     'password': 'vagrant',
+...     'optional_args': {'port': 12443}
+... }
+>>>
+>>> # Connect to devices
+... eos = get_network_driver("eos")
+>>> e = eos(**eos_configuration)
+>>> e.open()
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim class="python">
+>>> # Get current interfaces configuration
+... running = e.parse_config("interfaces")
+>>> print(running.data_to_text())
++-- rw Interfaces
+   +-- rw interfaces
+      +-- rw interface* [name]
+         +-- rw Management1* [name]
+         |  +-- rw subinterfaces
+         |  |  +-- rw subinterface* [index]
+         |  +-- rw config
+         |  |  +-- rw enabled?                              True
+         |  |  +-- rw name?                                 Management1
+         |  |  +-- rw type_                                 ethernetCsmacd
+         |  |  +-- rw mtu?                                  1500
+         |  |  +-- rw description?
+         |  +-- ro state
+         |  |  +-- ro type_                                 None
+         |  |  +-- ro admin_status                          None (None)
+         |  |  +-- ro oper_status                           None (None)
+         |  +-- rw hold_time
+         |  |  +-- rw config
+         |  |  |  +-- rw down?                              0
+         |  |  |  +-- rw up?                                0
+         |  +-- rw name?                                    Management1
+         +-- rw Ethernet2* [name]
+         |  +-- rw subinterfaces
+         |  |  +-- rw subinterface* [index]
+         |  |  |  +-- rw Ethernet2.1* [index]
+         |  |  |  |  +-- rw index?                          0
+         |  |  |  |  +-- ro state
+         |  |  |  |  |  +-- ro admin_status                 None (None)
+         |  |  |  |  |  +-- ro oper_status                  None (None)
+         |  |  |  |  +-- rw config
+         |  |  |  |  |  +-- rw index?                       0
+         |  |  |  |  |  +-- rw enabled?                     True
+         |  |  |  |  |  +-- rw description?                 another subiface
+         |  |  |  |  |  +-- rw name?                        Ethernet2.1
+         |  |  |  +-- rw Ethernet2.2* [index]
+         |  |  |  |  +-- rw index?                          0
+         |  |  |  |  +-- ro state
+         |  |  |  |  |  +-- ro admin_status                 None (None)
+         |  |  |  |  |  +-- ro oper_status                  None (None)
+         |  |  |  |  +-- rw config
+         |  |  |  |  |  +-- rw index?                       0
+         |  |  |  |  |  +-- rw enabled?                     False
+         |  |  |  |  |  +-- rw description?                 asdasdasd
+         |  |  |  |  |  +-- rw name?                        Ethernet2.2
+         |  +-- rw config
+         |  |  +-- rw enabled?                              False
+         |  |  +-- rw name?                                 Ethernet2
+         |  |  +-- rw type_                                 ethernetCsmacd
+         |  |  +-- rw mtu?                                  1500
+         |  |  +-- rw description?                          so much oc
+         |  +-- ro state
+         |  |  +-- ro type_                                 None
+         |  |  +-- ro admin_status                          None (None)
+         |  |  +-- ro oper_status                           None (None)
+         |  +-- rw hold_time
+         |  |  +-- rw config
+         |  |  |  +-- rw down?                              0
+         |  |  |  +-- rw up?                                0
+         |  +-- rw name?                                    Ethernet2
+         +-- rw Port-Channel1* [name]
+         |  +-- rw subinterfaces
+         |  |  +-- rw subinterface* [index]
+         |  +-- rw config
+         |  |  +-- rw enabled?                              True
+         |  |  +-- rw name?                                 Port-Channel1
+         |  |  +-- rw type_                                 ieee8023adLag
+         |  |  +-- rw mtu?                                  1500
+         |  |  +-- rw description?                          blah
+         |  +-- ro state
+         |  |  +-- ro type_                                 None
+         |  |  +-- ro admin_status                          None (None)
+         |  |  +-- ro oper_status                           None (None)
+         |  +-- rw hold_time
+         |  |  +-- rw config
+         |  |  |  +-- rw down?                              0
+         |  |  |  +-- rw up?                                0
+         |  +-- rw name?                                    Port-Channel1
+         +-- rw Ethernet1* [name]
+         |  +-- rw subinterfaces
+         |  |  +-- rw subinterface* [index]
+         |  |  |  +-- rw Ethernet1.1* [index]
+         |  |  |  |  +-- rw index?                          0
+         |  |  |  |  +-- ro state
+         |  |  |  |  |  +-- ro admin_status                 None (None)
+         |  |  |  |  |  +-- ro oper_status                  None (None)
+         |  |  |  |  +-- rw config
+         |  |  |  |  |  +-- rw index?                       0
+         |  |  |  |  |  +-- rw enabled?                     False
+         |  |  |  |  |  +-- rw description?                 a subinterface, so awesome
+         |  |  |  |  |  +-- rw name?                        Ethernet1.1
+         |  +-- rw config
+         |  |  +-- rw enabled?                              True
+         |  |  +-- rw name?                                 Ethernet1
+         |  |  +-- rw type_                                 ethernetCsmacd
+         |  |  +-- rw mtu?                                  1500
+         |  |  +-- rw description?                          This is a description
+         |  +-- ro state
+         |  |  +-- ro type_                                 None
+         |  |  +-- ro admin_status                          None (None)
+         |  |  +-- ro oper_status                           None (None)
+         |  +-- rw hold_time
+         |  |  +-- rw config
+         |  |  |  +-- rw down?                              0
+         |  |  |  +-- rw up?                                0
+         |  +-- rw name?                                    Ethernet1
+         +-- rw Loopback1* [name]
+            +-- rw subinterfaces
+            |  +-- rw subinterface* [index]
+            +-- rw config
+            |  +-- rw enabled?                              True
+            |  +-- rw name?                                 Loopback1
+            |  +-- rw type_                                 softwareLoopback
+            |  +-- rw mtu?                                  1500
+            |  +-- rw description?                          a loopback
+            +-- ro state
+            |  +-- ro type_                                 None
+            |  +-- ro admin_status                          None (None)
+            |  +-- ro oper_status                           None (None)
+            +-- rw hold_time
+            |  +-- rw config
+            |  |  +-- rw down?                              0
+            |  |  +-- rw up?                                0
+            +-- rw name?                                    Loopback1
+
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim class="python">
+>>> # Let's create a candidate configuration off the running configuration
+... candidate = e.parse_config("interfaces")
+>>>
+>>> # Change description of existing interface
+... candidate.interfaces.interface["Management1"].config.description("Connected to oob1:et2")
+>>> # Remove description of existing interface
+... candidate.interfaces.interface["Port-Channel1"].config.description("")
+>>>
+>>> # Shutdown Ethernet1.1
+... candidate.interfaces.interface["Ethernet1"].\
+...       subinterfaces.subinterface["Ethernet1.1"].config.enabled(False)
+>>>
+>>> # Create new loopback interface
+... candidate.interfaces.interface.new_element("Loopback0")
+&lt;napalm_yang.yang_builtin_types.ListElement object at 0x1061c1690&gt;
+>>> candidate.interfaces.interface["Loopback0"].name("Loopback0")
+>>> candidate.interfaces.interface["Loopback0"].config.name("Loopback0")
+>>> candidate.interfaces.interface["Loopback0"].config.description("loopback0")
+>>> candidate.interfaces.interface["Loopback0"].config.enabled(True)
+>>> candidate.interfaces.interface["Loopback0"].config.mtu(1500)
+>>> candidate.interfaces.interface["Loopback0"].config.type_(napalm_yang.ianaift.Softwareloopback)
+>>>
+>>> # Removing existing subinterface
+... candidate.interfaces.interface["Ethernet2"].subinterfaces.subinterface.pop("Ethernet2.1")
+&lt;napalm_yang.yang_builtin_types.ListElement object at 0x10653c250&gt;
+>>>
+>>> # Removing existing interface
+... candidate.interfaces.interface.pop("Loopback1")
+&lt;napalm_yang.yang_builtin_types.ListElement object at 0x10653cc10&gt;
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim class="python">
+>>> new_config = e.translate_model(candidate, "interfaces")
+>>> print(new_config)
+interface Management1
+  description Connected to oob1:et2
+  no shutdown
+  mtu 1500
+interface Ethernet2
+  description so much oc
+  shutdown
+  mtu 1500
+interface Ethernet2.2
+  description asdasdasd
+  shutdown
+interface Port-Channel1
+  no description
+  no shutdown
+  mtu 1500
+interface Ethernet1
+  description This is a description
+  no shutdown
+  mtu 1500
+interface Ethernet1.1
+  description a subinterface, so awesome
+  shutdown
+interface Loopback0
+  description loopback0
+  no shutdown
+  mtu 1500
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim class="python">
+>>> merge = e.merge_model(candidate, running, "interfaces")
+>>> print(merge)
+no interface Loopback1
+interface Management1
+  description Connected to oob1:et2
+interface Ethernet2
+no interface Ethernet2.1
+interface Ethernet2.2
+interface Port-Channel1
+  no description
+interface Ethernet1
+  shutdown
+interface Ethernet1.1
+interface Loopback0
+  description loopback0
+  no shutdown
+  mtu 1500
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim class="diff">
+>>> # Merge it into the device
+... e.load_merge_candidate(config=merge)
+>>>
+>>> # See the diff matches our expectations
+... print(e.compare_config())
+@@ -18,10 +18,10 @@
+ username vagrant privilege 15 role network-admin secret 5 $1$vqaBSJj/$xZ/dqr2YzO6ZUja40dRK9.
+ !
+ interface Port-Channel1
+-   description blah
+ !
+ interface Ethernet1
+    description This is a description
++   shutdown
+    no switchport
+ !
+ interface Ethernet1.1
+@@ -39,10 +40,11 @@
+ interface Ethernet2.2
+    description asdasdasd
+ !
+-interface Loopback1
+-   description a loopback
++interface Loopback0
++   description loopback0
+ !
+ interface Management1
++   description Connected to oob1:et2
+    ip address 10.0.2.15/24
+ !
+ no ip routing
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim class="python">
+>>> # Let's commit the configuration now
+... e.commit_config()
+>>>
+>>> # Load again and verify it's empty
+... e.load_merge_candidate(config=merge)
+>>> print(e.compare_config())
+
+>>>
+						</code></pre>
+					</section>
+					
+				</section>
+
+
+				<section>
+					<h2><strong>Questions</strong>?</h2>
+					dbarrosop@dravetech.com</br>
+					<a href="https://www.dravetech.com/presos/napalm_openconfig_teaser.html">https://www.dravetech.com/presos/napalm_openconfig_teaser.html</a></br>
+				</section>
+
+
+			</div>
+		</div>
+
+               <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/lib/js/head.min.js"></script>
+	       <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+				width: 1920,
+				height: 1080,
+				controls: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
