@@ -78,36 +78,12 @@
 						<code>RFC6020</code> - A Data Modeling Language for the Network Configuration Protocol (NETCONF)
 					</section>
 
-					<section>
-						<h4>Very <strong>boring</strong></h4>
-					</section>
-
-					<section>
-						<h2>Why should you care about <strong>YANG</strong>?</h2>
-					</section>
-
-					<section>
-						<h4>You <strong>don't</strong></h4>
-					</section>
 
 					<section>
 						<h2>What is <strong>OpenConfig</strong>?</h2>
 						Vendor-neutral, model-driven network management designed by users</br>
 						<a href="http://www.openconfig.net/">http://www.openconfig.net/</a></br>
 						(written in <code>YANG</code>)
-					</section>
-
-					<section>
-						<h2>Why should you care about <strong>OpenConfig</strong>?</h2>
-					</section>
-
-					<section>
-						<ul>
-							<li>Forces vendors to normalize syntax configuration</li>
-							<li>Forces vendors to implement an RPC mechanism to interact with devices</li>
-							<li>Provides a streaming mechanism to send data out</li>
-						</ul>
-            <h4 class="fragment" style="position:relative; top:100px;">In theory</h4>
 					</section>
 
 					<section>
@@ -171,6 +147,18 @@ grouping interfaces-top {
 					</section>
 
 					<section>
+						<h2>Why should you care about <strong>OpenConfig</strong>?</h2>
+					</section>
+
+					<section>
+						<ul>
+							<li>Defines RPC service to interact with devices</li>
+							<li>Replaces configuration commands and state with data</li>
+							<li>Common data models regardless of vendor</li>
+						</ul>
+					</section>
+
+					<section>
 						<h2><strong>When</strong> can I have it?</h2>
 					</section>
 
@@ -187,11 +175,12 @@ grouping interfaces-top {
 
 					<section>
 						<ul>
-							<li>Support for multiple NOS like IOS-XE, IOS-XR, NXOS, EOS, JunOS and many others</li>
-							<li>Provides same API
-							<li>Abstracts operations to merge/replace/commit/rollback configuration</li>
-							<li>Abstracts/Normalizes data (own models, poorly defined)</li>
-							<li>Uses already avaialble mechanisms (NETCONF, REST APIs, ssh screen scraping...)</li>
+							<li>Python library</li>
+							<li>Support for multiple NOS</br><code>IOS-XE, IOS-XR, NXOS, EOS, JunOS</code> and many others</li>
+							<li>Provides common API</li>
+							<li>Abstracts operations</li>
+							<li>Normalizes data (own models, poorly defined)</li>
+							<li>Uses already available mechanisms</br><code>NETCONF, REST APIs, ssh screen scraping...</code></li>
 						</ul>
 					</section>
 
@@ -226,11 +215,11 @@ interfaces:
             description:
                 _search: "description (?P&lt;value&gt;.*)"
                 _type: py23_compat.text_type
-                _default;: ""
+                _default: ""
             mtu:
                 _search: "mtu (?P&lt;value&gt;[0-9]+)"
                 _type: int
-                _default;: 1500
+                _default: 1500
 						</code></pre>
 					</section>
 
