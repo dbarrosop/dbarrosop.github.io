@@ -46,7 +46,7 @@
 				</section>
 
 				<section> <!-- Help -->
-					<h3>How to <strong>navigate</strong> this tutorial?</h3>
+					<h3>How to <strong>navigate</strong> this presentation?</h3>
 					Press <code>left</code> and <code>right</code> to change sections. Press <code>up</code> and <code>down</code> to move within sections. Press <code>?</code> anytime for help.
 				</section>
 
@@ -328,14 +328,14 @@ grouping interfaces-top {
 						<pre style="font-size: 16px; width:850px; position:relative; right:550px">IOS<code data-trim class="yang">
 (...)
 interface GigabitEthernet2.1
- description another subiface
- platform ring rx 512
- platform ring tx 256
- encapsulation dot1Q 1 native
- ip address 172.20.0.1 255.255.255.0 secondary
- ip address 192.168.1.1 255.255.255.0
- ip redirects
- ip unreachables
+   description another subiface
+   platform ring rx 512
+   platform ring tx 256
+   encapsulation dot1Q 1 native
+   ip address 172.20.0.1 255.255.255.0 secondary
+   ip address 192.168.1.1 255.255.255.0
+   ip redirects
+   ip unreachables
 (...)
 						</code></pre>
 
@@ -367,7 +367,7 @@ interface GigabitEthernet2.1
 &lt;/configuration&gt;
 						</code></pre>
 
-						<pre style="font-size: 14px; width:1200px; position:relative; bottom: 980px; left:500px">OpenConfig<code data-trim class="json">
+						<pre class="fragment" data-fragment-index="1" style="font-size: 14px; width:1200px; position:relative; bottom: 980px; left:500px">OpenConfig<code data-trim class="json">
 {
     "interfaces": {
         "interface": {
@@ -419,7 +419,7 @@ interface GigabitEthernet2.1
     }
 }
 						</code></pre>
-            <img alt="arrow" src="../common/arrow_red.png" style="position: relative; bottom:2000px; transform: scale(0.1);">
+            <img class="fragment" data-fragment-index="1" alt="arrow" src="../common/arrow_red.png" style="position: relative; bottom:2000px; transform: scale(0.1);">
 
           </section>
 
@@ -482,21 +482,21 @@ interface GigabitEthernet2.1
 }
 						</code></pre>
 
-						<pre style="font-size: 16px; width:850px; position:relative; left:450px; bottom:1000px;">IOS<code data-trim class="yang">
+						<pre class="fragment" data-fragment-index="1" style="font-size: 16px; width:850px; position:relative; left:450px; bottom:1000px;">IOS<code data-trim class="yang">
 (...)
 interface GigabitEthernet2.1
- description another subiface
- platform ring rx 512
- platform ring tx 256
- encapsulation dot1Q 1 native
- ip address 172.20.0.1 255.255.255.0 secondary
- ip address 192.168.1.1 255.255.255.0
- ip redirects
- ip unreachables
+   description another subiface
+   platform ring rx 512
+   platform ring tx 256
+   encapsulation dot1Q 1 native
+   ip address 172.20.0.1 255.255.255.0 secondary
+   ip address 192.168.1.1 255.255.255.0
+   ip redirects
+   ip unreachables
 (...)
 						</code></pre>
 
-						<pre style="font-size: 16px; width:850px; position:relative; left:450px; bottom:1000px;">Junos<code data-trim class="xml">
+						<pre class="fragment" data-fragment-index="1" style="font-size: 16px; width:850px; position:relative; left:450px; bottom:1000px;">Junos<code data-trim class="xml">
 &lt;configuration&gt;
     &lt;interfaces&gt;
         (...)
@@ -524,13 +524,23 @@ interface GigabitEthernet2.1
 &lt;/configuration&gt;
 						</code></pre>
 
-            <img alt="arrow" src="../common/arrow_red.png" style="position: relative; bottom:2000px; transform: scale(0.1);">
+            <img class="fragment" data-fragment-index="1" alt="arrow" src="../common/arrow_red.png" style="position: relative; bottom:2000px; transform: scale(0.1);">
 
           </section>
 
-          <section data-background-color="#ffffff">
+          <section data-background-color="#ffffff" data-transition="slide-in fade-out">
             <h3><strong>Object</strong>-aware</h3>
-            <img src="diff.png" alt="diff">
+            <img src="diff_1.png" alt="diff_1">
+          </section>
+
+          <section data-background-color="#ffffff" data-transition="fade-in">
+            <h3><strong>Object</strong>-aware</h3>
+			<img src="diff_2.png" alt="diff_2">
+          </section>
+
+          <section data-background-color="#ffffff" data-transition="fade-in">
+            <h3><strong>Object</strong>-aware</h3>
+			<img src="diff_3.png" alt="diff_3">
           </section>
 
 		  <section>
@@ -562,9 +572,7 @@ interface GigabitEthernet2.1
 
             </code></pre>
 
-            We can diff different objects and compute deltas.
-
-						<pre style="position:relative; bottom:925px; left: 850px;">EOS Configuration Merge<code data-trim class="python">
+						<pre style="position:relative; bottom:845px; left: 850px;">EOS Configuration Merge<code data-trim class="python">
 >>> config = candidate.translate_config(
 ...              profile=eos_device.profile,
 ...              merge=running)
