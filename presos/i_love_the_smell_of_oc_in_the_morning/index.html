@@ -597,41 +597,41 @@ no interface Loopback1
 				<pre style="position:relative; width:1300px; right: 400px; top: 90px;">IOS<code data-trim class="yaml">
 interfaces:
     interface:
-        _parse:
+        _process:
             mode: block
             regexp: "(?P&lt;block&gt;interface (?P&lt;key&gt;(\\w|-)*\\d+)\n(?:.|\n)*?^!$)"
         config:
             enabled:
-                _parse:
+                _process:
                     mode: is_present
                     regexp: "(?P&lt;value&gt;no shutdown)"
             description:
-                _parse:
+                _process:
                     mode: search
                     regexp: "description (?P&lt;value&gt;.*)"
             mtu:
-                _parse:
+                _process:
                     mode: search
                     regexp: "mtu (?P&lt;value&gt;[0-9]+)"
 			</code></pre>
 				<pre style="position:relative; width:700px; left: 670px; bottom: 560px">Junos<code data-trim class="yaml">
 interfaces:
     interface:
-        _parse:
+        _process:
             mode: xpath
             xpath: "interfaces/interface"
             key: name
         config:
             enabled:
-                _parse:
+                _process:
                     mode: is_absent
                     xpath: "disable"
             description:
-                _parse:
+                _process:
                     mode: xpath
                     xpath: description
             mtu:
-                _parse:
+                _process:
                     mode: xpath
                     xpath: mtu
 			</code></pre>
