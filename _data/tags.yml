@@ -3,6 +3,9 @@
   name: automation
   description: Examples, best practices, guides...
 -
+  name: BGP
+  description: BGP related topics
+-
   name: napalm
   description: Information related to napalm.
 -
