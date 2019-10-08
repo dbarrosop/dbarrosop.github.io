@@ -13292,7 +13292,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>At this point there is litttle argument about our motivation for automation, however, why don't we apply the same principles when writing our automation system?</p>
+<p>At this point there is little argument about our motivation for automation, however, why don't we apply the same principles when writing our automation system?</p>
 
 </div>
 </div>
@@ -13393,7 +13393,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you need external services standardized and adopt them across the board (i.e. databases, message buses, etc)</p>
+<p>If you need external services, standardize and adopt them across the board (i.e., databases, message buses, etc)</p>
 
 </div>
 </div>
@@ -13401,7 +13401,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Adopt a coding style (or an opinionated linter) to minimize arguments about style (i.e, black)</p>
+<p>Adopt a coding style (or an opinionated linter) to minimize arguments about style (i.e., black)</p>
 
 </div>
 </div>
@@ -13409,7 +13409,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The goal is to be able to collaborate on multiple projects without having to pay a very expensive context switch or waste time arguing about tabs vs space or mysql vs postgres</p>
+<p>The goal is to be able to collaborate on multiple projects without having to pay a very expensive context switch cost or waste time arguing about tabs vs space or MySQL vs postgres</p>
 
 </div>
 </div>
@@ -13429,7 +13429,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Readability">Readability<a class="anchor-link" href="#Readability">&#182;</a></h3><p>Code is read more often than is written so optimize for reading</p>
+<h3 id="Readability">Readability<a class="anchor-link" href="#Readability">&#182;</a></h3><p>Code is read more often than it is written so optimize for reading</p>
 
 </div>
 </div>
@@ -13548,7 +13548,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First example has a bug, good luck finding it and fixint it :)</p>
+<p>First example has a bug, good luck finding it and fixing it :)</p>
 
 </div>
 </div>
@@ -13701,7 +13701,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Abstractions are good for separating of concerns</p>
+<p>Abstractions are good for the separation of concerns</p>
 
 </div>
 </div>
@@ -13749,8 +13749,8 @@ a.anchor-link {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Developer's-tooling">Developer's tooling<a class="anchor-link" href="#Developer's-tooling">&#182;</a></h2><p>A developer should have tooling to:</p>
 <ol>
-<li>Help writing code; autocompletion, inline documentation, refactoring, etc...</li>
-<li>Inspect and explore what the program is doing during it's execution</li>
+<li>Help write code; autocompletion, inline documentation, refactoring, etc...</li>
+<li>Inspect and explore what the program is doing during its execution</li>
 <li>Observe how the system behaves in production</li>
 </ol>
 
@@ -13760,7 +13760,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Nornir-and-how-it-helps-meeting-those-goals">Nornir and how it helps meeting those goals<a class="anchor-link" href="#Nornir-and-how-it-helps-meeting-those-goals">&#182;</a></h1>
+<h1 id="Nornir-and-how-it-helps-meet-those-goals">Nornir and how it helps meet those goals<a class="anchor-link" href="#Nornir-and-how-it-helps-meet-those-goals">&#182;</a></h1>
 </div>
 </div>
 </div></section><section>
@@ -13915,7 +13915,7 @@ Hi!
 <li>Read inventory data from various sources</li>
 <li>Process results and signals from tasks</li>
 </ol>
-<p>You can run arbitrary python code where needed but by following the plugin patters it becomes easier to know what to expect</p>
+<p>You can run arbitrary python code where needed but by following the plugin patterns it becomes easier to know what to expect</p>
 
 </div>
 </div>
@@ -13979,7 +13979,7 @@ Hi!
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Abstractions">Abstractions<a class="anchor-link" href="#Abstractions">&#182;</a></h3><ul>
-<li>Tasks is the minimum unit of work</li>
+<li>Tasks are the minimum unit of work</li>
 <li>Tasks can embed other tasks</li>
 </ul>
 
@@ -14024,7 +14024,7 @@ Hi!
 <p>Separation of concerns and abstractions:</p>
 <ul>
 <li><code>deploy_some_complex_service</code> is our service-abstraction</li>
-<li><code>configure_complex_service</code> is our configuration abstractions and is reponsible solely of making sure correct configuration is generated</li>
+<li><code>configure_complex_service</code> is our configuration abstraction and is solely reponsible of making sure the correct configuration is generated</li>
 <li><code>napalm</code>, <code>netmiko</code>, <code>ncclient</code> tasks represent our device abstractions and are responsible of interacting with our network equipment</li>
 </ul>
 <p>Each abstraction is independent and can be tested independently with standard python mocking and testing libraries.</p>
