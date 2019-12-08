@@ -1,0 +1,80 @@
+baseURL: "https://www.dravetech.com/"
+languageCode: "en-us"
+
+
+theme: "hello-friend-ng"
+
+rssLimit: 10  # Maximum number of items in the RSS feed.
+
+title: "Dravetech"
+subtitle: "Random thoughts"
+keywords: "development programming network automation orchestration golang python napalm nornir gornir yang yangify"
+copyright: "David Barroso Pardo" # This message is only used by the RSS template.
+
+params:
+  dateform       : "Jan 2, 2006"
+  dateformShort  : "Jan 2"
+  dateformNum    : "2006-01-02"
+  dateformNumTime: "2006-01-02 15:04 -0700"
+
+  # Set disableReadOtherPosts to true in order to hide the links to other posts.
+  disableReadOtherPosts: false
+
+  # Metadata mostly used in document's head
+  description: "Homepage and blog by Djordje Atlialp"
+  keywords: "homepage, blog, science, informatics, development, programming"
+  images: [""]
+
+  # Directory name of your blog content (default is `content/posts`)
+  contentTypeName: "posts"
+
+  # Default theme "light" or "dark"
+  defaultTheme: "dark"
+
+  social:
+      - name: "twitter"
+        url: "https://twitter.com/dbarrosop"
+      - name: "github"
+        url: "https://github.com/dbarrosop"
+      - name: "linkedin"
+        url: "https://linkedin.com/dbarrosop"
+      - name: "email"
+        url: "mailto:dbarrosop@dravetech.com"
+
+  customCSS:
+      - /css/callout.css
+
+
+
+languages:
+    en:
+        title: "Dravetech"
+        subtitle: "Random thoughts"
+        keywords: "development programming network automation orchestration golang python napalm nornir gornir yang yangify"
+        copyright: "David Barroso Pardo" # This message is only used by the RSS template.
+        readOtherPosts: "Read other posts"
+
+        params:
+            logo:
+                logoText: "dravetech"
+                logoHomeLink: "/"
+menu:
+    main:
+      - identifier: "blog"
+        name      : "blog"
+        url       : "/posts"
+        weight    : "1"
+      - identifier: "about"
+        name      : "about"
+        url       : "/about"
+        weight    : "2"
+      - identifier: "tags"
+        name      : "tags"
+        url       : "/tags"
+        weight    : "2"
+
+taxonomies:
+    tag: tags
+
+permalinks:
+    posts: /:year/:month/:day/:title/

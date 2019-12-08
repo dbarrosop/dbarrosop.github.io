@@ -1,0 +1,578 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Dravetech</title>
+        <link>http://localhost:1313/posts/</link>
+        <description>Recent content in Posts on Dravetech</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>David Barroso Pardo</copyright>
+        <lastBuildDate>Thu, 14 Jan 2016 18:00:00 +0200</lastBuildDate>
+        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>How to create a vagrant for IOS-XR</title>
+            <link>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</link>
+            <pubDate>Thu, 14 Jan 2016 18:00:00 +0200</pubDate>
+            
+            <guid>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</guid>
+            <description>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
+As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is.</description>
+            <content type="html"><![CDATA[<p>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.</p>
+<p>As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is. To show you how to do it we will create a vagrant box for IOS-XR. Before we start you will need the following:</p>
+<ul>
+<li>Vagrant, of course. For more information check this [post]({% post_url 2016-01-08-vagrant-for-network-engineers %}).</li>
+<li>Virtualbox.</li>
+<li>An OVA or a VMDK for IOS-XR. I am using <code>iosxrv-k9-demo-5.3.0.ova</code>.</li>
+</ul>
+<div class="bs-callout bs-callout-info dark-theme">
+  In order to get it you will need a valid Cisco account. Ask your sales representative or just nag them on twitter for making everything so difficult. The latter will not work but at least you will vent ;)
+</div>
+
+<div class="bs-callout bs-callout-warning dark-theme">
+  IOS-XR started supporting DHCP client in the management interface in the image 5.3.0 so older images will not work.
+</div>
+
+<h3 id="creating-the-base-image">Creating the base image</h3>
+<p>Creating a base image is as simple as creating a new VM and configuring it in any way you want. I am not going to explain how to get started with IOS-XR on Virtualbox because there are plenty of posts already doing that. For example, <a href="http://blog.alainmoretti.com/ios-xrv-working-on-virtualbox/">this post</a>.</p>
+<!-- raw HTML omitted -->
+<p>Once your VM is ready and can access it using the serial port use the initial configuration wizard to create the admin user <code>vagrant</code> with password <code>vagrant</code> and apply the following configuration:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">interface MgmtEth0/0/CPU0/0
+ ipv4 address dhcp
+
+ssh server v2
+ssh server rate-limit <span style="color:#ae81ff">600</span>
+xml agent tty
+</code></pre></div><h3 id="creating-the-box">Creating the box</h3>
+<p>Now that we have the VM ready we just have to export it in <code>.box</code> format. First, go to a temporal folder and create a file named <code>Vagrantfile</code> with the following content:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># -*- mode: ruby -*-</span>
+<span style="color:#75715e"># vi: set ft=ruby :</span>
+
+<span style="color:#66d9ef">Vagrant</span><span style="color:#f92672">.</span>configure(<span style="color:#ae81ff">2</span><span style="color:#f92672"></span>) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>provider <span style="color:#e6db74">&#39;virtualbox&#39;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>_, override<span style="color:#f92672">|</span>
+    <span style="color:#75715e"># Disable synced folders</span>
+    config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>synced_folder <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">/vagrant</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">disabled</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>ssh<span style="color:#f92672">.</span>username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vagrant</span><span style="color:#e6db74">&#34;</span>
+  config<span style="color:#f92672">.</span>ssh<span style="color:#f92672">.</span>password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vagrant</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>Go to your terminal and execute the following command in the same temporal folder you created the <code>Vagrantfile</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant package --base base_vm_for_iosxr --output iosxrv-k9-demo-5.3.0.box --vagrantfile Vagrantfile
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Attempting graceful shutdown of VM...
+    base_vm_for_iosxr: Guest communication could not be established! This is usually because
+    base_vm_for_iosxr: SSH is not running, the authentication information was changed,
+    base_vm_for_iosxr: or some other networking issue. Vagrant will force halt, <span style="color:#66d9ef">if</span>
+    base_vm_for_iosxr: capable.
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Forcing shutdown of VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Clearing any previously set forwarded ports...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Exporting VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Compressing package to: /Users/dbarroso/Downloads/iosxrv-k9-demo-5.3.0.box
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Packaging additional file: Vagrantfile
+
+/tmp/vagrant_tmp$ ls *.box
+iosxrv-k9-demo-5.3.0.box
+</code></pre></div><!-- raw HTML omitted -->
+<p>Now you can stop and delete the base VM you created if you want.</p>
+<h3 id="importing-the-box">Importing the box</h3>
+<p>The last step is to import the box we created before into vagrant:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant box add --name IOSXRv-5.3.0 iosxrv-k9-demo-5.3.0.box
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; box: Box file was not detected as metadata. Adding it directly...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; box: Adding box <span style="color:#e6db74">&#39;IOSXRv-5.3.0&#39;</span> <span style="color:#f92672">(</span>v0<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> provider:
+    box: Unpacking necessary files from: file:///Users/dbarroso/Downloads/iosxrv-k9-demo-5.3.0.box
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; box: Successfully added box <span style="color:#e6db74">&#39;IOSXRv-5.3.0&#39;</span> <span style="color:#f92672">(</span>v0<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;virtualbox&#39;</span>!
+
+/tmp/vagrant_tmp$ vagrant box list
+CumulusCommunity/cumulus-vx          <span style="color:#f92672">(</span>virtualbox, 2.5.5<span style="color:#f92672">)</span>
+IOSXRv-5.3.0                         <span style="color:#f92672">(</span>virtualbox, 0<span style="color:#f92672">)</span>
+csr1000v                             <span style="color:#f92672">(</span>virtualbox, 0<span style="color:#f92672">)</span>
+hashicorp/precise64                  <span style="color:#f92672">(</span>virtualbox, 1.1.0<span style="color:#f92672">)</span>
+juniper/ffp-12.1X47-D20.7-packetmode <span style="color:#f92672">(</span>virtualbox, 0.5.0<span style="color:#f92672">)</span>
+ubuntu/trusty64                      <span style="color:#f92672">(</span>virtualbox, 20151105.0.0<span style="color:#f92672">)</span>
+vEOS-4.15.2F                         <span style="color:#f92672">(</span>virtualbox, 0<span style="color:#f92672">)</span>
+</code></pre></div><p>And that's it. You IOS-XR box is ready to use.</p>
+<h3 id="using-your-vagrant-box">Using your Vagrant box</h3>
+<p>Now that you have your box ready you can create a <code>Vagrantfile</code> with your lab configuration and have it ready in a matter of seconds. For example, if you create a <code>Vagrantfile</code> with the following content:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">Vagrant</span><span style="color:#f92672">.</span>configure(<span style="color:#ae81ff">2</span><span style="color:#f92672"></span>) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">eos</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>eos<span style="color:#f92672">|</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vEOS-4.15.2F</span><span style="color:#e6db74">&#34;</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">443</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12443</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;https&#39;</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">iosxr</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>iosxr<span style="color:#f92672">|</span>
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IOSXRv-5.3.0</span><span style="color:#e6db74">&#34;</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">22</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12202</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;ssh&#39;</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>You will get with one command a lab with an EOS switch and an IOS-XR router, each with two interfaces:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant up eos iosxr
+Bringing machine <span style="color:#e6db74">&#39;eos&#39;</span> up with <span style="color:#e6db74">&#39;virtualbox&#39;</span> provider...
+Bringing machine <span style="color:#e6db74">&#39;iosxr&#39;</span> up with <span style="color:#e6db74">&#39;virtualbox&#39;</span> provider...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; eos: Importing base box <span style="color:#e6db74">&#39;vEOS-4.15.2F&#39;</span>...
+... Omitting output <span style="color:#66d9ef">for</span> brevity...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; iosxr: Importing base box <span style="color:#e6db74">&#39;IOSXRv-5.3.0&#39;</span>...
+... Omitting output <span style="color:#66d9ef">for</span> brevity...
+</code></pre></div><p>Now you can connect to your IOS-XR machine, enable the interfaces and check with LLDP that the lab is connected as you wanted:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant ssh iosxr
+vagrant@127.0.0.1<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
+RP/0/0/CPU0:ios#conf
+Sat Dec <span style="color:#ae81ff">26</span> 16:51:35.713 UTC
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config<span style="color:#f92672">)</span><span style="color:#75715e">#interface GigabitEthernet0/0/0/0</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#no shut</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#interface GigabitEthernet0/0/0/1</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#no shut</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#commit</span>
+Sat Dec <span style="color:#ae81ff">26</span> 16:51:47.373 UTC
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#end</span>
+
+RP/0/0/CPU0:ios#show lldp neighbors
+Sat Dec <span style="color:#ae81ff">26</span> 16:52:34.939 UTC
+Capability codes:
+        <span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Router, <span style="color:#f92672">(</span>B<span style="color:#f92672">)</span> Bridge, <span style="color:#f92672">(</span>T<span style="color:#f92672">)</span> Telephone, <span style="color:#f92672">(</span>C<span style="color:#f92672">)</span> DOCSIS Cable Device
+        <span style="color:#f92672">(</span>W<span style="color:#f92672">)</span> WLAN Access Point, <span style="color:#f92672">(</span>P<span style="color:#f92672">)</span> Repeater, <span style="color:#f92672">(</span>S<span style="color:#f92672">)</span> Station, <span style="color:#f92672">(</span>O<span style="color:#f92672">)</span> Other
+
+Device ID       Local Intf          Hold-time  Capability     Port ID
+localhost       Gi0/0/0/0           <span style="color:#ae81ff">120</span>        B               Ethernet1
+localhost       Gi0/0/0/1           <span style="color:#ae81ff">120</span>        B               Ethernet2
+
+Total entries displayed: <span style="color:#ae81ff">2</span>
+</code></pre></div><p>Finally, when you are done you can liberate resources by stopping the VMs or just destroying the lab:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant destroy
+    iosxr: Are you sure you want to destroy the <span style="color:#e6db74">&#39;iosxr&#39;</span> VM? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; iosxr: Forcing shutdown of VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; iosxr: Destroying VM and associated drives...
+    eos: Are you sure you want to destroy the <span style="color:#e6db74">&#39;eos&#39;</span> VM? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; eos: Forcing shutdown of VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; eos: Destroying VM and associated drives...
+</code></pre></div><h4 id="provisioning-vms-automatically">Provisioning VMs automatically</h4>
+<p>Soon I will blog on how to auto provision the VMs automatically in a very simple way.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>As you can see it is very easy to create a box. For more information I suggest you to look into the official <a href="https://docs.vagrantup.com/v2/boxes/base.html">documentation</a> and if you plan to create a lot of boxes and you want to automate the process I suggest you to look into <a href="https://www.packer.io/intro/getting-started/vagrant.html">packer</a>.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Vagrant Introduction for network engineers</title>
+            <link>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</link>
+            <pubDate>Fri, 08 Jan 2016 18:00:00 +0200</pubDate>
+            
+            <guid>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</guid>
+            <description>&lt;p&gt;I don&#39;t want to spend too much time explaining what vagrant is so here is their own introduction:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.&lt;/p&gt;
+&lt;p&gt;To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+            <content type="html"><![CDATA[<p>I don't want to spend too much time explaining what vagrant is so here is their own introduction:</p>
+<blockquote>
+<p>Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.</p>
+<p>To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.</p>
+</blockquote>
+<h3 id="why-vagrant">Why Vagrant?</h3>
+<p>Vagrant allows you to define in a simple configuration file a virtual environment that you can <code>create</code>, <code>start</code>, <code>stop</code>, <code>destroy</code> with a single command on your CLI. As the environment is specified entirely in a file, or set of files, you can easily share it with colleagues.</p>
+<p>For example, below is a development environment I created for <a href="https://github.com/napalm-automation/napalm">napalm</a>. This allows us to share the environment between all the developers so we all can run consistent tests while coding:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># -*- mode: ruby -*-</span>
+<span style="color:#75715e"># vi: set ft=ruby :</span>
+
+<span style="color:#66d9ef">Vagrant</span><span style="color:#f92672">.</span>configure(<span style="color:#ae81ff">2</span><span style="color:#f92672"></span>) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">base</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>base<span style="color:#f92672">|</span>
+    base<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">hashicorp/precise64</span><span style="color:#e6db74">&#34;</span>
+
+    base<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">22</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12200</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;ssh&#39;</span>
+
+    base<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>,
+                                       <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">10.0.1.100</span><span style="color:#e6db74">&#34;</span>
+    base<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>,
+                                       <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">10.0.2.100</span><span style="color:#e6db74">&#34;</span>
+
+    base<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>provision <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">shell</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">inline</span>: <span style="color:#e6db74">&lt;&lt;-SHELL
+</span><span style="color:#e6db74"></span>      sudo apt<span style="color:#f92672">-</span>get update
+      sudo apt<span style="color:#f92672">-</span>get install lldpd <span style="color:#f92672">-</span>y
+    <span style="color:#66d9ef">SHELL</span>
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">eos</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>eos<span style="color:#f92672">|</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vEOS-4.15.2F</span><span style="color:#e6db74">&#34;</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">22</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12201</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;ssh&#39;</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">443</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12443</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;https&#39;</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>,
+                                      <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>,
+                                      <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>provision <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">host_shell</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">inline</span>: <span style="color:#e6db74">&lt;&lt;-SHELL
+</span><span style="color:#e6db74"></span>      <span style="color:#f92672">.</span>/provision<span style="color:#f92672">.</span>py eos <span style="color:#ae81ff">12443</span> <span style="color:#f92672"></span>vagrant vagrant
+    <span style="color:#66d9ef">SHELL</span>
+
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">iosxr</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>iosxr<span style="color:#f92672">|</span>
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IOSXRv-5.3.0</span><span style="color:#e6db74">&#34;</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">22</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12202</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;ssh&#39;</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>,
+                                        <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>,
+                                        <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>provision <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">host_shell</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">inline</span>: <span style="color:#e6db74">&lt;&lt;-SHELL
+</span><span style="color:#e6db74"></span>      <span style="color:#f92672">.</span>/provision<span style="color:#f92672">.</span>py iosxr <span style="color:#ae81ff">12202</span> <span style="color:#f92672"></span>vagrant vagrant
+    <span style="color:#66d9ef">SHELL</span>
+
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">junos</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>junos<span style="color:#f92672">|</span>
+    junos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">juniper/ffp-12.1X47-D20.7-packetmode</span><span style="color:#e6db74">&#34;</span>
+
+    junos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">22</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12203</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;ssh&#39;</span>
+
+    junos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>,
+                                        <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    junos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>,
+                                        <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+
+    junos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>provision <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">host_shell</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">inline</span>: <span style="color:#e6db74">&lt;&lt;-SHELL
+</span><span style="color:#e6db74"></span>      <span style="color:#f92672">.</span>/provision<span style="color:#f92672">.</span>py junos <span style="color:#ae81ff">12203</span> <span style="color:#f92672"></span>vagrant vagrant
+    <span style="color:#66d9ef">SHELL</span>
+
+  <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">end</span>
+</code></pre></div><h3 id="requirements">Requirements</h3>
+<p>These are the requirements for using vagrant:</p>
+<ul>
+<li><a href="https://www.vagrantup.com/">Vagrant</a>.</li>
+<li><a href="https://www.virtualbox.org">VirtualBox</a> or another supported <a href="https://docs.vagrantup.com/v2/providers/">provider</a>.</li>
+<li><a href="https://docs.vagrantup.com/v2/boxes.html">Boxes</a>, either <a href="https://www.virtualbox.org">publicly available</a> or created by you.</li>
+</ul>
+<h4 id="boxes">Boxes</h4>
+<p>Boxes are base images that can be used to instantiate the VMs that will comprise your environment. These are some of the boxes I think are more interesting for network engineers:</p>
+<ul>
+<li><strong>hashicorp/precise64</strong> - Standard Ubuntu (publicly available via hashicorp's repository)</li>
+<li><strong>CumulusCommunity/cumulus-vx</strong> - Cumulus Linux (publicly available via hashicorp's repository)</li>
+<li><strong>juniper/ffp-12.1X47-D20.7-packetmode</strong> - JunOS (publicly available via hashicorp's repository)</li>
+<li><strong>vEOS-4.15.2F</strong> - vEOS 4.15.2F (for instructions on how to install this box check <a href="https://eos.arista.com/using-veos-with-vagrant-and-virtualbox/">this</a> post from Arista)</li>
+<li><strong>IOSXRv-5.3.0</strong> - I will blog on how to create this one.</li>
+</ul>
+<p>Boxes that are publicly available can be installed with the command <code>vagrant box add $name</code>, where name is the name of the box, i.e.:</p>
+<pre><code>$ vagrant box add hashicorp/precise64
+==&gt; box: Loading metadata for box 'hashicorp/precise64'
+    box: URL: https://atlas.hashicorp.com/hashicorp/precise64
+This box can work with multiple providers! The providers that it
+can work with are listed below. Please review the list and choose
+the provider you will be working with.
+
+1) hyperv
+2) virtualbox
+3) vmware_fusion
+
+Enter your choice: 2
+==&gt; box: Adding box 'hashicorp/precise64' (v1.1.0) for provider: virtualbox
+    box: Downloading: https://vagrantcloud.com/hashicorp/boxes/precise64/versions/1.1.0/providers/virtualbox.box
+==&gt; box: Successfully added box 'hashicorp/precise64' (v1.1.0) for 'virtualbox'!
+</code></pre><p>You can check the ones you have available with <code>vagrant box list</code>:</p>
+<pre><code>$ vagrant box list
+CumulusCommunity/cumulus-vx          (virtualbox, 2.5.3)
+IOSXRv-5.3.0                         (virtualbox, 0)
+hashicorp/precise64                  (virtualbox, 1.1.0)
+juniper/ffp-12.1X47-D20.7-packetmode (virtualbox, 0.5.0)
+vEOS-4.15.2F                         (virtualbox, 0)
+</code></pre><h3 id="how-does-it-work">How does it work?</h3>
+<p>Assuming the previous <code>Vagranfile</code>, if I type <code>vagrant up</code> I will get a lab up and running with the following characteristics:</p>
+<ul>
+<li>4 VMs running 4 different operating systems: <strong>Linux</strong>, <strong>vEOS</strong>, <strong>JunOS</strong> and <strong>IOS-XR</strong>.</li>
+<li>Each VM is going to have 3 NICs: a management interface, one connected to <code>link_1</code> and another one to <code>link_2</code>.</li>
+<li>VMs will be provisioned automatically with some initial configuration as defined in the configuration file. I am using a script for this task that is triggered by the <a href="https://github.com/phinze/vagrant-host-shell"><code>host_shell</code> provisioner</a>.</li>
+<li>All the machines will be accessible via SSH and, in addition, vEOS will be accessible via the eAPI.</li>
+</ul>
+<p>Once all the VMs have been started I can easily connect to them via SSH with the following command <code>vagrant ssh $name</code>, where name is the name of the VM, i.e., <code>vagrant ssh eos</code>.</p>
+<p>You can also start or stop a subset of VMs easily by specifying them as a list. In the following example I am going to start the VMs running Linux (<code>base</code>) and vEOS (<code>eos</code>) only and then I am going to connect to them and check LLDP:</p>
+<pre><code>$ vagrant up base eos
+Bringing machine 'base' up with 'virtualbox' provider...
+Bringing machine 'eos' up with 'virtualbox' provider...
+==&gt; base: Importing base box 'hashicorp/precise64'...
+==&gt; base: Matching MAC address for NAT networking...
+==&gt; base: Checking if box 'hashicorp/precise64' is up to date...
+==&gt; base: Setting the name of the VM: vagrant_base_1450958942493_11667
+==&gt; base: Fixed port collision for 22 =&gt; 2222. Now on port 2200.
+==&gt; base: Clearing any previously set network interfaces...
+==&gt; base: Preparing network interfaces based on configuration...
+    base: Adapter 1: nat
+    base: Adapter 2: intnet
+    base: Adapter 3: intnet
+==&gt; base: Forwarding ports...
+    base: 22 =&gt; 2200 (adapter 1)
+==&gt; base: Booting VM...
+==&gt; base: Waiting for machine to boot. This may take a few minutes...
+    base: SSH address: 127.0.0.1:2200
+    base: SSH username: vagrant
+    base: SSH auth method: private key
+    base: Warning: Connection timeout. Retrying...
+    base:
+    base: Vagrant insecure key detected. Vagrant will automatically replace
+    base: this with a newly generated keypair for better security.
+    base:
+    base: Inserting generated public key within guest...
+    base: Removing insecure key from the guest if it's present...
+    base: Key inserted! Disconnecting and reconnecting using new SSH key...
+==&gt; base: Machine booted and ready!
+==&gt; base: Checking for guest additions in VM...
+    base: The guest additions on this VM do not match the installed version of
+    base: VirtualBox! In most cases this is fine, but in rare cases it can
+    base: prevent things such as shared folders from working properly. If you see
+    base: shared folder errors, please make sure the guest additions within the
+    base: virtual machine match the version of VirtualBox you have installed on
+    base: your host and reload your VM.
+    base:
+    base: Guest Additions Version: 4.2.0
+    base: VirtualBox Version: 5.0
+==&gt; base: Configuring and enabling network interfaces...
+==&gt; base: Mounting shared folders...
+    base: /vagrant =&gt; /Users/dbarroso/Documents/workspace/spotify/napalm/test/unit/vagrant
+==&gt; base: Running provisioner: shell...
+    base: Running: inline script
+==&gt; base: stdin: is not a tty
+==&gt; base: Get:1 http://security.ubuntu.com precise-security InRelease [54.5 kB]
+==&gt; base: Get:2 http://security.ubuntu.com precise-security/main Sources [138 kB]
+==&gt; base: Ign http://us.archive.ubuntu.com precise InRelease
+==&gt; base: Get:3 http://us.archive.ubuntu.com precise-updates InRelease [196 kB]
+==&gt; base: Get:4 http://security.ubuntu.com precise-security/restricted Sources [4,476 B]
+==&gt; base: Get:5 http://security.ubuntu.com precise-security/universe Sources [44.3 kB]
+==&gt; base: Get:6 http://security.ubuntu.com precise-security/multiverse Sources [2,214 B]
+==&gt; base: Get:7 http://security.ubuntu.com precise-security/main amd64 Packages [578 kB]
+==&gt; base: Get:8 http://us.archive.ubuntu.com precise-backports InRelease [54.5 kB]
+==&gt; base: Hit http://us.archive.ubuntu.com precise Release.gpg
+==&gt; base: Get:9 http://us.archive.ubuntu.com precise-updates/main Sources [495 kB]
+==&gt; base: Get:10 http://security.ubuntu.com precise-security/restricted amd64 Packages [11.6 kB]
+==&gt; base: Get:11 http://security.ubuntu.com precise-security/universe amd64 Packages [127 kB]
+==&gt; base: Get:12 http://us.archive.ubuntu.com precise-updates/restricted Sources [8,708 B]
+==&gt; base: Get:13 http://us.archive.ubuntu.com precise-updates/universe Sources [123 kB]
+==&gt; base: Get:14 http://us.archive.ubuntu.com precise-updates/multiverse Sources [9,730 B]
+==&gt; base: Get:15 http://security.ubuntu.com precise-security/multiverse amd64 Packages [2,687 B]
+==&gt; base: Get:16 http://security.ubuntu.com precise-security/main i386 Packages [636 kB]
+==&gt; base: Get:17 http://us.archive.ubuntu.com precise-updates/main amd64 Packages [967 kB]
+==&gt; base: Get:18 http://us.archive.ubuntu.com precise-updates/restricted amd64 Packages [16.2 kB]
+==&gt; base: Get:19 http://us.archive.ubuntu.com precise-updates/universe amd64 Packages [270 kB]
+==&gt; base: Get:20 http://us.archive.ubuntu.com precise-updates/multiverse amd64 Packages [16.6 kB]
+==&gt; base: Get:21 http://us.archive.ubuntu.com precise-updates/main i386 Packages [1,026 kB]
+==&gt; base: Get:22 http://security.ubuntu.com precise-security/restricted i386 Packages [11.6 kB]
+==&gt; base: Get:23 http://security.ubuntu.com precise-security/universe i386 Packages [135 kB]
+==&gt; base: Get:24 http://security.ubuntu.com precise-security/multiverse i386 Packages [2,871 B]
+==&gt; base: Get:25 http://security.ubuntu.com precise-security/main TranslationIndex [208 B]
+==&gt; base: Get:26 http://security.ubuntu.com precise-security/multiverse TranslationIndex [199 B]
+==&gt; base: Get:27 http://security.ubuntu.com precise-security/restricted TranslationIndex [202 B]
+==&gt; base: Get:28 http://security.ubuntu.com precise-security/universe TranslationIndex [205 B]
+==&gt; base: Get:29 http://security.ubuntu.com precise-security/main Translation-en [246 kB]
+==&gt; base: Get:30 http://us.archive.ubuntu.com precise-updates/restricted i386 Packages [16.1 kB]
+==&gt; base: Get:31 http://us.archive.ubuntu.com precise-updates/universe i386 Packages [280 kB]
+==&gt; base: Get:32 http://us.archive.ubuntu.com precise-updates/multiverse i386 Packages [16.7 kB]
+==&gt; base: Get:33 http://us.archive.ubuntu.com precise-updates/main TranslationIndex [10.6 kB]
+==&gt; base: Get:34 http://us.archive.ubuntu.com precise-updates/multiverse TranslationIndex [7,613 B]
+==&gt; base: Get:35 http://us.archive.ubuntu.com precise-updates/restricted TranslationIndex [7,297 B]
+==&gt; base: Get:36 http://us.archive.ubuntu.com precise-updates/universe TranslationIndex [8,333 B]
+==&gt; base: Get:37 http://us.archive.ubuntu.com precise-backports/main Sources [5,922 B]
+==&gt; base: Get:38 http://us.archive.ubuntu.com precise-backports/restricted Sources [28 B]
+==&gt; base: Get:39 http://security.ubuntu.com precise-security/multiverse Translation-en [1,408 B]
+==&gt; base: Get:40 http://security.ubuntu.com precise-security/restricted Translation-en [2,976 B]
+==&gt; base: Get:41 http://security.ubuntu.com precise-security/universe Translation-en [81.3 kB]
+==&gt; base: Get:42 http://us.archive.ubuntu.com precise-backports/universe Sources [43.1 kB]
+==&gt; base: Get:43 http://us.archive.ubuntu.com precise-backports/multiverse Sources [5,750 B]
+==&gt; base: Get:44 http://us.archive.ubuntu.com precise-backports/main amd64 Packages [6,477 B]
+==&gt; base: Get:45 http://us.archive.ubuntu.com precise-backports/restricted amd64 Packages [28 B]
+==&gt; base: Get:46 http://us.archive.ubuntu.com precise-backports/universe amd64 Packages [44.5 kB]
+==&gt; base: Get:47 http://us.archive.ubuntu.com precise-backports/multiverse amd64 Packages [5,419 B]
+==&gt; base: Get:48 http://us.archive.ubuntu.com precise-backports/main i386 Packages [6,478 B]
+==&gt; base: Get:49 http://us.archive.ubuntu.com precise-backports/restricted i386 Packages [28 B]
+==&gt; base: Get:50 http://us.archive.ubuntu.com precise-backports/universe i386 Packages [44.3 kB]
+==&gt; base: Get:51 http://us.archive.ubuntu.com precise-backports/multiverse i386 Packages [5,413 B]
+==&gt; base: Get:52 http://us.archive.ubuntu.com precise-backports/main TranslationIndex [202 B]
+==&gt; base: Get:53 http://us.archive.ubuntu.com precise-backports/multiverse TranslationIndex [202 B]
+==&gt; base: Get:54 http://us.archive.ubuntu.com precise-backports/restricted TranslationIndex [193 B]
+==&gt; base: Get:55 http://us.archive.ubuntu.com precise-backports/universe TranslationIndex [205 B]
+==&gt; base: Hit http://us.archive.ubuntu.com precise Release
+==&gt; base: Get:56 http://us.archive.ubuntu.com precise-updates/main Translation-en [409 kB]
+==&gt; base: Get:57 http://us.archive.ubuntu.com precise-updates/multiverse Translation-en [9,603 B]
+==&gt; base: Get:58 http://us.archive.ubuntu.com precise-updates/restricted Translation-en [3,869 B]
+==&gt; base: Get:59 http://us.archive.ubuntu.com precise-updates/universe Translation-en [162 kB]
+==&gt; base: Get:60 http://us.archive.ubuntu.com precise-backports/main Translation-en [5,737 B]
+==&gt; base: Get:61 http://us.archive.ubuntu.com precise-backports/multiverse Translation-en [4,838 B]
+==&gt; base: Get:62 http://us.archive.ubuntu.com precise-backports/restricted Translation-en [14 B]
+==&gt; base: Get:63 http://us.archive.ubuntu.com precise-backports/universe Translation-en [35.2 kB]
+==&gt; base: Hit http://us.archive.ubuntu.com precise/main Sources
+==&gt; base: Hit http://us.archive.ubuntu.com precise/restricted Sources
+==&gt; base: Hit http://us.archive.ubuntu.com precise/universe Sources
+==&gt; base: Hit http://us.archive.ubuntu.com precise/multiverse Sources
+==&gt; base: Hit http://us.archive.ubuntu.com precise/main amd64 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/restricted amd64 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/universe amd64 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/multiverse amd64 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/main i386 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/restricted i386 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/universe i386 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/multiverse i386 Packages
+==&gt; base: Hit http://us.archive.ubuntu.com precise/main TranslationIndex
+==&gt; base: Hit http://us.archive.ubuntu.com precise/multiverse TranslationIndex
+==&gt; base: Hit http://us.archive.ubuntu.com precise/restricted TranslationIndex
+==&gt; base: Hit http://us.archive.ubuntu.com precise/universe TranslationIndex
+==&gt; base: Hit http://us.archive.ubuntu.com precise/main Translation-en
+==&gt; base: Hit http://us.archive.ubuntu.com precise/multiverse Translation-en
+==&gt; base: Hit http://us.archive.ubuntu.com precise/restricted Translation-en
+==&gt; base: Hit http://us.archive.ubuntu.com precise/universe Translation-en
+==&gt; base: Fetched 6,408 kB in 4s (1,308 kB/s)
+==&gt; base: Reading package lists...
+==&gt; base: Reading package lists...
+==&gt; base: Building dependency tree...
+==&gt; base: Reading state information...
+==&gt; base: The following extra packages will be installed:
+==&gt; base:   libperl5.14 libsensors4 libsnmp-base libsnmp15 perl perl-base perl-modules
+==&gt; base: Suggested packages:
+==&gt; base:   lm-sensors snmp-mibs-downloader snmpd perl-doc libterm-readline-gnu-perl
+==&gt; base:   libterm-readline-perl-perl make libpod-plainer-perl
+==&gt; base: The following NEW packages will be installed:
+==&gt; base:   libperl5.14 libsensors4 libsnmp-base libsnmp15 lldpd
+==&gt; base: The following packages will be upgraded:
+==&gt; base:   perl perl-base perl-modules
+==&gt; base: 3 upgraded, 5 newly installed, 0 to remove and 181 not upgraded.
+==&gt; base: Need to get 11.0 MB of archives.
+==&gt; base: After this operation, 4,248 kB of additional disk space will be used.
+==&gt; base: Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main perl amd64 5.14.2-6ubuntu2.4 [4,411 kB]
+==&gt; base: Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main perl-base amd64 5.14.2-6ubuntu2.4 [1,513 kB]
+==&gt; base: Get:3 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main perl-modules all 5.14.2-6ubuntu2.4 [3,389 kB]
+==&gt; base: Get:4 http://us.archive.ubuntu.com/ubuntu/ precise/main libsensors4 amd64 1:3.3.1-2ubuntu1 [31.9 kB]
+==&gt; base: Get:5 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libperl5.14 amd64 5.14.2-6ubuntu2.4 [1,252 B]
+==&gt; base: Get:6 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libsnmp-base all 5.4.3~dfsg-2.4ubuntu1.3 [216 kB]
+==&gt; base: Get:7 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libsnmp15 amd64 5.4.3~dfsg-2.4ubuntu1.3 [1,334 kB]
+==&gt; base: Get:8 http://us.archive.ubuntu.com/ubuntu/ precise/universe lldpd amd64 0.5.5-1 [97.3 kB]
+==&gt; base: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+==&gt; base: Fetched 11.0 MB in 5s (2,080 kB/s)
+==&gt; base: (Reading database ...
+==&gt; base: 51095 files and directories currently installed.)
+==&gt; base: Preparing to replace perl 5.14.2-6ubuntu2 (using .../perl_5.14.2-6ubuntu2.4_amd64.deb) ...
+==&gt; base: Unpacking replacement perl ...
+==&gt; base: Preparing to replace perl-base 5.14.2-6ubuntu2 (using .../perl-base_5.14.2-6ubuntu2.4_amd64.deb) ...
+==&gt; base: Unpacking replacement perl-base ...
+==&gt; base: Processing triggers for man-db ...
+==&gt; base: Setting up perl-base (5.14.2-6ubuntu2.4) ...
+==&gt; base: (Reading database ...
+==&gt; base: 51095 files and directories currently installed.)
+==&gt; base: Preparing to replace perl-modules 5.14.2-6ubuntu2 (using .../perl-modules_5.14.2-6ubuntu2.4_all.deb) ...
+==&gt; base: Unpacking replacement perl-modules ...
+==&gt; base: Selecting previously unselected package libsensors4.
+==&gt; base: Unpacking libsensors4 (from .../libsensors4_1%3a3.3.1-2ubuntu1_amd64.deb) ...
+==&gt; base: Selecting previously unselected package libperl5.14.
+==&gt; base: Unpacking libperl5.14 (from .../libperl5.14_5.14.2-6ubuntu2.4_amd64.deb) ...
+==&gt; base: Selecting previously unselected package libsnmp-base.
+==&gt; base: Unpacking libsnmp-base (from .../libsnmp-base_5.4.3~dfsg-2.4ubuntu1.3_all.deb) ...
+==&gt; base: Selecting previously unselected package libsnmp15.
+==&gt; base: Unpacking libsnmp15 (from .../libsnmp15_5.4.3~dfsg-2.4ubuntu1.3_amd64.deb) ...
+==&gt; base: Selecting previously unselected package lldpd.
+==&gt; base: Unpacking lldpd (from .../lldpd_0.5.5-1_amd64.deb) ...
+==&gt; base: Processing triggers for man-db ...
+==&gt; base: Processing triggers for ureadahead ...
+==&gt; base: Setting up libsensors4 (1:3.3.1-2ubuntu1) ...
+==&gt; base: Setting up libperl5.14 (5.14.2-6ubuntu2.4) ...
+==&gt; base: Setting up libsnmp-base (5.4.3~dfsg-2.4ubuntu1.3) ...
+==&gt; base: Setting up libsnmp15 (5.4.3~dfsg-2.4ubuntu1.3) ...
+==&gt; base: Setting up lldpd (0.5.5-1) ...
+==&gt; base: Setting up perl-modules (5.14.2-6ubuntu2.4) ...
+==&gt; base: Setting up perl (5.14.2-6ubuntu2.4) ...
+==&gt; base: Processing triggers for libc-bin ...
+==&gt; base: ldconfig deferred processing now taking place
+==&gt; eos: Importing base box 'vEOS-4.15.2F'...
+==&gt; eos: Matching MAC address for NAT networking...
+==&gt; eos: Setting the name of the VM: vagrant_eos_1450958650232_66997
+==&gt; eos: Clearing any previously set network interfaces...
+==&gt; eos: Preparing network interfaces based on configuration...
+    eos: Adapter 1: nat
+    eos: Adapter 2: intnet
+    eos: Adapter 3: intnet
+==&gt; eos: Forwarding ports...
+    eos: 443 =&gt; 12443 (adapter 1)
+    eos: 22 =&gt; 2222 (adapter 1)
+==&gt; eos: Booting VM...
+==&gt; eos: Waiting for machine to boot. This may take a few minutes...
+    eos: SSH address: 127.0.0.1:2222
+    eos: SSH username: root
+    eos: SSH auth method: private key
+    eos: Warning: Connection timeout. Retrying...
+    eos: Warning: Connection timeout. Retrying...
+    eos: Warning: Connection timeout. Retrying...
+    eos: Warning: Connection timeout. Retrying...
+    eos: Warning: Connection timeout. Retrying...
+    eos: Warning: Connection timeout. Retrying...
+    eos:
+    eos: Vagrant insecure key detected. Vagrant will automatically replace
+    eos: this with a newly generated keypair for better security.
+    eos:
+    eos: Inserting generated public key within guest...
+    eos: Removing insecure key from the guest if it's present...
+    eos: Key inserted! Disconnecting and reconnecting using new SSH key...
+==&gt; eos: Machine booted and ready!
+==&gt; eos: Checking for guest additions in VM...
+    eos: No guest additions were detected on the base box for this VM! Guest
+    eos: additions are required for forwarded ports, shared folders, host only
+    eos: networking, and more. If SSH fails on this machine, please install
+    eos: the guest additions and repackage the box to continue.
+    eos:
+    eos: This is not an error message; everything may continue to work properly,
+    eos: in which case you may ignore this message.
+==&gt; eos: Running provisioner: shell...
+    eos: Running: inline script
+</code></pre><p>The machines are both up and have been provisioned with some initial configuration. Now let's connect to the vEOS VM and run <code>show lldp neighbors</code>:</p>
+<pre><code>$ vagrant ssh eos
+Last login: Thu Dec 24 12:07:04 2015 from 10.0.2.2
+
+Arista Networks EOS shell
+
+-bash-4.1# FastCli
+localhost&gt;en
+localhost#show lldp neighbors
+Last table change time   : 0:01:48 ago
+Number of table inserts  : 2
+Number of table deletes  : 0
+Number of table drops    : 0
+Number of table age-outs : 0
+
+Port       Neighbor Device ID               Neighbor Port ID           TTL
+Et1        precise64                        0800.271c.bb86             120
+Et2        precise64                        0800.27ca.0f72             120
+</code></pre><p>As you can see, my vEOS machine can see the Linux machine connected to its Et1 and Et2 interfaces.</p>
+<p>When you are done and you want to get rid of your environment you can easily destroy it, liberating resources, with the command <code>vagrant destroy</code>:</p>
+<pre><code>$ vagrant destroy
+==&gt; junos: VM not created. Moving on...
+==&gt; iosxr: VM not created. Moving on...
+    eos: Are you sure you want to destroy the 'eos' VM? [y/N] y
+==&gt; eos: Forcing shutdown of VM...
+==&gt; eos: Destroying VM and associated drives...
+    base: Are you sure you want to destroy the 'base' VM? [y/N] y
+==&gt; base: Forcing shutdown of VM...
+==&gt; base: Destroying VM and associated drives...
+==&gt; base: Running cleanup tasks for 'shell' provisioner...
+</code></pre><p>Soon I will blog how to create your own vagrant boxes and how to provision them easily.</p>]]></content>
+        </item>
+        
+        <item>
+            <title>erase startup config</title>
+            <link>http://localhost:1313/2016/01/06/erase-startup-config/</link>
+            <pubDate>Wed, 06 Jan 2016 18:00:00 +0200</pubDate>
+            
+            <guid>http://localhost:1313/2016/01/06/erase-startup-config/</guid>
+            <description>With the New Year new challenges come. In addition to keep working on the cool projects I have working on during 2015 (napalm, sir, pyfg and many others) I plan to work on some other cool ideas I have in mind (more on this soon). I also plan to try to blog a bit about what I am doing, ideas, architectures, etc&amp;hellip; We will see how it goes.</description>
+            <content type="html"><![CDATA[<p>With the New Year new challenges come. In addition to keep working on the cool projects I have working on during 2015 (<a href="https://github.com/napalm-automation/napalm">napalm</a>, <a href="https://github.com/dbarrosop/sir">sir</a>, <a href="https://github.com/spotify/pyfg">pyfg</a> and many <a href="https://github.com/dbarrosop">others</a>) I plan to work on some other cool ideas I have in mind (more on this soon). I also plan to try to blog a bit about what I am doing, ideas, architectures, etc&hellip; We will see how it goes.</p>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>

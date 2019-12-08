@@ -1,17 +1,35 @@
-CONTAINER_NAME := "dbarrosop-jekyll"
+ifeq ($(shell uname -s), Darwin)
+HUGO_OS=macOS
+else ifeq ($(shell uname -s), Linux)
+HUGO_OS=Linux
+else ifeq
+HUGO_OS=notset
+endif
 
-.PHONY: build
-build:
-	docker build . --tag $(CONTAINER_NAME):latest
+HUGO_VERSION=0.60.1
+HUGO=./_src/bin/hugo_$(HUGO_VERSION)_$(HUGO_OS)
+HUGO_OPTS=--source _src --destination ../
+HUGO_TEST_OPTS=-D -E -F
+
+ifneq ($(BIND), )
+HUGO_OPTS:=$(HUGO_OPTS) --bind $(BIND)
+endif
 
 .PHONY: serve
-serve: stop build
-	docker run -it --name $(CONTAINER_NAME) \
-		-p 4000:4000 \
-		-v $(PWD):/srv/jekyll \
-		$(CONTAINER_NAME) \
-		jekyll serve --config _config.yml --future --drafts --watch
+serve:
+	$(HUGO) serve \
+		$(HUGO_TEST_OPTS) \
+		$(HUGO_OPTS)
 
-.PHONY: stop
-stop:
-	@docker rm $(CONTAINER_NAME) -f || exit 0
+.PHONY: gen
+gen: clean
+	$(HUGO) \
+		$(HUGO_OPTS)
+
+.PHONY: clean
+clean:
+	find -maxdepth 1 -not \(\
+		-name '.*' -or \
+		-name '_src' -or \
+		-name 'Makefile' \
+		\) -print0 | xargs -0  -I {} rm -rf {}

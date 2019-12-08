@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
+As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is." />
+<meta name="keywords" content="development programming network automation orchestration golang python napalm nornir gornir yang yangify" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/" />
+
+
+    <title>
+        
+            How to create a vagrant for IOS-XR :: Dravetech  — Random thoughts
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/callout.css">
+    
+
+
+
+<meta itemprop="name" content="How to create a vagrant for IOS-XR">
+<meta itemprop="description" content="Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
+As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is.">
+<meta itemprop="datePublished" content="2016-01-14T18:00:00&#43;02:00" />
+<meta itemprop="dateModified" content="2016-01-14T18:00:00&#43;02:00" />
+<meta itemprop="wordCount" content="980">
+<meta itemprop="image" content="http://localhost:1313/"/>
+
+
+
+<meta itemprop="keywords" content="automation,networking," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://localhost:1313/"/>
+
+<meta name="twitter:title" content="How to create a vagrant for IOS-XR"/>
+<meta name="twitter:description" content="Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
+As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2016-01-14 18:00:00 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">dravetech</span>
+            <span class="logo__cursor" style=""></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="http://localhost:1313/posts">blog</a></li><li><a href="http://localhost:1313/about">about</a></li><li><a href="http://localhost:1313/tags">tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>5 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/">How to create a vagrant for IOS-XR</a>
+            </h1>
+
+            
+
+            <div class="post-content">
+                <p>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.</p>
+<p>As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is. To show you how to do it we will create a vagrant box for IOS-XR. Before we start you will need the following:</p>
+<ul>
+<li>Vagrant, of course. For more information check this [post]({% post_url 2016-01-08-vagrant-for-network-engineers %}).</li>
+<li>Virtualbox.</li>
+<li>An OVA or a VMDK for IOS-XR. I am using <code>iosxrv-k9-demo-5.3.0.ova</code>.</li>
+</ul>
+<div class="bs-callout bs-callout-info">
+  In order to get it you will need a valid Cisco account. Ask your sales representative or just nag them on twitter for making everything so difficult. The latter will not work but at least you will vent ;)
+</div>
+
+<div class="bs-callout bs-callout-warning">
+  IOS-XR started supporting DHCP client in the management interface in the image 5.3.0 so older images will not work.
+</div>
+
+<h3 id="creating-the-base-image">Creating the base image</h3>
+<p>Creating a base image is as simple as creating a new VM and configuring it in any way you want. I am not going to explain how to get started with IOS-XR on Virtualbox because there are plenty of posts already doing that. For example, <a href="http://blog.alainmoretti.com/ios-xrv-working-on-virtualbox/">this post</a>.</p>
+<!-- raw HTML omitted -->
+<p>Once your VM is ready and can access it using the serial port use the initial configuration wizard to create the admin user <code>vagrant</code> with password <code>vagrant</code> and apply the following configuration:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">interface MgmtEth0/0/CPU0/0
+ ipv4 address dhcp
+
+ssh server v2
+ssh server rate-limit <span style="color:#ae81ff">600</span>
+xml agent tty
+</code></pre></div><h3 id="creating-the-box">Creating the box</h3>
+<p>Now that we have the VM ready we just have to export it in <code>.box</code> format. First, go to a temporal folder and create a file named <code>Vagrantfile</code> with the following content:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># -*- mode: ruby -*-</span>
+<span style="color:#75715e"># vi: set ft=ruby :</span>
+
+<span style="color:#66d9ef">Vagrant</span><span style="color:#f92672">.</span>configure(<span style="color:#ae81ff">2</span><span style="color:#f92672"></span>) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>provider <span style="color:#e6db74">&#39;virtualbox&#39;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>_, override<span style="color:#f92672">|</span>
+    <span style="color:#75715e"># Disable synced folders</span>
+    config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>synced_folder <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">/vagrant</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">disabled</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>ssh<span style="color:#f92672">.</span>username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vagrant</span><span style="color:#e6db74">&#34;</span>
+  config<span style="color:#f92672">.</span>ssh<span style="color:#f92672">.</span>password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vagrant</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>Go to your terminal and execute the following command in the same temporal folder you created the <code>Vagrantfile</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant package --base base_vm_for_iosxr --output iosxrv-k9-demo-5.3.0.box --vagrantfile Vagrantfile
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Attempting graceful shutdown of VM...
+    base_vm_for_iosxr: Guest communication could not be established! This is usually because
+    base_vm_for_iosxr: SSH is not running, the authentication information was changed,
+    base_vm_for_iosxr: or some other networking issue. Vagrant will force halt, <span style="color:#66d9ef">if</span>
+    base_vm_for_iosxr: capable.
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Forcing shutdown of VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Clearing any previously set forwarded ports...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Exporting VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Compressing package to: /Users/dbarroso/Downloads/iosxrv-k9-demo-5.3.0.box
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; base_vm_for_iosxr: Packaging additional file: Vagrantfile
+
+/tmp/vagrant_tmp$ ls *.box
+iosxrv-k9-demo-5.3.0.box
+</code></pre></div><!-- raw HTML omitted -->
+<p>Now you can stop and delete the base VM you created if you want.</p>
+<h3 id="importing-the-box">Importing the box</h3>
+<p>The last step is to import the box we created before into vagrant:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant box add --name IOSXRv-5.3.0 iosxrv-k9-demo-5.3.0.box
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; box: Box file was not detected as metadata. Adding it directly...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; box: Adding box <span style="color:#e6db74">&#39;IOSXRv-5.3.0&#39;</span> <span style="color:#f92672">(</span>v0<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> provider:
+    box: Unpacking necessary files from: file:///Users/dbarroso/Downloads/iosxrv-k9-demo-5.3.0.box
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; box: Successfully added box <span style="color:#e6db74">&#39;IOSXRv-5.3.0&#39;</span> <span style="color:#f92672">(</span>v0<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;virtualbox&#39;</span>!
+
+/tmp/vagrant_tmp$ vagrant box list
+CumulusCommunity/cumulus-vx          <span style="color:#f92672">(</span>virtualbox, 2.5.5<span style="color:#f92672">)</span>
+IOSXRv-5.3.0                         <span style="color:#f92672">(</span>virtualbox, 0<span style="color:#f92672">)</span>
+csr1000v                             <span style="color:#f92672">(</span>virtualbox, 0<span style="color:#f92672">)</span>
+hashicorp/precise64                  <span style="color:#f92672">(</span>virtualbox, 1.1.0<span style="color:#f92672">)</span>
+juniper/ffp-12.1X47-D20.7-packetmode <span style="color:#f92672">(</span>virtualbox, 0.5.0<span style="color:#f92672">)</span>
+ubuntu/trusty64                      <span style="color:#f92672">(</span>virtualbox, 20151105.0.0<span style="color:#f92672">)</span>
+vEOS-4.15.2F                         <span style="color:#f92672">(</span>virtualbox, 0<span style="color:#f92672">)</span>
+</code></pre></div><p>And that's it. You IOS-XR box is ready to use.</p>
+<h3 id="using-your-vagrant-box">Using your Vagrant box</h3>
+<p>Now that you have your box ready you can create a <code>Vagrantfile</code> with your lab configuration and have it ready in a matter of seconds. For example, if you create a <code>Vagrantfile</code> with the following content:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">Vagrant</span><span style="color:#f92672">.</span>configure(<span style="color:#ae81ff">2</span><span style="color:#f92672"></span>) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">eos</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>eos<span style="color:#f92672">|</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">vEOS-4.15.2F</span><span style="color:#e6db74">&#34;</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">443</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12443</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;https&#39;</span>
+
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    eos<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">end</span>
+
+  config<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>define <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">iosxr</span><span style="color:#e6db74">&#34;</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>iosxr<span style="color:#f92672">|</span>
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>box <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IOSXRv-5.3.0</span><span style="color:#e6db74">&#34;</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">:forwarded_port</span>, <span style="color:#e6db74">guest</span>: <span style="color:#ae81ff">22</span><span style="color:#f92672"></span>, <span style="color:#e6db74">host</span>: <span style="color:#ae81ff">12202</span><span style="color:#f92672"></span>, id: <span style="color:#e6db74">&#39;ssh&#39;</span>
+
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_1</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+    iosxr<span style="color:#f92672">.</span>vm<span style="color:#f92672">.</span>network <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">private_network</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">virtualbox__intnet</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">link_2</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">ip</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">169.254.1.11</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">auto_config</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>You will get with one command a lab with an EOS switch and an IOS-XR router, each with two interfaces:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant up eos iosxr
+Bringing machine <span style="color:#e6db74">&#39;eos&#39;</span> up with <span style="color:#e6db74">&#39;virtualbox&#39;</span> provider...
+Bringing machine <span style="color:#e6db74">&#39;iosxr&#39;</span> up with <span style="color:#e6db74">&#39;virtualbox&#39;</span> provider...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; eos: Importing base box <span style="color:#e6db74">&#39;vEOS-4.15.2F&#39;</span>...
+... Omitting output <span style="color:#66d9ef">for</span> brevity...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; iosxr: Importing base box <span style="color:#e6db74">&#39;IOSXRv-5.3.0&#39;</span>...
+... Omitting output <span style="color:#66d9ef">for</span> brevity...
+</code></pre></div><p>Now you can connect to your IOS-XR machine, enable the interfaces and check with LLDP that the lab is connected as you wanted:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant ssh iosxr
+vagrant@127.0.0.1<span style="color:#960050;background-color:#1e0010">&#39;</span>s password:
+RP/0/0/CPU0:ios#conf
+Sat Dec <span style="color:#ae81ff">26</span> 16:51:35.713 UTC
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config<span style="color:#f92672">)</span><span style="color:#75715e">#interface GigabitEthernet0/0/0/0</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#no shut</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#interface GigabitEthernet0/0/0/1</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#no shut</span>
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#commit</span>
+Sat Dec <span style="color:#ae81ff">26</span> 16:51:47.373 UTC
+RP/0/0/CPU0:ios<span style="color:#f92672">(</span>config-if<span style="color:#f92672">)</span><span style="color:#75715e">#end</span>
+
+RP/0/0/CPU0:ios#show lldp neighbors
+Sat Dec <span style="color:#ae81ff">26</span> 16:52:34.939 UTC
+Capability codes:
+        <span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Router, <span style="color:#f92672">(</span>B<span style="color:#f92672">)</span> Bridge, <span style="color:#f92672">(</span>T<span style="color:#f92672">)</span> Telephone, <span style="color:#f92672">(</span>C<span style="color:#f92672">)</span> DOCSIS Cable Device
+        <span style="color:#f92672">(</span>W<span style="color:#f92672">)</span> WLAN Access Point, <span style="color:#f92672">(</span>P<span style="color:#f92672">)</span> Repeater, <span style="color:#f92672">(</span>S<span style="color:#f92672">)</span> Station, <span style="color:#f92672">(</span>O<span style="color:#f92672">)</span> Other
+
+Device ID       Local Intf          Hold-time  Capability     Port ID
+localhost       Gi0/0/0/0           <span style="color:#ae81ff">120</span>        B               Ethernet1
+localhost       Gi0/0/0/1           <span style="color:#ae81ff">120</span>        B               Ethernet2
+
+Total entries displayed: <span style="color:#ae81ff">2</span>
+</code></pre></div><p>Finally, when you are done you can liberate resources by stopping the VMs or just destroying the lab:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/tmp/vagrant_tmp$ vagrant destroy
+    iosxr: Are you sure you want to destroy the <span style="color:#e6db74">&#39;iosxr&#39;</span> VM? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; iosxr: Forcing shutdown of VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; iosxr: Destroying VM and associated drives...
+    eos: Are you sure you want to destroy the <span style="color:#e6db74">&#39;eos&#39;</span> VM? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; eos: Forcing shutdown of VM...
+<span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt; eos: Destroying VM and associated drives...
+</code></pre></div><h4 id="provisioning-vms-automatically">Provisioning VMs automatically</h4>
+<p>Soon I will blog on how to auto provision the VMs automatically in a very simple way.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>As you can see it is very easy to create a box. For more information I suggest you to look into the official <a href="https://docs.vagrantup.com/v2/boxes/base.html">documentation</a> and if you plan to create a lot of boxes and you want to automate the process I suggest you to look into <a href="https://www.packer.io/intro/getting-started/vagrant.html">packer</a>.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="http://localhost:1313/tags/automation">automation</a></span><span class="tag"><a href="http://localhost:1313/tags/networking">networking</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>980 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2016-01-14 17:00 &#43;0100</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/">
+                                <span class="button__text">Vagrant Introduction for network engineers</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+            <span>David Barroso Pardo</span>
+            <span> <a href="http://localhost:1313/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">rhazdon</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+
+
+    <script data-no-instant>document.write('<script src="/livereload.js?port=1313&mindelay=10&v=2"></' + 'script>')</script></body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dravetech</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Dravetech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>David Barroso Pardo</copyright>
+    <lastBuildDate>Thu, 14 Jan 2016 18:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to create a vagrant for IOS-XR</title>
+      <link>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</link>
+      <pubDate>Thu, 14 Jan 2016 18:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</guid>
+      <description>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
+As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is.</description>
+    </item>
+    
+    <item>
+      <title>Vagrant Introduction for network engineers</title>
+      <link>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</link>
+      <pubDate>Fri, 08 Jan 2016 18:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</guid>
+      <description>&lt;p&gt;I don&#39;t want to spend too much time explaining what vagrant is so here is their own introduction:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.&lt;/p&gt;
+&lt;p&gt;To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>erase startup config</title>
+      <link>http://localhost:1313/2016/01/06/erase-startup-config/</link>
+      <pubDate>Wed, 06 Jan 2016 18:00:00 +0200</pubDate>
+      
+      <guid>http://localhost:1313/2016/01/06/erase-startup-config/</guid>
+      <description>With the New Year new challenges come. In addition to keep working on the cool projects I have working on during 2015 (napalm, sir, pyfg and many others) I plan to work on some other cool ideas I have in mind (more on this soon). I also plan to try to blog a bit about what I am doing, ideas, architectures, etc&amp;hellip; We will see how it goes.</description>
+    </item>
+    
+  </channel>
+</rss>
