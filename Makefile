@@ -9,7 +9,7 @@ endif
 HUGO_VERSION=0.60.1
 HUGO=./_src/bin/hugo_$(HUGO_VERSION)_$(HUGO_OS)
 HUGO_OPTS=--source _src --destination ../
-HUGO_TEST_OPTS=-D -E -F
+HUGO_TEST_OPTS=-D -E -F --disableFastRender
 
 ifneq ($(BIND), )
 HUGO_OPTS:=$(HUGO_OPTS) --bind $(BIND)

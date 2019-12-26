@@ -3,52 +3,147 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://www.dravetech.com/tags/automation/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2019/09/06/building-scalable-tooling/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/nornir/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/posts/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/presos/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/programming/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/</loc>
+    <lastmod>2019-09-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2019/05/15/napalm-yang-has-been-abandoned/</loc>
+    <lastmod>2019-05-15T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/networking/</loc>
+    <lastmod>2019-05-15T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2018/12/07/global-routing-as-a-service/</loc>
+    <lastmod>2018-12-07T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/presentations/</loc>
+    <lastmod>2018-12-07T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/monitoring/</loc>
+    <lastmod>2018-05-22T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2018/05/22/network-telemetry/</loc>
+    <lastmod>2018-05-22T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/bgp/</loc>
+    <lastmod>2017-04-18T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2017/04/18/gobgp/</loc>
+    <lastmod>2017-04-18T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/napalm/</loc>
+    <lastmod>2017-04-09T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2017/04/09/napalm-yang/</loc>
+    <lastmod>2017-04-09T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/ops/</loc>
+    <lastmod>2017-04-09T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/about/</loc>
     <lastmod>2016-11-05T18:25:22+05:30</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/automation/</loc>
+    <loc>https://www.dravetech.com/2016/06/17/abstract-all-the-things/</loc>
+    <lastmod>2016-06-17T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2016/05/06/openconfig-napalm/</loc>
+    <lastmod>2016-05-06T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2016/03/30/chatops-demo-for-networking/</loc>
+    <lastmod>2016-03-30T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/tags/sdn/</loc>
+    <lastmod>2016-01-28T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2016/01/28/two-sdn-internet-router-sir-posts/</loc>
+    <lastmod>2016-01-28T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.dravetech.com/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</loc>
     <lastmod>2016-01-14T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2016-01-14T18:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</loc>
-    <lastmod>2016-01-14T18:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/tags/networking/</loc>
-    <lastmod>2016-01-14T18:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2016-01-14T18:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2016-01-14T18:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</loc>
+    <loc>https://www.dravetech.com/2016/01/08/vagrant-introduction-for-network-engineers/</loc>
     <lastmod>2016-01-08T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/2016/01/06/erase-startup-config/</loc>
+    <loc>https://www.dravetech.com/2016/01/06/erase-startup-config/</loc>
     <lastmod>2016-01-06T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/news/</loc>
+    <loc>https://www.dravetech.com/tags/news/</loc>
     <lastmod>2016-01-06T18:00:00+02:00</lastmod>
   </url>
   

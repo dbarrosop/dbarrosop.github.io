@@ -2,46 +2,129 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dravetech</title>
-    <link>http://localhost:1313/</link>
+    <link>https://www.dravetech.com/</link>
     <description>Recent content on Dravetech</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>David Barroso Pardo</copyright>
-    <lastBuildDate>Thu, 14 Jan 2016 18:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 06 Sep 2019 18:00:00 +0200</lastBuildDate>
     
-	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.dravetech.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>How to create a vagrant for IOS-XR</title>
-      <link>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</link>
-      <pubDate>Thu, 14 Jan 2016 18:00:00 +0200</pubDate>
+      <title>Building scalable tooling</title>
+      <link>https://www.dravetech.com/2019/09/06/building-scalable-tooling/</link>
+      <pubDate>Fri, 06 Sep 2019 18:00:00 +0200</pubDate>
       
-      <guid>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</guid>
-      <description>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
-As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is.</description>
+      <guid>https://www.dravetech.com/2019/09/06/building-scalable-tooling/</guid>
+      <description>Slides</description>
     </item>
     
     <item>
-      <title>Vagrant Introduction for network engineers</title>
-      <link>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</link>
-      <pubDate>Fri, 08 Jan 2016 18:00:00 +0200</pubDate>
+      <title>napalm-yang has been abandoned</title>
+      <link>https://www.dravetech.com/2019/05/15/napalm-yang-has-been-abandoned/</link>
+      <pubDate>Wed, 15 May 2019 18:00:00 +0200</pubDate>
       
-      <guid>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</guid>
-      <description>&lt;p&gt;I don&#39;t want to spend too much time explaining what vagrant is so here is their own introduction:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.&lt;/p&gt;
-&lt;p&gt;To achieve its magic, Vagrant stands on the shoulders of giants. Machines are provisioned on top of VirtualBox, VMware, AWS, or any other provider. Then, industry-standard provisioning tools such as shell scripts, Chef, or Puppet, can be used to automatically install and configure software on the machine.&lt;/p&gt;
-&lt;/blockquote&gt;</description>
+      <guid>https://www.dravetech.com/2019/05/15/napalm-yang-has-been-abandoned/</guid>
+      <description>It&#39;s with sadness that I announce that napalm-yang is officially abandoned. It&#39;s a strange feeling to abandon a project, specially one that some people may be relying on, but that&#39;s always a risk in the opensource world. If you are a napalm-yang user or were planning to use it there are two paths for you right now:
+ Fork the project. I encourage you to do so if you feel that&#39;s the best course of action for you.</description>
     </item>
     
     <item>
-      <title>erase startup config</title>
-      <link>http://localhost:1313/2016/01/06/erase-startup-config/</link>
-      <pubDate>Wed, 06 Jan 2016 18:00:00 +0200</pubDate>
+      <title>Global Routing as a Service</title>
+      <link>https://www.dravetech.com/2018/12/07/global-routing-as-a-service/</link>
+      <pubDate>Fri, 07 Dec 2018 18:00:00 +0200</pubDate>
       
-      <guid>http://localhost:1313/2016/01/06/erase-startup-config/</guid>
-      <description>With the New Year new challenges come. In addition to keep working on the cool projects I have working on during 2015 (napalm, sir, pyfg and many others) I plan to work on some other cool ideas I have in mind (more on this soon). I also plan to try to blog a bit about what I am doing, ideas, architectures, etc&amp;hellip; We will see how it goes.</description>
+      <guid>https://www.dravetech.com/2018/12/07/global-routing-as-a-service/</guid>
+      <description>A few months back I gave a talk at PLNOG21 about how we manage our global internet presence at Fastly. You can see the video below if you are interested.
+  </description>
+    </item>
+    
+    <item>
+      <title>Network telemetry</title>
+      <link>https://www.dravetech.com/2018/05/22/network-telemetry/</link>
+      <pubDate>Tue, 22 May 2018 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2018/05/22/network-telemetry/</guid>
+      <description>Whether you just don&#39;t like SNMP or you want to leverage the same tooling for monitoring and alerting as the rest of your organization, this &amp;ldquo;tutorial&amp;rdquo; has you covered. What we are going to do is see how we can monitor our network infrastructure with prometheus and grafana.
+In this blogpost we are going to see how to build a webapp using flask+nornir that gathers metrics from the network and presents it via a web application.</description>
+    </item>
+    
+    <item>
+      <title>GoBGP</title>
+      <link>https://www.dravetech.com/2017/04/18/gobgp/</link>
+      <pubDate>Tue, 18 Apr 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2017/04/18/gobgp/</guid>
+      <description>&lt;p&gt;For those that haven&#39;t heard about it yet, &lt;a href=&#34;https://github.com/osrg/gobgp&#34;&gt;GoBGP&lt;/a&gt; is, as they say &lt;em&gt;&amp;ldquo;an open source BGP implementation designed from scratch for modern environment and implemented in a modern programming language, the Go Programming Language&amp;rdquo;&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;To me, the most interesting part of GoBGP is that it uses a &lt;a href=&#34;http://www.grpc.io/&#34;&gt;grpc&lt;/a&gt; interface to interact with the daemon and anything that can be done via its configuration file and/or CLI can be done via this interface. As a matter of fact, the CLI actually uses this interface to retrieve data and configure things.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>napalm-yang</title>
+      <link>https://www.dravetech.com/2017/04/09/napalm-yang/</link>
+      <pubDate>Sun, 09 Apr 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2017/04/09/napalm-yang/</guid>
+      <description>&lt;p&gt;It&#39;s been quite some time since my last blog post and, truth be told, I don&#39;t have that much time to blog as I am quite busy with work, &lt;a href=&#34;https://github.com/napalm-automation/napalm&#34;&gt;&lt;code&gt;napalm&lt;/code&gt;&lt;/a&gt; and life in general. However, I wanted to take a few minutes today to announce &lt;a href=&#34;https://github.com/napalm-automation/napalm-yang&#34;&gt;&lt;code&gt;napalm-yang&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In summary, &lt;a href=&#34;https://github.com/napalm-automation/napalm-yang&#34;&gt;&lt;code&gt;napalm-yang&lt;/code&gt;&lt;/a&gt; tries to bring support for &lt;a href=&#34;https://tools.ietf.org/html/rfc6020&#34;&gt;&lt;code&gt;YANG&lt;/code&gt;&lt;/a&gt; models to devices where:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;There is no support for models at all&lt;/li&gt;
+&lt;li&gt;There is some limited support as models may evolve quicker than vendors&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>Abstract all the Things</title>
+      <link>https://www.dravetech.com/2016/06/17/abstract-all-the-things/</link>
+      <pubDate>Fri, 17 Jun 2016 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2016/06/17/abstract-all-the-things/</guid>
+      <description>&lt;p&gt;A couple of weeks ago I made this presentation/demo about abstractions for network operations titled &amp;ldquo;Abstract all the Things&amp;rdquo;. The idea was to show how templating is good but not good enough, sometimes you have to step back and focus on the goal and not on how to get there. Well, if you are interested in the topic you can find below the video, the link to the templates and to the github repo where you can find all the code I used for the demo.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenConfig &#43; NAPALM</title>
+      <link>https://www.dravetech.com/2016/05/06/openconfig-napalm/</link>
+      <pubDate>Fri, 06 May 2016 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2016/05/06/openconfig-napalm/</guid>
+      <description>&lt;p&gt;The other day I talked with &lt;a href=&#34;http://rob.sh/&#34;&gt;Rob Shakir&lt;/a&gt; who has been working very closely with &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; and we came up with the idea of trying to add &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; support to &lt;a href=&#34;https://github.com/napalm-automation/napalm&#34;&gt;NAPALM&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The idea was that a network driver would translate unsupported models to native commands while
+models supported by the device would be sent via native mechanisms (gRPC, NETCONF, etc.). That
+would allow people to start using &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; as &lt;a href=&#34;https://github.com/napalm-automation/napalm&#34;&gt;NAPALM&lt;/a&gt; would serve as
+a transition mechanism.&lt;/p&gt;
+&lt;p&gt;So, after Rob sent me an example on how to use &lt;a href=&#34;https://github.com/robshakir/pyangbind&#34;&gt;pyangbind&lt;/a&gt;, which he also wrote by
+the way, I put together a &lt;a href=&#34;https://github.com/napalm-automation/napalm-base/pull/28&#34;&gt;POC&lt;/a&gt;. It is very cool to see that thanks to &lt;a href=&#34;https://github.com/robshakir/pyangbind&#34;&gt;pyangbind&lt;/a&gt;
+adding &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; to NAPALM was really a piece of cake. Open Source for the win!&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ChatOps Demo for Networking</title>
+      <link>https://www.dravetech.com/2016/03/30/chatops-demo-for-networking/</link>
+      <pubDate>Wed, 30 Mar 2016 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2016/03/30/chatops-demo-for-networking/</guid>
+      <description>&lt;p&gt;I have been working on a project to automate all things network related. Not only provisioning new
+stuff but operations as well. I am not going to tell you about the benefits of automation, everybody should know by now.&lt;/p&gt;
+&lt;p&gt;However, when talking about operations it is important to note that &lt;strong&gt;not all operations can be
+automated but all operations can be abstracted&lt;/strong&gt;. What I mean with that is that if you are
+peering with someone you still have to perform some action so your system knows who the new peer
+is, their IP address, their AS and where are you going to peer with them. However, the operator
+doesn&#39;t need to know that it has to go to the inventory system to add the new peer, then go to the
+IPAM system to insert the required information and finally configuring the peer on the router. You
+could abstract that entire repetitive and error prone workflow with a single command: &lt;code&gt;add peer in=bma ip=10.0.0.1 as=65100&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Two SDN Internet Router (SIR) posts</title>
+      <link>https://www.dravetech.com/2016/01/28/two-sdn-internet-router-sir-posts/</link>
+      <pubDate>Thu, 28 Jan 2016 18:00:00 +0200</pubDate>
+      
+      <guid>https://www.dravetech.com/2016/01/28/two-sdn-internet-router-sir-posts/</guid>
+      <description>A few days ago I published a couple of posts in the Spotify Labs Blog about the SIR. Here they are in case you want to check them out:
+ SDN Internet Router – Part 1 SDN Internet Router – Part 2  </description>
     </item>
     
   </channel>

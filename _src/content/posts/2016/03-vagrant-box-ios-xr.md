@@ -8,7 +8,7 @@ Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that 
 
 As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is. To show you how to do it we will create a vagrant box for IOS-XR. Before we start you will need the following:
 
- * Vagrant, of course. For more information check this [post]({% post_url 2016-01-08-vagrant-for-network-engineers %}).
+ * Vagrant, of course. For more information check this [post]({{< relref 02-vagrant-for-network-engineers.md >}}).
  * Virtualbox.
  * An OVA or a VMDK for IOS-XR. I am using `iosxrv-k9-demo-5.3.0.ova`.
 
@@ -24,9 +24,9 @@ As mentioned previously, creating a vagrant box is very simple, you only have to
 
 Creating a base image is as simple as creating a new VM and configuring it in any way you want. I am not going to explain how to get started with IOS-XR on Virtualbox because there are plenty of posts already doing that. For example, [this post][example].
 
-<div class="bs-callout bs-callout-info">
+{{<box class="bs-callout bs-callout-info">}}
 You just have the follow the steps until you get access to the VM via the serial port. I suggest to do two things differently from that post; don't clone the VM you are creating and assign only one single network interface so you can manage the network interfaces with vagrant.
-</div>
+{{</box>}}
 
 Once your VM is ready and can access it using the serial port use the initial configuration wizard to create the admin user `vagrant` with password `vagrant` and apply the following configuration:
 
@@ -78,9 +78,9 @@ Go to your terminal and execute the following command in the same temporal folde
 iosxrv-k9-demo-5.3.0.box
 ```
 
-<div class="bs-callout bs-callout-info">
+{{<box class="bs-callout bs-callout-info">}}
 In this example, the name of the base VM we created is <code>base_vm_for_iosxr</code>. If you named your VM differently replace the previous command accordingly.
-</div>
+{{</box>}}
 
 Now you can stop and delete the base VM you created if you want.
 

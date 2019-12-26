@@ -21,8 +21,8 @@ params:
   disableReadOtherPosts: false
 
   # Metadata mostly used in document's head
-  description: "Homepage and blog by Djordje Atlialp"
-  keywords: "homepage, blog, science, informatics, development, programming"
+  description: "Homepage for Dravetech (David Barroso Pardo)"
+  keywords: "network automation, homepage, blog, science, informatics, development, programming"
   images: [""]
 
   # Directory name of your blog content (default is `content/posts`)
@@ -63,6 +63,10 @@ menu:
       - identifier: "blog"
         name      : "blog"
         url       : "/posts"
+        weight    : "1"
+      - identifier: "presos"
+        name      : "presos"
+        url       : "/tags/presos"
         weight    : "1"
       - identifier: "about"
         name      : "about"

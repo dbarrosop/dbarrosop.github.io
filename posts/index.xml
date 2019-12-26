@@ -1,40 +1,444 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on Dravetech</title>
-        <link>http://localhost:1313/posts/</link>
+        <link>https://www.dravetech.com/posts/</link>
         <description>Recent content in Posts on Dravetech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>David Barroso Pardo</copyright>
-        <lastBuildDate>Thu, 14 Jan 2016 18:00:00 +0200</lastBuildDate>
-        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        <lastBuildDate>Fri, 06 Sep 2019 18:00:00 +0200</lastBuildDate>
+        <atom:link href="https://www.dravetech.com/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Building scalable tooling</title>
+            <link>https://www.dravetech.com/2019/09/06/building-scalable-tooling/</link>
+            <pubDate>Fri, 06 Sep 2019 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2019/09/06/building-scalable-tooling/</guid>
+            <description>Slides</description>
+            <content type="html"><![CDATA[<p><a href="/p/building_scalable_tooling/slides.html">Slides</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>napalm-yang has been abandoned</title>
+            <link>https://www.dravetech.com/2019/05/15/napalm-yang-has-been-abandoned/</link>
+            <pubDate>Wed, 15 May 2019 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2019/05/15/napalm-yang-has-been-abandoned/</guid>
+            <description>It&#39;s with sadness that I announce that napalm-yang is officially abandoned. It&#39;s a strange feeling to abandon a project, specially one that some people may be relying on, but that&#39;s always a risk in the opensource world. If you are a napalm-yang user or were planning to use it there are two paths for you right now:
+ Fork the project. I encourage you to do so if you feel that&#39;s the best course of action for you.</description>
+            <content type="html"><![CDATA[<p>It's with sadness that I announce that <a href="https://github.com/napalm-automation/napalm-yang">napalm-yang</a> is officially abandoned. It's a strange feeling to abandon a project, specially one that some people may be relying on, but that's always a risk in the opensource world. If you are a napalm-yang user or were planning to use it there are two paths for you right now:</p>
+<ol>
+<li>Fork the project. I encourage you to do so if you feel that's the best course of action for you. I will try to support you as best as possible and direct new and existing users to your fork.</li>
+<li>Migrate to <a href="https://github.com/networktocode/yangify">yangify</a> and other related projects that will be released soon.</li>
+</ol>
+<p>My recommended path would be to go yangify for a few reasons. First, it replaces <a href="https://github.com/robshakir/pyangbind">pyangbind</a> with <a href="https://pypi.org/project/yangson/">yangson</a>. This brings some memory and CPU efficiencies and makes the project simpler to maintain as there is no need for bindings. This doesn't mean you can't use bindings, it just makes it optional.</p>
+<p>More importantly, it replaces the custom DSL with a python framework. This brings a list of advantages:</p>
+<ol>
+<li>Less code to maintain as there is no need to translate the DSL to actual python code</li>
+<li>Orders of magnitude faster as there is no need to go back and forth between the DSL and the python code</li>
+<li>More flexibility as there is so much you can express with a DSL.</li>
+</ol>
+<p>Don't hesitate to contact me directly if you are concerned about this announcement or if you want help migrating to <a href="https://github.com/networktocode/yangify">yangify</a> or forking <a href="https://github.com/napalm-automation/napalm-yang">napalm-yang</a>.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Global Routing as a Service</title>
+            <link>https://www.dravetech.com/2018/12/07/global-routing-as-a-service/</link>
+            <pubDate>Fri, 07 Dec 2018 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2018/12/07/global-routing-as-a-service/</guid>
+            <description>A few months back I gave a talk at PLNOG21 about how we manage our global internet presence at Fastly. You can see the video below if you are interested.
+  </description>
+            <content type="html"><![CDATA[<p>A few months back I gave a talk at <a href="https://plnog.pl/en/">PLNOG21</a> about how we manage our global internet presence at <a href="https://www.fastly.com">Fastly</a>. You can see the video below if you are interested.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/NxAxz-NYIxk" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+]]></content>
+        </item>
+        
+        <item>
+            <title>Network telemetry</title>
+            <link>https://www.dravetech.com/2018/05/22/network-telemetry/</link>
+            <pubDate>Tue, 22 May 2018 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2018/05/22/network-telemetry/</guid>
+            <description>Whether you just don&#39;t like SNMP or you want to leverage the same tooling for monitoring and alerting as the rest of your organization, this &amp;ldquo;tutorial&amp;rdquo; has you covered. What we are going to do is see how we can monitor our network infrastructure with prometheus and grafana.
+In this blogpost we are going to see how to build a webapp using flask+nornir that gathers metrics from the network and presents it via a web application.</description>
+            <content type="html"><![CDATA[<p>Whether you just don't like SNMP or you want to leverage the same tooling for monitoring and alerting as the rest of your organization, this &ldquo;tutorial&rdquo; has you covered. What we are going to do is see how we can monitor our network infrastructure with prometheus and grafana.</p>
+<p>In this blogpost we are going to see how to build a webapp using flask+nornir that gathers metrics from the network and presents it via a web application. Then we will scrape that web application with prometheus to store those metrics and finally we will see how we can present those metrics with grafana. In summary, you will learn how to replace your old-fashioned SNMP monitoring system with a next-generation-12-factor-app-compliant-telemetry-system.</p>
+<p><a href="https://github.com/dravetech/blogposts-demos/tree/master/network-telemetry-prometheus#network-telemetry-from-snmp-to-prometheus">Continue reading on github</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>GoBGP</title>
+            <link>https://www.dravetech.com/2017/04/18/gobgp/</link>
+            <pubDate>Tue, 18 Apr 2017 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2017/04/18/gobgp/</guid>
+            <description>&lt;p&gt;For those that haven&#39;t heard about it yet, &lt;a href=&#34;https://github.com/osrg/gobgp&#34;&gt;GoBGP&lt;/a&gt; is, as they say &lt;em&gt;&amp;ldquo;an open source BGP implementation designed from scratch for modern environment and implemented in a modern programming language, the Go Programming Language&amp;rdquo;&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;To me, the most interesting part of GoBGP is that it uses a &lt;a href=&#34;http://www.grpc.io/&#34;&gt;grpc&lt;/a&gt; interface to interact with the daemon and anything that can be done via its configuration file and/or CLI can be done via this interface. As a matter of fact, the CLI actually uses this interface to retrieve data and configure things.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>For those that haven't heard about it yet, <a href="https://github.com/osrg/gobgp">GoBGP</a> is, as they say <em>&ldquo;an open source BGP implementation designed from scratch for modern environment and implemented in a modern programming language, the Go Programming Language&rdquo;</em>.</p>
+<p>To me, the most interesting part of GoBGP is that it uses a <a href="http://www.grpc.io/">grpc</a> interface to interact with the daemon and anything that can be done via its configuration file and/or CLI can be done via this interface. As a matter of fact, the CLI actually uses this interface to retrieve data and configure things.</p>
+<p>What this means is that you can easily write tooling to automatically deploy GoBGP instances, peers, policies or even to manipulate the RIB. The latter is particularly interesting as I haven't seen any other BGP daemon that let's you manipulate the RIB programmatically.</p>
+<p>Last weekend I wanted to see how much of what I just said was true (spoiler alert, it is) so I put together a docker environment and wrote some code to:</p>
+<ul>
+<li>Deploy peers</li>
+<li>Deploy BGP policies</li>
+<li>Manipulate the RIB</li>
+</ul>
+<p>Well, I don't want to waste more of your time so I will just link the Github repo where you can find the code, the environment and instructions to replicate everything:</p>
+<ul>
+<li><a href="https://github.com/dbarrosop/gobgp-grpc-demo"><a href="https://github.com/dbarrosop/gobgp-grpc-demo">https://github.com/dbarrosop/gobgp-grpc-demo</a></a></li>
+</ul>]]></content>
+        </item>
+        
+        <item>
+            <title>napalm-yang</title>
+            <link>https://www.dravetech.com/2017/04/09/napalm-yang/</link>
+            <pubDate>Sun, 09 Apr 2017 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2017/04/09/napalm-yang/</guid>
+            <description>&lt;p&gt;It&#39;s been quite some time since my last blog post and, truth be told, I don&#39;t have that much time to blog as I am quite busy with work, &lt;a href=&#34;https://github.com/napalm-automation/napalm&#34;&gt;&lt;code&gt;napalm&lt;/code&gt;&lt;/a&gt; and life in general. However, I wanted to take a few minutes today to announce &lt;a href=&#34;https://github.com/napalm-automation/napalm-yang&#34;&gt;&lt;code&gt;napalm-yang&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In summary, &lt;a href=&#34;https://github.com/napalm-automation/napalm-yang&#34;&gt;&lt;code&gt;napalm-yang&lt;/code&gt;&lt;/a&gt; tries to bring support for &lt;a href=&#34;https://tools.ietf.org/html/rfc6020&#34;&gt;&lt;code&gt;YANG&lt;/code&gt;&lt;/a&gt; models to devices where:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;There is no support for models at all&lt;/li&gt;
+&lt;li&gt;There is some limited support as models may evolve quicker than vendors&lt;/li&gt;
+&lt;/ol&gt;</description>
+            <content type="html"><![CDATA[<p>It's been quite some time since my last blog post and, truth be told, I don't have that much time to blog as I am quite busy with work, <a href="https://github.com/napalm-automation/napalm"><code>napalm</code></a> and life in general. However, I wanted to take a few minutes today to announce <a href="https://github.com/napalm-automation/napalm-yang"><code>napalm-yang</code></a>.</p>
+<p>In summary, <a href="https://github.com/napalm-automation/napalm-yang"><code>napalm-yang</code></a> tries to bring support for <a href="https://tools.ietf.org/html/rfc6020"><code>YANG</code></a> models to devices where:</p>
+<ol>
+<li>There is no support for models at all</li>
+<li>There is some limited support as models may evolve quicker than vendors</li>
+</ol>
+<p>I don't want to take your time with this blog post so just let me give you a few links in case you want to know more:</p>
+<ul>
+<li><a href="https://github.com/napalm-automation/napalm-yang"><code>napalm-yang</code></a> repo</li>
+<li><a href="https://napalm.readthedocs.io/en/latest/YANG/index.html">Documentation</a> and a <a href="https://github.com/napalm-automation/napalm-yang/blob/develop/interactive_demo/tutorial.ipynb">tutorial</a></li>
+<li><a href="https://www.dravetech.com/presos/i_love_the_smell_of_oc_in_the_morning/index.html">Slides</a> and <a href="https://www.youtube.com/watch?v=EEpUWieTr40">video</a> of my presentation at the <a href="https://www.meetup.com/SDN-and-Network-Programmability-Meetup-in-Barcelona/">SDN and Network Programmability Meetup in Barcelona</a> (don't miss the other two presentations, they were great)</li>
+</ul>
+<p>Hope you find it useful and, as always, feedback is welcome.</p>]]></content>
+        </item>
+        
+        <item>
+            <title>Abstract all the Things</title>
+            <link>https://www.dravetech.com/2016/06/17/abstract-all-the-things/</link>
+            <pubDate>Fri, 17 Jun 2016 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2016/06/17/abstract-all-the-things/</guid>
+            <description>&lt;p&gt;A couple of weeks ago I made this presentation/demo about abstractions for network operations titled &amp;ldquo;Abstract all the Things&amp;rdquo;. The idea was to show how templating is good but not good enough, sometimes you have to step back and focus on the goal and not on how to get there. Well, if you are interested in the topic you can find below the video, the link to the templates and to the github repo where you can find all the code I used for the demo.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>A couple of weeks ago I made this presentation/demo about abstractions for network operations titled &ldquo;Abstract all the Things&rdquo;. The idea was to show how templating is good but not good enough, sometimes you have to step back and focus on the goal and not on how to get there. Well, if you are interested in the topic you can find below the video, the link to the templates and to the github repo where you can find all the code I used for the demo.</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/Ym5kFJhCLJc" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<ul>
+<li><a href="https://www.dravetech.com/presos/abstraction.html">Slides</a></li>
+<li><a href="https://github.com/dravetech/preso_abstract_all_the_things">GitHub Repo</a></li>
+</ul>
+<p>I want to thanks <a href="www.spotify.com">Spotify</a> for hosting the event and <a href="https://labs.networktocode.com/">network.toCode()</a> for giving me access to their &ldquo;Self Service &amp; On Demand
+Network Infrastructure Labs&rdquo;. If you want to replicate the demo feel free to check the <a href="https://github.com/dravetech/preso_abstract_all_the_things">GitHub Repo</a> and the <a href="https://github.com/dravetech/preso_abstract_all_the_things#start-the-lab">lab</a> instructions, there are also free vouchers courtesy of <a href="https://labs.networktocode.com/">network.toCode()</a>.</p>]]></content>
+        </item>
+        
+        <item>
+            <title>OpenConfig &#43; NAPALM</title>
+            <link>https://www.dravetech.com/2016/05/06/openconfig-napalm/</link>
+            <pubDate>Fri, 06 May 2016 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2016/05/06/openconfig-napalm/</guid>
+            <description>&lt;p&gt;The other day I talked with &lt;a href=&#34;http://rob.sh/&#34;&gt;Rob Shakir&lt;/a&gt; who has been working very closely with &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; and we came up with the idea of trying to add &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; support to &lt;a href=&#34;https://github.com/napalm-automation/napalm&#34;&gt;NAPALM&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The idea was that a network driver would translate unsupported models to native commands while
+models supported by the device would be sent via native mechanisms (gRPC, NETCONF, etc.). That
+would allow people to start using &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; as &lt;a href=&#34;https://github.com/napalm-automation/napalm&#34;&gt;NAPALM&lt;/a&gt; would serve as
+a transition mechanism.&lt;/p&gt;
+&lt;p&gt;So, after Rob sent me an example on how to use &lt;a href=&#34;https://github.com/robshakir/pyangbind&#34;&gt;pyangbind&lt;/a&gt;, which he also wrote by
+the way, I put together a &lt;a href=&#34;https://github.com/napalm-automation/napalm-base/pull/28&#34;&gt;POC&lt;/a&gt;. It is very cool to see that thanks to &lt;a href=&#34;https://github.com/robshakir/pyangbind&#34;&gt;pyangbind&lt;/a&gt;
+adding &lt;a href=&#34;http://www.openconfig.net/&#34;&gt;OpenConfig&lt;/a&gt; to NAPALM was really a piece of cake. Open Source for the win!&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>The other day I talked with <a href="http://rob.sh/">Rob Shakir</a> who has been working very closely with <a href="http://www.openconfig.net/">OpenConfig</a> and we came up with the idea of trying to add <a href="http://www.openconfig.net/">OpenConfig</a> support to <a href="https://github.com/napalm-automation/napalm">NAPALM</a>.</p>
+<p>The idea was that a network driver would translate unsupported models to native commands while
+models supported by the device would be sent via native mechanisms (gRPC, NETCONF, etc.). That
+would allow people to start using <a href="http://www.openconfig.net/">OpenConfig</a> as <a href="https://github.com/napalm-automation/napalm">NAPALM</a> would serve as
+a transition mechanism.</p>
+<p>So, after Rob sent me an example on how to use <a href="https://github.com/robshakir/pyangbind">pyangbind</a>, which he also wrote by
+the way, I put together a <a href="https://github.com/napalm-automation/napalm-base/pull/28">POC</a>. It is very cool to see that thanks to <a href="https://github.com/robshakir/pyangbind">pyangbind</a>
+adding <a href="http://www.openconfig.net/">OpenConfig</a> to NAPALM was really a piece of cake. Open Source for the win!</p>
+<p>It would be interesting to be able to retrieve information from the device using
+<a href="http://www.openconfig.net/">OpenConfig</a> models as well but I will leave that for a future exercise. In the
+meantime, you can see below an example on how to use <a href="http://www.openconfig.net/">OpenConfig</a> with <a href="https://github.com/napalm-automation/napalm">NAPALM</a>
+to configure a device:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">from</span> napalm_base <span style="color:#f92672">import</span> get_network_driver
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> driver <span style="color:#f92672">=</span> get_network_driver(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">eos</span><span style="color:#e6db74">&#39;</span>)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> optional_args <span style="color:#f92672">=</span> {<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">port</span><span style="color:#e6db74">&#39;</span>: <span style="color:#ae81ff">12443</span>,}
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> d <span style="color:#f92672">=</span> driver(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">localhost</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">vagrant</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">vagrant</span><span style="color:#e6db74">&#39;</span>, optional_args<span style="color:#f92672">=</span>optional_args)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> d<span style="color:#f92672">.</span>open()
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bgp_global.json</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;</span>) <span style="color:#66d9ef">as</span> f:
+<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>     data <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(data)
+{
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">openconfig-bgp:bgp</span><span style="color:#e6db74">&#34;</span>: {
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">neighbors</span><span style="color:#e6db74">&#34;</span>: {
+            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">neighbor</span><span style="color:#e6db74">&#34;</span>: [
+                {
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ebgp-multihop</span><span style="color:#e6db74">&#34;</span>: {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">enabled</span><span style="color:#e6db74">&#34;</span>: true,
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">multihop-ttl</span><span style="color:#e6db74">&#34;</span>: <span style="color:#ae81ff">255</span>
+                        }
+                    },
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">neighbor-address</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2001:db8::1</span><span style="color:#e6db74">&#34;</span>,
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">neighbor-address</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2001:db8::1</span><span style="color:#e6db74">&#34;</span>,
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">peer-as</span><span style="color:#e6db74">&#34;</span>: <span style="color:#ae81ff">6643</span>,
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">description</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">:a=6643:d=Jive:</span><span style="color:#e6db74">&#34;</span>
+                    },
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safis</span><span style="color:#e6db74">&#34;</span>: {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi</span><span style="color:#e6db74">&#34;</span>: [
+                            {
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">enabled</span><span style="color:#e6db74">&#34;</span>: true,
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">openconfig-bgp-types:IPV6_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                                },
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IPV6_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                            }
+                        ]
+                    }
+                },
+                {
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">neighbor-address</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">192.0.2.2</span><span style="color:#e6db74">&#34;</span>,
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">neighbor-address</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">192.0.2.2</span><span style="color:#e6db74">&#34;</span>,
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">peer-as</span><span style="color:#e6db74">&#34;</span>: <span style="color:#ae81ff">54113</span>,
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">description</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">:a=54413:d=Fastly:</span><span style="color:#e6db74">&#34;</span>
+                    },
+                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safis</span><span style="color:#e6db74">&#34;</span>: {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi</span><span style="color:#e6db74">&#34;</span>: [
+                            {
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">enabled</span><span style="color:#e6db74">&#34;</span>: true,
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">openconfig-bgp-types:IPV6_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                                },
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IPV6_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                            },
+                            {
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">enabled</span><span style="color:#e6db74">&#34;</span>: true,
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">openconfig-bgp-types:IPV4_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                                },
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IPV4_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">global</span><span style="color:#e6db74">&#34;</span>: {
+            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">as</span><span style="color:#e6db74">&#34;</span>: <span style="color:#ae81ff">6643</span>,
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">router-id</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">192.0.2.1</span><span style="color:#e6db74">&#34;</span>
+            },
+            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safis</span><span style="color:#e6db74">&#34;</span>: {
+                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi</span><span style="color:#e6db74">&#34;</span>: [
+                    {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">use-multiple-paths</span><span style="color:#e6db74">&#34;</span>: {
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ebgp</span><span style="color:#e6db74">&#34;</span>: {
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">maximum-paths</span><span style="color:#e6db74">&#34;</span>: <span style="color:#ae81ff">8</span>
+                                }
+                            }
+                        },
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">enabled</span><span style="color:#e6db74">&#34;</span>: true,
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">openconfig-bgp-types:IPV6_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                        },
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IPV6_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                    },
+                    {
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">use-multiple-paths</span><span style="color:#e6db74">&#34;</span>: {
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ebgp</span><span style="color:#e6db74">&#34;</span>: {
+                                <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                                    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">maximum-paths</span><span style="color:#e6db74">&#34;</span>: <span style="color:#ae81ff">8</span>
+                                }
+                            }
+                        },
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">config</span><span style="color:#e6db74">&#34;</span>: {
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">enabled</span><span style="color:#e6db74">&#34;</span>: true,
+                            <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">openconfig-bgp-types:IPV4_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                        },
+                        <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">afi-safi-name</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">IPV4_UNICAST</span><span style="color:#e6db74">&#34;</span>
+                    }
+                ]
+            }
+        }
+    }
+}
+
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> d<span style="color:#f92672">.</span>load_openconfig(model<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">openconfig_bgp</span><span style="color:#e6db74">&#39;</span>, data<span style="color:#f92672">=</span>data)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span> d<span style="color:#f92672">.</span>compare_config()
+<span style="color:#960050;background-color:#1e0010">@</span><span style="color:#960050;background-color:#1e0010">@</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">26</span>,<span style="color:#ae81ff">7</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">26</span>,<span style="color:#ae81ff">20</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#960050;background-color:#1e0010">@</span>
+ <span style="color:#960050;background-color:#1e0010">!</span>
+ no ip routing
+ <span style="color:#960050;background-color:#1e0010">!</span>
+<span style="color:#f92672">-</span>router bgp <span style="color:#ae81ff">123</span>
+<span style="color:#f92672">+</span>router bgp <span style="color:#ae81ff">6643</span>
+<span style="color:#f92672">+</span>   maximum<span style="color:#f92672">-</span>paths <span style="color:#ae81ff">8</span>
+<span style="color:#f92672">+</span>   neighbor <span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.2</span> remote<span style="color:#f92672">-</span><span style="color:#66d9ef">as</span> <span style="color:#ae81ff">54113</span>
+<span style="color:#f92672">+</span>   neighbor <span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.2</span> description :a<span style="color:#f92672">=</span><span style="color:#ae81ff">54413</span>:d<span style="color:#f92672">=</span>Fastly:
+<span style="color:#f92672">+</span>   neighbor <span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.2</span> maximum<span style="color:#f92672">-</span>routes <span style="color:#ae81ff">12000</span>
+<span style="color:#f92672">+</span>   neighbor <span style="color:#ae81ff">2001</span>:db8::<span style="color:#ae81ff">1</span> remote<span style="color:#f92672">-</span><span style="color:#66d9ef">as</span> <span style="color:#ae81ff">6643</span>
+<span style="color:#f92672">+</span>   neighbor <span style="color:#ae81ff">2001</span>:db8::<span style="color:#ae81ff">1</span> description :a<span style="color:#f92672">=</span><span style="color:#ae81ff">6643</span>:d<span style="color:#f92672">=</span>Jive:
+<span style="color:#f92672">+</span>   neighbor <span style="color:#ae81ff">2001</span>:db8::<span style="color:#ae81ff">1</span> maximum<span style="color:#f92672">-</span>routes <span style="color:#ae81ff">12000</span>
+<span style="color:#f92672">+</span>   address<span style="color:#f92672">-</span>family ipv4
+<span style="color:#f92672">+</span>      neighbor <span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.2</span> activate
+<span style="color:#f92672">+</span>   <span style="color:#960050;background-color:#1e0010">!</span>
+<span style="color:#f92672">+</span>   address<span style="color:#f92672">-</span>family ipv6
+<span style="color:#f92672">+</span>      neighbor <span style="color:#ae81ff">192.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2.2</span> activate
+<span style="color:#f92672">+</span>      neighbor <span style="color:#ae81ff">2001</span>:db8::<span style="color:#ae81ff">1</span> activate
+ <span style="color:#960050;background-color:#1e0010">!</span>
+ management api http<span style="color:#f92672">-</span>commands
+    no shutdown
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> d<span style="color:#f92672">.</span>commit_config()
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> d<span style="color:#f92672">.</span>load_openconfig(model<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">openconfig_bgp</span><span style="color:#e6db74">&#39;</span>, data<span style="color:#f92672">=</span>data)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span> d<span style="color:#f92672">.</span>compare_config()
+<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span>
+</code></pre></div>]]></content>
+        </item>
+        
+        <item>
+            <title>ChatOps Demo for Networking</title>
+            <link>https://www.dravetech.com/2016/03/30/chatops-demo-for-networking/</link>
+            <pubDate>Wed, 30 Mar 2016 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2016/03/30/chatops-demo-for-networking/</guid>
+            <description>&lt;p&gt;I have been working on a project to automate all things network related. Not only provisioning new
+stuff but operations as well. I am not going to tell you about the benefits of automation, everybody should know by now.&lt;/p&gt;
+&lt;p&gt;However, when talking about operations it is important to note that &lt;strong&gt;not all operations can be
+automated but all operations can be abstracted&lt;/strong&gt;. What I mean with that is that if you are
+peering with someone you still have to perform some action so your system knows who the new peer
+is, their IP address, their AS and where are you going to peer with them. However, the operator
+doesn&#39;t need to know that it has to go to the inventory system to add the new peer, then go to the
+IPAM system to insert the required information and finally configuring the peer on the router. You
+could abstract that entire repetitive and error prone workflow with a single command: &lt;code&gt;add peer in=bma ip=10.0.0.1 as=65100&lt;/code&gt;.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>I have been working on a project to automate all things network related. Not only provisioning new
+stuff but operations as well. I am not going to tell you about the benefits of automation, everybody should know by now.</p>
+<p>However, when talking about operations it is important to note that <strong>not all operations can be
+automated but all operations can be abstracted</strong>. What I mean with that is that if you are
+peering with someone you still have to perform some action so your system knows who the new peer
+is, their IP address, their AS and where are you going to peer with them. However, the operator
+doesn't need to know that it has to go to the inventory system to add the new peer, then go to the
+IPAM system to insert the required information and finally configuring the peer on the router. You
+could abstract that entire repetitive and error prone workflow with a single command: <code>add peer in=bma ip=10.0.0.1 as=65100</code>.</p>
+<h2 id="demo">Demo</h2>
+<p>As I was exploring how to do operations better ensuring consistency and keeping everybody in the
+loop I realized that chatops was the answer. So I started working on a simple proof of concept.</p>
+<ol>
+<li>Operations are performed via <code>ansible</code> + <code>napalm</code>.</li>
+<li>Details of <code>ansible</code> are abstracted by Python <code>invoke</code>.</li>
+<li><code>Stackstorm</code> allows operators to fire <code>invoke</code> tasks from slack.</li>
+<li>Devices can report critical changes to operators on slack via <code>stackstorm</code>.</li>
+</ol>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/JQimPMpV0To" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<div class="bs-callout bs-callout-info">
+I will be sharing the code for the demo very soon. Stay tuned : )
+</div>
+
+<p>The example is very simple, I was just trying to prove the feasibility and the value. As I see it,
+these are the main benefits:</p>
+<ol>
+<li>Changes are standardized. If you are an operator you can only perform changes that are exposed to
+you.</li>
+<li>Everybody is in the loop. You are doing your job on a specific slack channel which means
+everybody knows what you are up to. Something broke 30 minutes ago? Let's just scroll up the slack
+channel and see if someone did some change then.</li>
+<li>Operators are notified by switches almost instantly about critical events on slack. Why keep
+switching between mail, pager, slack, the terminal, etc.? That's just overhead.</li>
+</ol>
+<h2 id="faq">FAQ</h2>
+<p>Some common questions I got :)</p>
+<ol>
+<li>
+<p><strong>Why <code>ansible</code>? Why not use <code>stackstorm</code> directly?</strong></p>
+<p>Main reason was to be able to perform operations even in the event of stackstorm being down, unreachable,
+etc. It's also an interesting framework for operations used by many people so using <code>ansible</code> will
+save a lot of work as we can reuse other's people code and contribute back.</p>
+</li>
+<li>
+<p><strong>Why abstract playbooks with <code>invoke</code>?</strong></p>
+<p>We care about operations, not about playbooks. By abstracting <code>ansible</code> with <code>invoke</code> tasks we
+can change playbooks and restructure things later on without impacting operations.</p>
+</li>
+<li>
+<p><strong>Why are the examples so simple?</strong></p>
+<p>It's just a proof of concept so I build something simple that everybody in the networking world could
+relate to.</p>
+</li>
+</ol>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/napalm-automation/napalm">napalm</a></li>
+<li><a href="https://www.ansible.com/">ansible</a></li>
+<li><a href="http://www.pyinvoke.org/">invoke</a></li>
+<li><a href="https://stackstorm.com/">StackStorm</a></li>
+</ul>]]></content>
+        </item>
+        
+        <item>
+            <title>Two SDN Internet Router (SIR) posts</title>
+            <link>https://www.dravetech.com/2016/01/28/two-sdn-internet-router-sir-posts/</link>
+            <pubDate>Thu, 28 Jan 2016 18:00:00 +0200</pubDate>
+            
+            <guid>https://www.dravetech.com/2016/01/28/two-sdn-internet-router-sir-posts/</guid>
+            <description>A few days ago I published a couple of posts in the Spotify Labs Blog about the SIR. Here they are in case you want to check them out:
+ SDN Internet Router – Part 1 SDN Internet Router – Part 2  </description>
+            <content type="html"><![CDATA[<p>A few days ago I published a couple of posts in the Spotify Labs Blog about the SIR. Here they are in case you want to check them out:</p>
+<ul>
+<li><a href="https://labs.spotify.com/2016/01/26/sdn-internet-router-part-1/">SDN Internet Router – Part 1</a></li>
+<li><a href="https://labs.spotify.com/2016/01/27/sdn-internet-router-part-2/">SDN Internet Router – Part 2</a></li>
+</ul>
+]]></content>
+        </item>
         
         <item>
             <title>How to create a vagrant for IOS-XR</title>
-            <link>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</link>
+            <link>https://www.dravetech.com/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</link>
             <pubDate>Thu, 14 Jan 2016 18:00:00 +0200</pubDate>
             
-            <guid>http://localhost:1313/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</guid>
+            <guid>https://www.dravetech.com/2016/01/14/how-to-create-a-vagrant-for-ios-xr/</guid>
             <description>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.
 As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is.</description>
             <content type="html"><![CDATA[<p>Creating vagrant boxes is fairly easy and very useful. Using vagrant boxes that are publicly available is preferred as it makes easier to share your environment but in some cases you might want to tweak a bit an existing box or you might want to create your own because there is no box available for a particular virtual appliance.</p>
 <p>As mentioned previously, creating a vagrant box is very simple, you only have to create a VM on your provisioner and export it as it is. To show you how to do it we will create a vagrant box for IOS-XR. Before we start you will need the following:</p>
 <ul>
-<li>Vagrant, of course. For more information check this [post]({% post_url 2016-01-08-vagrant-for-network-engineers %}).</li>
+<li>Vagrant, of course. For more information check this <a href="/2016/01/08/vagrant-introduction-for-network-engineers/">post</a>.</li>
 <li>Virtualbox.</li>
 <li>An OVA or a VMDK for IOS-XR. I am using <code>iosxrv-k9-demo-5.3.0.ova</code>.</li>
 </ul>
-<div class="bs-callout bs-callout-info dark-theme">
+<div class="bs-callout bs-callout-info">
   In order to get it you will need a valid Cisco account. Ask your sales representative or just nag them on twitter for making everything so difficult. The latter will not work but at least you will vent ;)
 </div>
 
-<div class="bs-callout bs-callout-warning dark-theme">
+<div class="bs-callout bs-callout-warning">
   IOS-XR started supporting DHCP client in the management interface in the image 5.3.0 so older images will not work.
 </div>
 
 <h3 id="creating-the-base-image">Creating the base image</h3>
 <p>Creating a base image is as simple as creating a new VM and configuring it in any way you want. I am not going to explain how to get started with IOS-XR on Virtualbox because there are plenty of posts already doing that. For example, <a href="http://blog.alainmoretti.com/ios-xrv-working-on-virtualbox/">this post</a>.</p>
-<!-- raw HTML omitted -->
+<div class="bs-callout bs-callout-info">
+You just have the follow the steps until you get access to the VM via the serial port. I suggest to do two things differently from that post; don't clone the VM you are creating and assign only one single network interface so you can manage the network interfaces with vagrant.
+</div>
+
 <p>Once your VM is ready and can access it using the serial port use the initial configuration wizard to create the admin user <code>vagrant</code> with password <code>vagrant</code> and apply the following configuration:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">interface MgmtEth0/0/CPU0/0
  ipv4 address dhcp
@@ -71,7 +475,10 @@ xml agent tty
 
 /tmp/vagrant_tmp$ ls *.box
 iosxrv-k9-demo-5.3.0.box
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div><div class="bs-callout bs-callout-info">
+In this example, the name of the base VM we created is <code>base_vm_for_iosxr</code>. If you named your VM differently replace the previous command accordingly.
+</div>
+
 <p>Now you can stop and delete the base VM you created if you want.</p>
 <h3 id="importing-the-box">Importing the box</h3>
 <p>The last step is to import the box we created before into vagrant:</p>
@@ -162,10 +569,10 @@ Total entries displayed: <span style="color:#ae81ff">2</span>
         
         <item>
             <title>Vagrant Introduction for network engineers</title>
-            <link>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</link>
+            <link>https://www.dravetech.com/2016/01/08/vagrant-introduction-for-network-engineers/</link>
             <pubDate>Fri, 08 Jan 2016 18:00:00 +0200</pubDate>
             
-            <guid>http://localhost:1313/2016/01/08/vagrant-introduction-for-network-engineers/</guid>
+            <guid>https://www.dravetech.com/2016/01/08/vagrant-introduction-for-network-engineers/</guid>
             <description>&lt;p&gt;I don&#39;t want to spend too much time explaining what vagrant is so here is their own introduction:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Vagrant provides easy to configure, reproducible, and portable work environments built on top of industry-standard technology and controlled by a single consistent workflow to help maximize the productivity and flexibility of you and your team.&lt;/p&gt;
@@ -565,10 +972,10 @@ Et2        precise64                        0800.27ca.0f72             120
         
         <item>
             <title>erase startup config</title>
-            <link>http://localhost:1313/2016/01/06/erase-startup-config/</link>
+            <link>https://www.dravetech.com/2016/01/06/erase-startup-config/</link>
             <pubDate>Wed, 06 Jan 2016 18:00:00 +0200</pubDate>
             
-            <guid>http://localhost:1313/2016/01/06/erase-startup-config/</guid>
+            <guid>https://www.dravetech.com/2016/01/06/erase-startup-config/</guid>
             <description>With the New Year new challenges come. In addition to keep working on the cool projects I have working on during 2015 (napalm, sir, pyfg and many others) I plan to work on some other cool ideas I have in mind (more on this soon). I also plan to try to blog a bit about what I am doing, ideas, architectures, etc&amp;hellip; We will see how it goes.</description>
             <content type="html"><![CDATA[<p>With the New Year new challenges come. In addition to keep working on the cool projects I have working on during 2015 (<a href="https://github.com/napalm-automation/napalm">napalm</a>, <a href="https://github.com/dbarrosop/sir">sir</a>, <a href="https://github.com/spotify/pyfg">pyfg</a> and many <a href="https://github.com/dbarrosop">others</a>) I plan to work on some other cool ideas I have in mind (more on this soon). I also plan to try to blog a bit about what I am doing, ideas, architectures, etc&hellip; We will see how it goes.</p>
 ]]></content>

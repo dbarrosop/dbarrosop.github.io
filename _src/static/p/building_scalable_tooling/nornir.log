@@ -1,0 +1,2 @@
+2019-10-06 13:03:28,873 -  nornir.core -     INFO -        run() - Running task 'command' with args {'command': 'echo Hi!'} on 4 hosts
+2019-10-06 18:17:38,278 -  nornir.core -     INFO -        run() - Running task 'command' with args {'command': 'echo Hi!'} on 4 hosts
